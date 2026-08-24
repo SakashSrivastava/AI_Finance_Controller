@@ -123,6 +123,51 @@ def cash_position(
 
 
 @app.command()
+def compare(
+    data: Path = typer.Option(Path("data/42")),
+    models: str = typer.Option(None, help="Comma-separated model ids."),
+    offline: bool = typer.Option(True, "--offline/--live"),
+) -> None:
+    """Run identical escalation packets through several models and grade the gate.
+
+    'Accepted by the gate' and 'actually correct' are reported separately on purpose: the
+    gate proves internal consistency, not truth, and conflating them would repeat the very
+    mistake the gate exists to prevent.
+    """
+    from recon.agent.client import COMPARISON_MODEL, DEFAULT_MODEL
+    from recon.domain.csvio import read_models
+    from recon.domain.models import GroundTruthInvoice
+    from recon.pipeline import run_pipeline
+
+    chosen = [m.strip() for m in models.split(",")] if models else [DEFAULT_MODEL, COMPARISON_MODEL]
+    truth = {
+        g.payment_id: set(g.invoice_ids)
+        for g in read_models(data / "ground_truth_invoice.csv", GroundTruthInvoice)
+    }
+
+    header = f"  {'model':26}{'proposed':>10}{'accepted':>10}{'rejected':>10}{'correct':>9}{'acc.but wrong':>15}"
+    typer.echo("")
+    typer.echo(header)
+    typer.echo("  " + "-" * (len(header) - 2))
+    for model in chosen:
+        result = run_pipeline(data, use_llm=True, offline=offline, model=model)
+        proposed = [o for o in result.outcomes if o.verdict == "match"]
+        accepted = [o for o in result.outcomes if o.accepted]
+        rejected = [o for o in proposed if not o.accepted]
+        graded = [o for o in accepted if o.level == "invoice"]
+        right = [o for o in graded if set(o.proposed) == truth.get(o.target_id, set())]
+        typer.echo(
+            f"  {model:26}{len(proposed):>10}{len(accepted):>10}{len(rejected):>10}"
+            f"{len(right):>9}{len(graded) - len(right):>15}"
+        )
+        for o in rejected:
+            typer.echo(f"      REJECTED {o.target_id}: {o.failure}")
+            typer.echo(f"        model said {sorted(o.proposed)} at confidence {o.confidence}")
+            typer.echo(f"        {o.reasoning[:150]}")
+    typer.echo("")
+
+
+@app.command()
 def demo(seed: int = typer.Option(42), n: int = typer.Option(250)) -> None:
     """Generate, reconcile, and evaluate end to end. Replays the cache, so no key needed."""
     data = Path("data") / str(seed)

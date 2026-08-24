@@ -27,6 +27,50 @@ class ReasonCode:
 # Reasons where no additional context could help: the data simply does not contain a match.
 UNRESOLVABLE_REASONS = frozenset({ReasonCode.NO_GATEWAY_COUNTERPART, ReasonCode.OUT_OF_SCOPE_DEBIT})
 
+# What a human should actually do. Derived from the reason code rather than generated,
+# because the action for a given failure is known and does not need inventing.
+HUMAN_ACTION = {
+    ReasonCode.NO_GATEWAY_COUNTERPART: (
+        "No settlement record exists for this credit. Confirm with the customer whether "
+        "they paid by direct transfer instead of the payment link, then post it against "
+        "the invoice manually."
+    ),
+    ReasonCode.UTR_MATCHED_AMOUNT_MISMATCH: (
+        "The UTR matches a settlement batch but the amounts differ by more than rounding. "
+        "Check the gateway dashboard for payments withheld from this payout, or a refund "
+        "posted after the batch closed."
+    ),
+    ReasonCode.AMBIGUOUS_MULTIPLE_SUBSETS: (
+        "More than one combination of settlements reconciles to this credit exactly. "
+        "Use the gateway's payout report for this UTR to pick the right one; do not "
+        "guess from amounts alone."
+    ),
+    ReasonCode.AMBIGUOUS_MULTIPLE_BATCHES: (
+        "Two or more settlement batches in the date window sum to this credit. "
+        "Confirm the UTR with the bank before attributing it."
+    ),
+    ReasonCode.SUBSET_SEARCH_BUDGET_EXCEEDED: (
+        "The candidate pool was too large to search exhaustively. Narrow the date window "
+        "or obtain the UTR, then re-run."
+    ),
+    ReasonCode.LLM_PROPOSAL_FAILED_VERIFICATION: (
+        "The model proposed a match that failed arithmetic verification. Its reasoning and "
+        "the failing check are recorded in the evidence column. Review before accepting."
+    ),
+    ReasonCode.OUT_OF_SCOPE_DEBIT: (
+        "An ordinary business outflow, not settlement activity. No action needed here; "
+        "it belongs in the payables ledger."
+    ),
+    ReasonCode.UNEXPLAINED_DEBIT: (
+        "A debit that is neither a reversal nor a recognised business outflow. Check the "
+        "bank statement narration against the payables ledger."
+    ),
+    ReasonCode.LLM_DECLINED: (
+        "Neither deterministic matching nor the model could tie this to a settlement. "
+        "Needs manual review against the gateway dashboard."
+    ),
+}
+
 
 class ExceptionRow(BaseModel):
     bank_txn_id: str

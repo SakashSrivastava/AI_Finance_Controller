@@ -12,7 +12,7 @@ from pathlib import Path
 
 from recon.controller.cash_position import CashPosition
 from recon.domain.money import format_paise
-from recon.matcher.types import ExceptionRow
+from recon.matcher.types import HUMAN_ACTION, ExceptionRow
 
 
 def write_metrics(metrics: dict, out_dir: Path) -> None:
@@ -134,7 +134,7 @@ def write_exceptions(exceptions: list[ExceptionRow], out_dir: Path) -> None:
                     e.reason_code,
                     "yes" if e.resolvable_with_context else "no",
                     "|".join(e.closest_candidates),
-                    e.what_a_human_needs_to_check,
+                    e.what_a_human_needs_to_check or HUMAN_ACTION.get(e.reason_code, ""),
                 ]
             )
 

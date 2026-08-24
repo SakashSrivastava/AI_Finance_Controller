@@ -40,6 +40,19 @@
       "prompt_tokens": 681
     }
   },
+  "0f92098627cbed937957bb1f96f9de12128e47289d9c8ad77a6c9dab34f04f36": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.99,
+      "payment_ids": [],
+      "reasoning": "The narration explicitly states a direct NEFT credit (\"DIRECT PAYMENT\") which bypasses the payment gateway. There are no settlement records for the period and deterministic tiers already reported no gateway counterpart. Therefore no set of gateway settlements can match this credit.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 129,
+      "prompt_tokens": 582
+    }
+  },
   "1049709ab316bf94f26593c6bbf816bbb57aadbc70d6c07e6f0c678bc1e88cb1": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -67,6 +80,19 @@
     "usage": {
       "completion_tokens": 208,
       "prompt_tokens": 576
+    }
+  },
+  "1374f80faeb22c56bf1d349fad874d9db207df57ebd35be7c39a8e905527db80": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.99,
+      "payment_ids": [],
+      "reasoning": "Both listed settlements have net amounts (16,895,268\u202fpaise and 8,225,533\u202fpaise) that exceed the bank credit of 13,791,180\u202fpaise, and their combined total (25,120,801\u202fpaise) also exceeds it. No subset of the provided settlements can sum to the credit amount, and there is no indication of a partial or withheld amount that would reconcile the difference. Hence no matching settlement set exists.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 359,
+      "prompt_tokens": 651
     }
   },
   "14bfaed8f3553880773db73b0fae9c67072f23f8f5aa91919eb34b508ae69888": {
@@ -120,6 +146,19 @@
     },
     "usage": {
       "completion_tokens": 290,
+      "prompt_tokens": 574
+    }
+  },
+  "26ce14a29c47898c252b5869eb4f33a94b1a274c5e725b7e43e76245657d9272": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.99,
+      "payment_ids": [],
+      "reasoning": "The credit is an IMPS/P2A transfer ('RUDRA PLASTICS') which indicates a direct customer payment to the merchant, not a gateway settlement. No gateway settlement records exist for the period, and deterministic matching already reported no counterpart, so the credit cannot be composed of any settlement net amounts.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 266,
       "prompt_tokens": 574
     }
   },
@@ -193,6 +232,36 @@
     "usage": {
       "completion_tokens": 206,
       "prompt_tokens": 574
+    }
+  },
+  "358f23ddd0a31a9848ccbf6078dcb3cf7977c627e4088faafc856303d39d0f2b": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.99,
+      "invoice_ids": [
+        "INV-2026-00709"
+      ],
+      "reasoning": "The reference 'INVOICE-2026-00709' directly corresponds (ignoring the optional \"INV\" vs \"INVOICE\" wording) to invoice INV-2026-00709. The payment amount (2,046,836\u202fpaise) is less than the invoice total (16,449,471\u202fpaise), which is allowed as a partial settlement. No other invoice shares this number, so the match is unambiguous.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 379,
+      "prompt_tokens": 681
+    }
+  },
+  "35ed113f96a560a0e544c15ac65ea3a9424583cd26731460a85cae8b68bc5983": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.92,
+      "invoice_ids": [
+        "INV-2026-01194"
+      ],
+      "reasoning": "The reference 'INV-2026-0119' appears truncated, missing the final digit of the invoice ID. Among the customer's invoices, INV-2026-01194 is the only one whose ID starts with 'INV-2026-0119'. The payment amount (9,699,252\u202fpaise) is less than the invoice total (13,842,617\u202fpaise), which is consistent with a partial payment. No other combination of invoices matches the amount without exceeding it, and no other invoice ID matches the corrupted reference. Hence the payment is most likely a partial settlement of INV-2026-01194.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 897,
+      "prompt_tokens": 680
     }
   },
   "38c763285929c7e125d95d306b2134dd67d83368096a9a87ae8607509a4f5053": {
@@ -376,6 +445,19 @@
       "prompt_tokens": 574
     }
   },
+  "7deacebe10bacb5e59697cc167dffb25732ef9ed0587ba03fb2ad24db402e51e": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.99,
+      "payment_ids": [],
+      "reasoning": "The narration indicates a direct cash deposit ('BY CASH DEPOSIT HIMALAYA PACKAGING'), which is a customer payment that bypasses the gateway. Such deposits have no corresponding settlement records, and the deterministic tiers already reported no_gateway_counterpart. Therefore no set of gateway settlements can match this credit.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 204,
+      "prompt_tokens": 572
+    }
+  },
   "7e67888d8dd2f9d4cde9ffeeacb929af70a489eed3bb7b11d09879243e5be04f": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -402,6 +484,21 @@
     },
     "usage": {
       "completion_tokens": 447,
+      "prompt_tokens": 682
+    }
+  },
+  "8264350dcb97bf3fb22ce660eb9aad41216abf921922f2cb01d9cb9cd17c6d9a": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.85,
+      "invoice_ids": [
+        "INV-2026-00756"
+      ],
+      "reasoning": "The reference 'INV-2026-0075' matches the prefix of invoice INV-2026-00756, differing only by a missing trailing digit (common transcription error). The payment amount (2,959,144\u202fpaise) is less than the invoice total (14,101,954\u202fpaise), which is allowed as a partial payment. No other invoice shares the same prefix, making this the most plausible match.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 621,
       "prompt_tokens": 682
     }
   },
@@ -532,6 +629,19 @@
       "prompt_tokens": 576
     }
   },
+  "b33032098f7809c0085af77bf44649254ba4db2823f76ab1430e1198d0521d6c": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.99,
+      "payment_ids": [],
+      "reasoning": "The bank credit is a direct NEFT payment (narration mentions DIRECT PAYMENT) and therefore has no counterpart in the gateway settlements. Additionally, the listed settlement net amounts (831,320\u202fpaise and 8,324,394\u202fpaise) do not sum to the credit amount of 2,063,663\u202fpaise, nor does any single settlement match it. Hence no settlement or combination can explain this credit.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 390,
+      "prompt_tokens": 652
+    }
+  },
   "c708232cf15616f4e9d47357783b65808188bbb4ed63fa1cf366895fed0259a8": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -571,6 +681,21 @@
       "prompt_tokens": 575
     }
   },
+  "d426a3dd96bf749be7965340e87266c0a639ce0d4166ce68b775118b70c293f7": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.97,
+      "invoice_ids": [
+        "INV-2026-00843"
+      ],
+      "reasoning": "The corrupted reference '00843' exactly matches the numeric part of invoice INV-2026-00843. The payment amount (19,694,159\u202fpaise) is less than the invoice total (19,876,603\u202fpaise), which is allowed as a partial settlement. No other invoice shares this suffix, and the amount does not correspond to any other invoice totals, giving high confidence in this match.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 301,
+      "prompt_tokens": 677
+    }
+  },
   "de4c2a937ced1193a2ccd14306bb277a0ff85dfe8811d7c1dfa833f23807bd9f": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -599,6 +724,34 @@
       "prompt_tokens": 676
     }
   },
+  "e5c7aae432b429ff34744f8d2326fe053dce01d8752b5d19621df3754dc3d983": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.99,
+      "payment_ids": [],
+      "reasoning": "The narration shows a direct NEFT credit (ICIC0001234-PINNACLE INTERIORS-DIRECT PAYMENT) which bypasses the payment gateway. There are no settlements in the provided range, and deterministic tiers already reported no_gateway_counterpart. Therefore no set of gateway settlements can match this credit.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 163,
+      "prompt_tokens": 582
+    }
+  },
+  "e7ed7ec5c24823fa0a15074d620b3f06d8ab39d8d8d5750172ff52944f8228f0": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.99,
+      "invoice_ids": [
+        "INV-2026-00967"
+      ],
+      "reasoning": "The reference string 'INVOICE-2026-00967' matches the invoice ID INV-2026-00967 after normalising the prefix (INVOICE \u2192 INV) and case. The payment amount (7,016,422\u202fpaise) is less than the invoice total (10,289,602\u202fpaise), which is a valid partial settlement. No other invoice IDs appear in the reference, and the amount does not exceed the invoice total, so the payment can be confidently linked to this single invoice.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 323,
+      "prompt_tokens": 678
+    }
+  },
   "ead3cab40f535a2edd261a40820ee49056bbb53cff1cddcd2231fd3e3e57ad07": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -625,6 +778,21 @@
       "prompt_tokens": 577
     }
   },
+  "f6b685be876e41e21ee777cc39c93f3e375d1b5cd1858556ef9fbabf7a2f35f2": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.92,
+      "invoice_ids": [
+        "INV-2026-01117"
+      ],
+      "reasoning": "The reference 'INV-2026-01171' differs from the existing invoice 'INV-2026-01117' by a simple transposition of the last two digits (71 \u2194 17). Such digit swaps are listed as a common corruption. The payment amount (119,684.94\u202fRs) is less than the invoice total (184,568.42\u202fRs), which is acceptable for a partial settlement. No other invoice ID is a close numeric match, so the most confident mapping is to INV-2026-01117.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 442,
+      "prompt_tokens": 681
+    }
+  },
   "f7d1ee923e4fe3e779eb28f4e265a6549a35313179615cc791c2a7fabe3b0100": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -636,6 +804,21 @@
     "usage": {
       "completion_tokens": 303,
       "prompt_tokens": 574
+    }
+  },
+  "fae812ce389c5aeb830299f8ec3f7ffdbf7943200333e55b052d198a28558b05": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.85,
+      "invoice_ids": [
+        "INV-2026-00997"
+      ],
+      "reasoning": "The received reference 'INV-2026-00979' differs from the existing invoice IDs by a transposition of the last two digits (79 \u2192 97). This matches the pattern of allowed corruption (transposed digits). The closest invoice is INV-2026-00997 (gross 8,117,416\u202fpaise). The payment amount (3,569,272\u202fpaise) is less than the invoice total, which is permissible as a partial settlement. No other invoice ID is as close under the allowed error types.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 697,
+      "prompt_tokens": 678
     }
   },
   "fede13b1c5f0e29b28e4fa7768104c626e9c8da9bb819199ec414f82d47b1ee6": {
