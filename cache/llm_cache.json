@@ -245,6 +245,19 @@
       "prompt_tokens": 682
     }
   },
+  "4e3e4f1d433358003ef3b24912cd213e71ee155b5613153a4d6a008cb897da55": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.99,
+      "payment_ids": [],
+      "reasoning": "The credit amount is Rs\u202f12,046.31 (1,204,631\u202fpaise). The only settlement with a net close to this size is pay_000899 at 141,358\u202fpaise (Rs\u202f1,413.58). All other settlements are in the millions of paise, far exceeding the credit amount. No subset of the listed settlements sums to 1,204,631\u202fpaise. Additionally, the narration indicates a direct payment, which should have no gateway counterpart. Therefore, there is no matching set of settlements for this bank credit.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 504,
+      "prompt_tokens": 1032
+    }
+  },
   "501f18f13b862573149f9c5c0168cc5cd5161cc9523f6851168acebed130368a": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -327,6 +340,30 @@
     "usage": {
       "completion_tokens": 592,
       "prompt_tokens": 644
+    }
+  },
+  "70916682654352c87a0147445154126c9d739cb0e0d21826b89b751c9e1dab01": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.9,
+      "payment_ids": [
+        "pay_000905",
+        "pay_000903",
+        "pay_000904",
+        "pay_000898",
+        "pay_000896",
+        "pay_000901",
+        "pay_000902",
+        "pay_000900",
+        "pay_000897",
+        "pay_000899"
+      ],
+      "reasoning": "The bank credit of 81,615,154 paise matches exactly the net of settlement pay_000905 alone, but also matches the sum of all other settlements except pay_000126. In typical gateway payouts, only a few payments are withheld (e.g., due to rolling reserve or risk review). Withholding all but one payment (pay_000905) is highly unlikely, whereas withholding a single larger payment (pay_000126) is plausible. Therefore the most reasonable subset that explains the credit is all settlements except pay_000126, which sum to 81,615,154 paise.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 1928,
+      "prompt_tokens": 985
     }
   },
   "7418a50270b2592e17a36a3b4ed8b3b5b39957d9b805a3121e039ef2c245f77f": {

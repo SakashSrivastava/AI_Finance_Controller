@@ -27,6 +27,7 @@ class GateFailure:
     ALREADY_MATCHED = "cited_payment_already_attributed"
     OUTSIDE_WINDOW = "settlement_outside_date_window"
     SUM_MISMATCH = "amounts_do_not_sum_to_the_credit"
+    NOT_UNIQUE = "another_subset_also_reconciles"
     WRONG_CUSTOMER = "invoice_belongs_to_another_customer"
     OVERPAID = "payment_exceeds_invoiced_total"
 
@@ -47,8 +48,16 @@ def verify_bank_proposal(
     consumed: set[str],
     window_days: int = 3,
     tolerance_paise: int = 5,
+    candidate_pool: dict[str, int] | None = None,
 ) -> GateResult:
-    """Re-derive the arithmetic. The model's confidence is not evidence."""
+    """Re-derive the arithmetic. The model's confidence is not evidence.
+
+    When the candidate pool the model was shown is supplied, the gate also checks that
+    the proposal is *uniquely* determined - that no other subset of those same candidates
+    also reconciles. A sum that closes is not proof on its own: if two different sets both
+    close, accepting either is a coin flip, and the fact that one of them agrees with
+    ground truth would be luck rather than verification.
+    """
     ids = list(proposal.payment_ids)
     checks: dict[str, bool] = {}
 
@@ -91,6 +100,21 @@ def verify_bank_proposal(
     }
     if not checks["sums_to_credit"]:
         return GateResult(False, GateFailure.SUM_MISMATCH, checks, detail)
+
+    if candidate_pool:
+        from recon.matcher.subsetsum import find_subsets
+
+        pool = {pid: net for pid, net in candidate_pool.items() if net >= 0}
+        search = find_subsets(
+            list(pool.values()),
+            target=bank_txn.credit_paise,
+            max_size=max(len(ids), 12),
+            tolerance=tolerance_paise,
+        )
+        checks["uniquely_determined"] = not search.is_ambiguous
+        detail["subsets_that_reconcile"] = len(search.solutions)
+        if search.is_ambiguous:
+            return GateResult(False, GateFailure.NOT_UNIQUE, checks, detail)
 
     return GateResult(True, None, checks, detail)
 

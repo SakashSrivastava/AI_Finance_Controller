@@ -166,6 +166,7 @@ class Escalator:
                 consumed,
                 self.window_days,
                 self.tolerance_paise,
+                candidate_pool={s.payment_id: s.net_paise for s in candidates},
             )
             self.outcomes.append(self._graded(exc.bank_txn_id, "bank", proposal, proposal.payment_ids, gate))
         return self.outcomes

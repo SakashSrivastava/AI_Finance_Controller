@@ -228,3 +228,35 @@ def test_gate_imports_no_model_client():
         elif isinstance(node, ast.ImportFrom):
             imported.add(node.module or "")
     assert not any("groq" in m or "client" in m for m in imported), imported
+
+
+def test_gate_rejects_a_proposal_that_is_not_uniquely_determined(world):
+    """A sum that closes is not proof on its own.
+
+    If two different subsets of the candidates both reconcile, accepting either is a coin
+    flip, and the fact that one happens to match ground truth would be luck rather than
+    verification. Given the pool the model was shown, the gate can tell the difference.
+    """
+    settlements, nets, bank = world
+    # A decoy worth exactly as much as the proposed pair, so two subsets now reconcile.
+    decoy_total = nets["pay_000001"] + nets["pay_000002"]
+    pool = {"pay_000001": nets["pay_000001"], "pay_000002": nets["pay_000002"], "decoy": decoy_total}
+
+    r = verify_bank_proposal(
+        BankProposal(verdict="match", payment_ids=["pay_000001", "pay_000002"], confidence=0.95),
+        bank, settlements, nets, set(), candidate_pool=pool,
+    )
+    assert not r.accepted
+    assert r.failure == GateFailure.NOT_UNIQUE
+    assert r.detail["subsets_that_reconcile"] >= 2
+
+
+def test_uniqueness_check_passes_when_only_one_subset_reconciles(world):
+    settlements, nets, bank = world
+    pool = {pid: nets[pid] for pid in ("pay_000001", "pay_000002", "pay_000003")}
+    r = verify_bank_proposal(
+        BankProposal(verdict="match", payment_ids=["pay_000001", "pay_000002"], confidence=0.95),
+        bank, settlements, nets, set(), candidate_pool=pool,
+    )
+    assert r.accepted
+    assert r.checks["uniquely_determined"] is True
