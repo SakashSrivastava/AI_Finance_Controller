@@ -202,3 +202,49 @@ def test_different_seeds_differ(tmp_path):
     write_dataset(build(42), a)
     write_dataset(build(7), b)
     assert not filecmp.cmp(a / "bank_statement.csv", b / "bank_statement.csv", shallow=False)
+
+
+def test_combined_payouts_span_more_than_one_batch(ds):
+    """One credit paying out several batches. Any search assuming a credit lives inside
+    a single UTR batch will miss these."""
+    utr_of = {s.payment_id: s.utr for s in ds.settlements}
+    # Duplicate-posting legs inherit the batch's tags but carry no payments.
+    rows = [gt for gt in ds.gt_bank if "combined_payout" in gt.case_tags and gt.payment_ids]
+    assert rows, "combined_payout never fired"
+    for gt in rows:
+        assert len({utr_of[p] for p in gt.payment_ids}) >= 2, gt.bank_txn_id
+
+
+def test_amount_collisions_are_genuinely_indistinguishable(ds):
+    """Two batches, same total, same window, neither narration carrying a UTR.
+
+    The correct behaviour is to refuse both, so the generator has to actually produce
+    the collision rather than merely label it.
+    """
+    bank = {b.txn_id: b for b in ds.bank}
+    rows = [gt for gt in ds.gt_bank if "amount_collision" in gt.case_tags]
+    assert rows, "amount_collision never fired"
+    for gt in rows:
+        credit = bank[gt.bank_txn_id].credit_paise
+        twins = [
+            other
+            for other in ds.gt_bank
+            if other.bank_txn_id != gt.bank_txn_id
+            and bank[other.bank_txn_id].credit_paise == credit
+        ]
+        assert twins, f"{gt.bank_txn_id} has no colliding twin"
+
+
+def test_the_matcher_refuses_ambiguous_collisions_rather_than_guessing(ds, tmp_path):
+    """An ambiguous match is not a match. Guessing would show up as false precision."""
+    from recon.generator.build import write_dataset
+    from recon.matcher.engine import Reconciler
+    from recon.matcher.normalise import load_sources
+
+    write_dataset(ds, tmp_path)
+    result = Reconciler(load_sources(tmp_path)).run()
+    truth = {g.bank_txn_id: set(g.payment_ids) for g in ds.gt_bank}
+    for m in result.matches:
+        if m.payment_ids:
+            assert set(m.payment_ids) == truth[m.bank_txn_id], m.bank_txn_id
+    assert any(e.reason_code == "ambiguous_multiple_subsets" for e in result.exceptions)

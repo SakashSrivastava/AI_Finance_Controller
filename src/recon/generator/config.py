@@ -42,6 +42,12 @@ class GeneratorConfig:
     # risk review). The credit is then a strict SUBSET of the batch, which is the only
     # thing that makes subset search necessary rather than decorative.
     share_settlement_hold: float = 0.10
+    # The gateway occasionally pays two batches out as ONE bank credit. Breaks any
+    # search that assumes a credit lives inside a single UTR batch.
+    share_combined_payout: float = 0.07
+    # Two different batches in the same window with an identical total. Genuinely
+    # ambiguous without a UTR: the correct answer is to refuse, not to pick one.
+    share_amount_collision: float = 0.05
     # Share of rows arriving from an export that caps the narration field. Only
     # narrations longer than the cap actually lose data, so the observed truncation
     # rate is lower than this and depends on the template mix.

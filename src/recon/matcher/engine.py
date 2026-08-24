@@ -60,6 +60,7 @@ class Reconciler:
         self._classify_debits()
         self._tier1_utr_exact()
         self._tier2_batch_sum_in_window()
+        self._tier2b_batch_combination()
         self._tier3_subset_sum()
         self._tier4_tolerance()
         self._tier3_subset_sum(
@@ -253,6 +254,59 @@ class Reconciler:
                     "candidates": sorted(r.payment_id for _, rows in hits for r in rows),
                 }
                 self.stats["ambiguous_batches"] += 1
+
+    def _tier2b_batch_combination(self) -> None:
+        """The gateway paid several whole batches out as one credit.
+
+        Searched over batch *totals* rather than individual payments: a combined payout
+        combines whole batches, so the natural unit is the batch. That keeps the search
+        space tiny and stops it inventing cross-batch payment combinations that cannot
+        occur.
+        """
+        for b in self._unresolved_credits():
+            groups: dict[str, list[NormalisedSettlement]] = defaultdict(list)
+            for s in self._window_settlements(b):
+                groups[s.row.utr].append(s)
+
+            utrs = sorted(groups)
+            totals = {u: sum(r.net_paise for r in groups[u]) for u in utrs}
+            usable = [u for u in utrs if totals[u] > 0]
+            if len(usable) < 2:
+                continue
+
+            result = find_subsets(
+                [totals[u] for u in usable],
+                target=b.txn.credit_paise,
+                max_size=4,
+                node_budget=self.cfg.node_budget,
+            )
+            self.stats["subset_nodes"] += result.nodes
+            if result.is_ambiguous:
+                self.hints[b.txn_id] = {
+                    "reason": ReasonCode.AMBIGUOUS_MULTIPLE_SUBSETS,
+                    "candidates": [],
+                    "note": "more than one combination of whole batches reconciles",
+                }
+                continue
+            if not result.is_unique or len(result.solutions[0]) < 2:
+                continue
+
+            chosen_utrs = [usable[i] for i in result.solutions[0]]
+            rows = [r for u in chosen_utrs for r in groups[u]]
+            self._accept(
+                b,
+                rows,
+                tier="tier2b_batch_combination",
+                confidence=0.9,
+                evidence={
+                    "matched_on": "several whole batches paid out as one credit",
+                    "utrs": chosen_utrs,
+                    "batch_totals": {u: totals[u] for u in chosen_utrs},
+                    "credit_paise": b.txn.credit_paise,
+                    "delta_paise": 0,
+                },
+            )
+            self.hints.pop(b.txn_id, None)
 
     def _subset_for_batch(
         self, bank: NormalisedBank, pool: list[NormalisedSettlement], tolerance: int

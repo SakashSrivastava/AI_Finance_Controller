@@ -126,6 +126,21 @@ def _garble(rng: random.Random, ref: str) -> str:
     return rng.choice(ops)(ref)
 
 
+def _gross_for_net(target_net: int) -> int | None:
+    """Invert the fee model by binary search: net is monotonic in gross."""
+    lo, hi = target_net, int(target_net * 1.1) + 100
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        net = compute_fees(mid, "payment").net_amount_paise
+        if net == target_net:
+            return mid
+        if net < target_net:
+            lo = mid + 1
+        else:
+            hi = mid - 1
+    return None
+
+
 def _split_amount(rng: random.Random, total: int, n: int) -> list[int]:
     floor = 100
     if total < n * floor * 2:
@@ -204,6 +219,13 @@ def _make_ref(rng: random.Random, cfg: GeneratorConfig, invoice_ids: list[str]) 
 def _roll_bank_tags(rng: random.Random, cfg: GeneratorConfig) -> list[str]:
     if rng.random() < cfg.share_unresolvable:
         return ["unresolvable"]
+    if rng.random() < cfg.share_amount_collision:
+        # Exclusive by construction. A genuine collision is two *clean* batches with an
+        # identical total and no UTR on either narration - the only situation where the
+        # data really cannot tell them apart. Combining it with drift or a withheld
+        # payment would instead let one credit borrow the other's batch, which is a
+        # false match rather than an ambiguity.
+        return ["amount_collision", "missing_utr"]
     tags: list[str] = []
     for tag, share in (
         ("timing_gap", cfg.share_timing_gap),
@@ -213,6 +235,7 @@ def _roll_bank_tags(rng: random.Random, cfg: GeneratorConfig) -> list[str]:
         ("duplicate_posting", cfg.share_duplicate_posting),
         ("rounding_drift", cfg.share_rounding_drift),
         ("settlement_hold", cfg.share_settlement_hold),
+        ("combined_payout", cfg.share_combined_payout),
     ):
         if rng.random() < share:
             tags.append(tag)
@@ -294,6 +317,7 @@ def build(seed: int, cfg: GeneratorConfig = DEFAULT_CONFIG) -> Dataset:
     ds = Dataset()
     pending: list[_PendingBank] = []
     payment_invoices: dict[str, list[str]] = {}
+    previous_credit: _PendingBank | None = None
 
     for _ in range(cfg.n_bank_txns):
         tags = _roll_bank_tags(rng, cfg)
@@ -426,6 +450,8 @@ def build(seed: int, cfg: GeneratorConfig = DEFAULT_CONFIG) -> Dataset:
                         tags.remove("clean_batch")
 
         if "duplicate_posting" in tags:
+            # A repost cannot also be a combined payout: the second batch was never added.
+            tags = [t for t in tags if t != "combined_payout"]
             pending.append(
                 _PendingBank(
                     value_date, narration, credit, 0, [], tags + ["dup_original"],
@@ -456,12 +482,67 @@ def build(seed: int, cfg: GeneratorConfig = DEFAULT_CONFIG) -> Dataset:
                 )
             )
         else:
-            pending.append(
-                _PendingBank(
-                    value_date, narration, credit, 0, sorted(batch_ids), tags,
-                    next(counters.order),
-                )
+            if "combined_payout" in tags:
+                # The gateway paid a second batch out in the same credit. Both UTRs
+                # exist in the settlement file; the narration carries only one.
+                second_utr = _make_utr(rng, counters)
+                for _ in range(rng.randint(1, 3)):
+                    invs, sets_, gts = _make_payment_group(
+                        rng, cfg, rng.choice(customers), captured_at, settled_at,
+                        second_utr, counters,
+                    )
+                    ds.invoices.extend(invs)
+                    ds.settlements.extend(sets_)
+                    ds.gt_invoice.extend(gts)
+                    for gt in gts:
+                        payment_invoices[gt.payment_id] = gt.invoice_ids
+                    for extra in sets_:
+                        batch_ids.append(extra.payment_id)
+                        credit += extra.net_amount_paise or 0
+                batch_ids = sorted(batch_ids)
+            row = _PendingBank(
+                value_date, narration, credit, 0, sorted(batch_ids), tags,
+                next(counters.order),
             )
+            pending.append(row)
+            previous_credit = row
+
+            # The twin must collide with the *final* credit, so it is minted here -
+            # after rounding drift and any combined payout have already moved it.
+            if "amount_collision" in tags and row.credit_paise > 0:
+                twin_gross = _gross_for_net(row.credit_paise)
+                if twin_gross is None:
+                    tags.remove("amount_collision")
+                else:
+                    twin_customer = rng.choice(customers)
+                    twin_inv = _make_invoice(
+                        rng, cfg, twin_customer, captured_at, counters
+                    ).model_copy(update={"gross_amount_paise": twin_gross})
+                    ds.invoices.append(twin_inv)
+                    twin = _make_settlement(
+                        counters, twin_inv.invoice_id, twin_customer, captured_at,
+                        settled_at, _make_utr(rng, counters), twin_gross, "payment",
+                    )
+                    ds.settlements.append(twin)
+                    payment_invoices[twin.payment_id] = [twin_inv.invoice_id]
+                    ds.gt_invoice.append(
+                        GroundTruthInvoice(
+                            payment_id=twin.payment_id,
+                            invoice_ids=[twin_inv.invoice_id],
+                            case_tags=["clean_ref"],
+                        )
+                    )
+                    pending.append(
+                        _PendingBank(
+                            value_date=value_date,
+                            narration=rng.choice(NARRATION_WITHOUT_UTR),
+                            credit_paise=row.credit_paise,
+                            debit_paise=0,
+                            payment_ids=[twin.payment_id],
+                            tags=["amount_collision", "missing_utr"],
+                            order=next(counters.order),
+                        )
+                    )
 
     for _ in range(int(cfg.n_bank_txns * cfg.out_of_scope_debit_share)):
         customer = rng.choice(customers)

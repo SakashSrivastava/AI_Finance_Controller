@@ -168,8 +168,11 @@ def compare(
 
 
 @app.command()
-def demo(seed: int = typer.Option(42), n: int = typer.Option(250)) -> None:
-    """Generate, reconcile, and evaluate end to end. Replays the cache, so no key needed."""
+def demo(seed: int = typer.Option(7), n: int = typer.Option(250)) -> None:
+    """Generate, reconcile, and evaluate end to end on the held-out seed.
+
+    Replays the committed model cache, so no API key is needed.
+    """
     data = Path("data") / str(seed)
     typer.echo("=" * 72)
     typer.echo(f"  RECONCILIATION DEMO  -  seed {seed}")
