@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.env
+.pytest_cache/
+audit/*.jsonl
+reports/*.html
+reports/*.json
+reports/*.md
+!reports/.gitkeep
+.ipynb_checkpoints/
+
+# internal planning notes, not part of the submission
+planning/
