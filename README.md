@@ -48,6 +48,10 @@ after the matcher was finished and never used to tune anything.**
 | Model calls | 41 per model (cached; replayable offline) |
 | Cost | ₹0 — Groq free tier |
 
+With escalation the bank level reaches 92.06% recall and 232 asserted matches, and the
+invoice level reaches **1,343 of 1,343 at 100% precision** — the model resolves every
+mangled reference the deterministic tiers refused, and all of them survive the gate.
+
 Precision is stated before match rate everywhere in this project, because **a wrong match
 on money is worse than no match.** Agreement is *strict set equality*: a match is a set of
 payment ids, and getting four of five right in a batch is a wrong answer, because the
@@ -132,50 +136,73 @@ alone, precision did not move at all — the case simply fell through and the *c
 tier made the identical wrong match. The rule had to hold at every lookup or it held
 nowhere.
 
-### 2. The model noticed the arithmetic failed, and argued its way past it
+### 2. A model cannot verify its own uniqueness claim
 
-Escalating the same residue to `gpt-oss-20b` produced this, verbatim from
-`audit/llm_calls.jsonl`:
+The gate originally checked that a proposal's amounts *sum to the credit*. That turns out
+to be too weak. If two different subsets both reconcile, accepting either is a coin flip,
+and the one that happens to match ground truth is luck, not verification. So the gate now
+re-searches the same shortlist the model was shown and refuses anything not **uniquely**
+determined.
 
-> **Payment** `pay_000886` — Bharat Tyre Traders, ₹2,92,627.72, reference `'00852'`
+Escalating the holdout residue to `gpt-oss-20b` produced these two, verbatim from
+`audit/llm_calls.jsonl`. They are best read as a pair.
+
+**`bank_000005`** — ₹5,89,296.64
+
+> **Model, confidence 0.95:** *"The bank credit of 58,929,664 paise matches exactly the net
+> amount of settlement pay_001343. **No other combination of the listed settlements sums to
+> this amount**, so the credit is attributable to that single settlement."*
 >
-> **Model, confidence 0.90:** *"The reference string `00852` matches the numeric suffix of
-> invoice INV-2026-00852. The payment amount (29,262,772 paise) **exceeds** the amount of
-> this invoice (18,875,144 paise), **which is permissible because a payment can cover
-> multiple invoices**…"*
+> **Gate:** `REJECTED — another_subset_also_reconciles` · `subsets_that_reconcile: 2`
 >
-> **Gate:** `REJECTED — payment_exceeds_invoiced_total` (29,262,772 > 18,875,144)
+> **Ground truth:** four entirely different payments. **The model was wrong.**
+
+**`bank_000134`** — ₹3,01,971.26
+
+> **Model, confidence 0.92:** *"…**Although another subset of three settlements also sums to
+> the same amount**, the presence of a single settlement matching the credit and the
+> possibility that the other three were withheld… makes pay_001007 the most plausible
+> match."*
 >
-> **Ground truth:** `INV-2026-00851` **and** `INV-2026-00852`
+> **Gate:** `REJECTED — another_subset_also_reconciles` · `subsets_that_reconcile: 2`
+>
+> **Ground truth:** `pay_001007`. **The model was right.**
 
-The model saw that the numbers did not work, retrieved a rule that is genuinely true — a
-payment *can* cover several invoices — and used it to excuse the discrepancy while citing
-only one invoice. It was half right: `00852` really is one of the two. A partial-credit
-metric would have rewarded that. Strict set equality and an arithmetic check both refused
-it, knowing nothing about ground truth.
+In the first, the model asserted uniqueness and was factually wrong about it. In the
+second, it *noticed* the ambiguity, reasoned about it sensibly, and reached the correct
+answer. **The gate refused both, identically** — because from the available data there is
+no way to tell those two situations apart.
 
-This is what "verification capacity, not generation speed" looks like in a single row.
+So the gate cost a correct match. That is the honest price of the policy, and it is worth
+stating plainly rather than hiding: refusing `bank_000134` lost one true positive, but
+accepting it on the same evidence would have meant accepting `bank_000005`, which moves
+money to the wrong place. Given a wrong match on money is worse than no match, that is the
+right trade — but it is a trade, not a free lunch.
 
 ### Model comparison
 
-The same 21 escalations, two models, identical packets:
+The same 41 escalations, two models, identical packets, held-out seed:
 
-| Model | Proposed | Accepted by gate | **Rejected by gate** | Correct | Accepted but wrong |
-|---|---|---|---|---|---|
-| `gpt-oss-120b` | 9 | 9 | 0 | 9 | **0** |
-| `gpt-oss-20b` | 7 | 6 | **1** | 6 | **0** |
+| Model | Proposed | Accepted by gate | **Rejected by gate** | Correct | Accepted but wrong | Provider failures |
+|---|---|---|---|---|---|---|
+| `gpt-oss-120b` | 14 | 14 | **0** | 13 | **0** | 2 |
+| `gpt-oss-20b` | 20 | 13 | **7** | 13 | **0** | 9 |
 
-Both models correctly declined all 12 bank-level exceptions rather than inventing
-counterparts for credits that have none. The smaller model was not less *honest* — it was
-less *capable*: it resolved three fewer references, failed once to emit valid JSON at all,
-and produced the one proposal that failed verification.
+Both models correctly declined the bank-level exceptions that have no gateway counterpart,
+rather than inventing one. The smaller model was not less *honest* — it was more *eager*:
+it proposed six more matches, seven of which the gate refused, and it failed to emit a
+valid document at all nine times out of forty-one.
+
+Neither model produced an accepted-but-wrong match. That is the number that matters, and
+it is zero for both.
 
 The load-bearing observation is that **nothing in either model's output distinguishes the
-two.** Both were fluent, schema-valid and confident. The 9-versus-6 gap and the one bad
-proposal are only visible because something outside the model re-derived the arithmetic.
-That is the argument for the gate, and it is why "accepted by the gate" is reported
-separately from "actually correct" above — the gate proves internal consistency, not truth,
-and conflating those would be the same mistake in a different coat.
+two.** Both are fluent, schema-valid and confident; the 20b's confidence on its seven
+refused proposals averaged over 0.9. The difference is only visible because something
+outside the model re-derived the arithmetic. That is the argument for the gate, and it is
+why "accepted by the gate" is reported separately from "actually correct" above — the gate
+proves consistency and uniqueness, not truth, and conflating those would be the same
+mistake in a different coat.
 
 ---
 

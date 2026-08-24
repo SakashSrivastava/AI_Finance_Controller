@@ -101,12 +101,19 @@ never downgraded into a weaker match.</p>
 <div class="scroll"><table>
 <thead><tr><th>Where the money is</th><th class="num">Count</th><th class="num">Value</th></tr></thead><tbody>
 <tr><td>Settled and in the bank</td><td class="num">{{ cash.settled.count }}</td><td class="num">{{ fmt(cash.settled.paise) }}</td></tr>
-<tr><td>In flight (captured, not yet paid out)</td><td class="num">{{ cash.in_flight.count }}</td><td class="num">{{ fmt(cash.in_flight.paise) }}</td></tr>
+<tr><td>In flight (settled in the last 3 days, not yet on the statement)</td><td class="num">{{ cash.in_flight.count }}</td><td class="num">{{ fmt(cash.in_flight.paise) }}</td></tr>
+<tr><td>Settled but unattributed</td><td class="num">{{ cash.settled_but_unattributed.count }}</td><td class="num">{{ fmt(cash.settled_but_unattributed.paise) }}</td></tr>
 <tr><td><strong>Under investigation</strong></td><td class="num">{{ cash.under_investigation.count }}</td><td class="num"><strong>{{ fmt(cash.under_investigation.paise) }}</strong></td></tr>
 <tr><td>Unresolvable from available data</td><td class="num">{{ cash.unresolvable.count }}</td><td class="num">{{ fmt(cash.unresolvable.paise) }}</td></tr>
 <tr><td>Total receivables outstanding</td><td class="num"></td><td class="num">{{ fmt(cash.total_receivables_paise) }}</td></tr>
 <tr><td>Gateway fees + GST</td><td class="num"></td><td class="num">{{ fmt(cash.fees_paise + cash.gst_paise) }}</td></tr>
 </tbody></table></div>
+<p class="note"><strong>Under investigation</strong> is the rupee value a human still has to
+clear, counted on the bank side &mdash; the number a finance team acts on.
+<strong>Settled but unattributed</strong> is the gateway-side view of the same gap, and it
+deliberately mixes two things this data cannot separate: payments the gateway withheld, and
+payments it did pay out that could not be tied to a credit. Neither is counted as incoming
+cash.</p>
 
 <h2>Exception queue</h2>
 <p class="note">{{ exceptions|length }} unresolved. Split into what a human could clear with

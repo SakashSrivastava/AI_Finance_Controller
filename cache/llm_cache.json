@@ -210,6 +210,22 @@
       "prompt_tokens": 959
     }
   },
+  "2af2d399b483d96c58151059eca626860301b2bcb09e874067df35b45e366ddc": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.95,
+      "invoice_ids": [
+        "INV-2026-01293",
+        "INV-2026-01294"
+      ],
+      "reasoning": "The reference contains a full match for INV-2026-01293 and a truncated token \"INV-2026-0129\" which can be interpreted as INV-2026-01294 (the only invoice with that prefix). The sum of the two invoices\u2019 amounts (12,793,750 + 8,614,296 = 21,408,046 paise) equals the payment amount, satisfying the rule that a payment cannot exceed the total of the invoices it settles. Therefore the payment settles invoices INV-2026-01293 and INV-2026-01294 with high confidence.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 379,
+      "prompt_tokens": 686
+    }
+  },
   "2db60121b36763f677bfe237a13d53c3d9b74bd8446d36c9b39b5303952bac90": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -377,6 +393,21 @@
     "usage": {
       "completion_tokens": 2234,
       "prompt_tokens": 988
+    }
+  },
+  "4c2d307a5fa124a279072f15f58c985869fd82780b69be6f0dc580066cd937b0": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.9,
+      "invoice_ids": [
+        "INV-2026-01106"
+      ],
+      "reasoning": "The reference string 'INV-2026-01160' appears to be a typo where the last two digits are transposed. The closest matching invoice in the customer\u2019s list is INV-2026-01106 (raised 2026-05-04, gross 18,456,842 paise). The payment amount (11,968,494 paise) is less than this invoice\u2019s total, which is a valid partial payment scenario. No other invoice number matches the corrupted reference more closely.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 556,
+      "prompt_tokens": 682
     }
   },
   "4e3e4f1d433358003ef3b24912cd213e71ee155b5613153a4d6a008cb897da55": {
@@ -552,6 +583,21 @@
     "usage": {
       "completion_tokens": 1928,
       "prompt_tokens": 985
+    }
+  },
+  "70b387d573446688482dc85b45758d794593d5e63bcb5d2238db4a5e51e1631e": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.9,
+      "invoice_ids": [
+        "INV-2026-00986"
+      ],
+      "reasoning": "The reference string \"INV-2026-00968\" differs from the existing invoice ID \"INV-2026-00986\" by a transposition of the last two digits (9 and 8). This is a common corruption pattern. The payment amount (Rs\u202f35,692.72) is less than the invoice total (Rs\u202f81,174.16), which is acceptable as a partial payment. No other invoice matches the corrupted reference pattern, and the customer\u2019s invoice list contains only one invoice that could plausibly correspond to the reference. Therefore the payment is confidently matched to invoice INV-2026-00986.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 429,
+      "prompt_tokens": 680
     }
   },
   "70b71bc4a033b6d8f83fe77345c47e42bf16c243fc2e4c19ce1d98849ecab216": {
