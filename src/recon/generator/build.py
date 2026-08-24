@@ -198,6 +198,7 @@ def _roll_bank_tags(rng: random.Random, cfg: GeneratorConfig) -> list[str]:
         ("chargeback_in_batch", cfg.share_chargeback_in_batch),
         ("duplicate_posting", cfg.share_duplicate_posting),
         ("rounding_drift", cfg.share_rounding_drift),
+        ("settlement_hold", cfg.share_settlement_hold),
     ):
         if rng.random() < share:
             tags.append(tag)
@@ -304,8 +305,7 @@ def build(seed: int, cfg: GeneratorConfig = DEFAULT_CONFIG) -> Dataset:
 
         utr = _make_utr(rng, counters)
         captured_at = settled_at - timedelta(days=rng.randint(*cfg.settlement_lag_days))
-        batch_ids: list[str] = []
-        running_net = 0
+        batch_rows: list[Settlement] = []
 
         for _ in range(rng.randint(cfg.min_batch_size, cfg.max_batch_size)):
             customer = rng.choice(customers)
@@ -317,9 +317,8 @@ def build(seed: int, cfg: GeneratorConfig = DEFAULT_CONFIG) -> Dataset:
             ds.gt_invoice.extend(gts)
             for gt in gts:
                 payment_invoices[gt.payment_id] = gt.invoice_ids
-            for s in sets_:
-                batch_ids.append(s.payment_id)
-                running_net += s.net_amount_paise or 0
+            batch_rows.extend(sets_)
+        running_net = sum(s.net_amount_paise or 0 for s in batch_rows)
 
         anchor_payment = ds.settlements[-1]
 
@@ -338,7 +337,7 @@ def build(seed: int, cfg: GeneratorConfig = DEFAULT_CONFIG) -> Dataset:
                     "refund",
                 )
                 ds.settlements.append(s)
-                batch_ids.append(s.payment_id)
+                batch_rows.append(s)
                 running_net += s.net_amount_paise or 0
                 linked = payment_invoices.get(anchor_payment.payment_id, [])
                 payment_invoices[s.payment_id] = linked
@@ -365,7 +364,7 @@ def build(seed: int, cfg: GeneratorConfig = DEFAULT_CONFIG) -> Dataset:
                     "chargeback",
                 )
                 ds.settlements.append(s)
-                batch_ids.append(s.payment_id)
+                batch_rows.append(s)
                 running_net += s.net_amount_paise or 0
                 linked = payment_invoices.get(anchor_payment.payment_id, [])
                 payment_invoices[s.payment_id] = linked
@@ -376,6 +375,17 @@ def build(seed: int, cfg: GeneratorConfig = DEFAULT_CONFIG) -> Dataset:
                 )
             else:
                 tags.remove("chargeback_in_batch")
+
+        if "settlement_hold" in tags:
+            eligible = [i for i, s in enumerate(batch_rows) if s.type == "payment"]
+            if len(eligible) >= 3:
+                held = set(rng.sample(eligible, rng.choice([1, 1, 2])))
+                batch_rows = [s for i, s in enumerate(batch_rows) if i not in held]
+                running_net = sum(s.net_amount_paise or 0 for s in batch_rows)
+            else:
+                tags.remove("settlement_hold")
+
+        batch_ids = [s.payment_id for s in batch_rows]
 
         if not tags:
             tags = ["clean_batch"]
@@ -392,6 +402,14 @@ def build(seed: int, cfg: GeneratorConfig = DEFAULT_CONFIG) -> Dataset:
             narration = rng.choice(NARRATION_WITHOUT_UTR)
         else:
             narration = rng.choice(NARRATION_WITH_UTR).format(utr=utr)
+            if rng.random() < cfg.share_truncated_narration:
+                cut = rng.randint(cfg.narration_max_chars - 5, cfg.narration_max_chars + 5)
+                if len(narration) > cut:
+                    narration = narration[:cut]
+                    tags.append("truncated_narration")
+                    # A capped narration is a perturbation, so the row is no longer clean.
+                    if "clean_batch" in tags:
+                        tags.remove("clean_batch")
 
         if "duplicate_posting" in tags:
             pending.append(

@@ -74,6 +74,10 @@ NARRATION_WITH_UTR = [
     "CMS/{utr}",
     "NEFT CR-{utr}-RAZORPAY SOFTWARE PRIVATE LIMITED-SETTLEMENT",
     "TRF FROM RAZORPAY REF {utr}",
+    # Reference last: these are the shapes a truncated narration field mangles.
+    "RAZORPAY SOFTWARE PRIVATE LIMITED SETTLEMENT REF {utr}",
+    "BY TRANSFER FROM RAZORPAY SOFTWARE PVT LTD NEFT {utr}",
+    "MERCHANT PAYOUT RAZORPAY SOFTWARE PVT LTD UTR {utr}",
 ]
 
 # Narrations with no UTR at all. These force amount-plus-date-window matching.

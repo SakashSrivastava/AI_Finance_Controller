@@ -38,6 +38,15 @@ class GeneratorConfig:
     share_chargeback_in_batch: float = 0.04
     share_duplicate_posting: float = 0.04
     share_rounding_drift: float = 0.04
+    # Payments captured under this UTR but withheld from the payout (rolling reserve,
+    # risk review). The credit is then a strict SUBSET of the batch, which is the only
+    # thing that makes subset search necessary rather than decorative.
+    share_settlement_hold: float = 0.10
+    # Share of rows arriving from an export that caps the narration field. Only
+    # narrations longer than the cap actually lose data, so the observed truncation
+    # rate is lower than this and depends on the template mix.
+    share_truncated_narration: float = 0.25
+    narration_max_chars: int = 40
 
     # payment <-> invoice case mix. These are per-payment-group roll probabilities, not
     # the achieved shares: a partial group emits several payment rows and a merged group
