@@ -130,3 +130,26 @@ def test_no_llm_run_makes_no_outcomes():
     result = run_pipeline(DATA, use_llm=False)
     assert result.outcomes == []
     assert result.llm_stats == {}
+
+
+def test_offline_replay_survives_a_gap_in_the_cache(tmp_path):
+    """A committed cache does not have to be perfect for a clone to run.
+
+    Live provider failures leave holes. Replay must record those items as unresolved and
+    finish the batch, not abort with a traceback in a judge's terminal.
+    """
+    from recon.agent.client import CachedLLM
+
+    empty = CachedLLM(
+        backend=None, cache_path=tmp_path / "empty.json", offline=True, audit_dir=None
+    )
+    result = run_pipeline(DATA, use_llm=True, llm=empty)
+
+    assert result.outcomes, "escalation should still have produced outcomes"
+    assert all(o.failure == "model_call_failed" for o in result.outcomes)
+    assert not any(o.accepted for o in result.outcomes)
+
+    baseline = run_pipeline(DATA, use_llm=False)
+    before = {m.bank_txn_id: sorted(m.payment_ids) for m in baseline.bank.matches}
+    after = {m.bank_txn_id: sorted(m.payment_ids) for m in result.bank.matches}
+    assert before == after, "a missing cache entry must not change any asserted match"

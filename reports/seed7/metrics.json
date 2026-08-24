@@ -1,5 +1,5 @@
 {
-  "asserted_matches": 231,
+  "asserted_matches": 232,
   "bank_rows": 291,
   "by_case_type": {
     "amount_collision": {
@@ -24,10 +24,10 @@
       "rows": 99
     },
     "combined_payout": {
-      "asserted": 18,
+      "asserted": 19,
       "matchable": 21,
       "precision": 1.0,
-      "recall": 0.8571428571428571,
+      "recall": 0.9047619047619048,
       "rows": 21
     },
     "dup_original": {
@@ -87,17 +87,17 @@
       "rows": 5
     },
     "settlement_hold": {
-      "asserted": 17,
+      "asserted": 18,
       "matchable": 19,
       "precision": 1.0,
-      "recall": 0.8947368421052632,
+      "recall": 0.9473684210526315,
       "rows": 19
     },
     "timing_gap": {
-      "asserted": 37,
+      "asserted": 38,
       "matchable": 38,
       "precision": 1.0,
-      "recall": 0.9736842105263158,
+      "recall": 1.0,
       "rows": 40
     },
     "truncated_narration": {
@@ -116,6 +116,7 @@
     }
   },
   "by_tier": {
+    "llm_escalation": 1,
     "tier0_dup_original": 11,
     "tier0_dup_reversal": 11,
     "tier0_out_of_scope_debit": 10,
@@ -128,12 +129,12 @@
   },
   "classification_accuracy": 1.0,
   "classifications": 32,
-  "coverage": 0.9037800687285223,
-  "exceptions": 28,
+  "coverage": 0.9072164948453608,
+  "exceptions": 27,
   "exceptions_by_reason": {
     "ambiguous_multiple_subsets": 18,
     "no_gateway_counterpart": 7,
-    "utr_matched_amount_mismatch": 3
+    "utr_matched_amount_mismatch": 2
   },
   "false_match_rate": 0.0,
   "false_matches": 0,
@@ -164,27 +165,58 @@
         "n": 23,
         "precision": 1.0,
         "wrong": 0
+      },
+      "llm_escalation": {
+        "n": 13,
+        "precision": 1.0,
+        "wrong": 0
       }
     },
-    "coverage": 0.9903201787043932,
+    "coverage": 1.0,
     "false_matches": 0,
-    "matched": 1330,
+    "matched": 1343,
     "mean_jaccard": 1.0,
     "payments": 1343,
     "precision_strict": 1.0,
-    "residue": 13
+    "residue": 0
   },
-  "llm_stats": {},
+  "llm": {
+    "accepted": 14,
+    "by_level": {
+      "bank": {
+        "accepted": 1,
+        "escalated": 28,
+        "failed_verification": 0
+      },
+      "invoice": {
+        "accepted": 13,
+        "escalated": 13,
+        "failed_verification": 0
+      }
+    },
+    "declined": 27,
+    "escalated": 41,
+    "failed_verification": 0,
+    "gate_failures": {},
+    "model": "openai/gpt-oss-120b",
+    "proposed_match": 14
+  },
+  "llm_stats": {
+    "cache_hits": 39,
+    "calls": 0,
+    "completion_tokens": 0,
+    "prompt_tokens": 0
+  },
   "mean_jaccard": 1.0,
   "precision_strict": 1.0,
-  "recall_strict": 0.9166666666666666,
+  "recall_strict": 0.9206349206349206,
   "timings": {
-    "bank_s": 0.03525619999709306,
-    "invoice_s": 0.0455154000010225,
-    "llm_s": 0.0,
-    "load_s": 0.043789199997263495
+    "bank_s": 0.03744690000166884,
+    "invoice_s": 0.041754300000320654,
+    "llm_s": 0.005928800004767254,
+    "load_s": 0.02804580000520218
   },
-  "unresolved_value_paise": 1320747461,
+  "unresolved_value_paise": 1236848974,
   "utr_extraction_recall": {
     "narrations_carrying_utr": 190,
     "parsed": 190,

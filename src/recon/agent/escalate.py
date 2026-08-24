@@ -13,7 +13,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import timedelta
 
-from recon.agent.client import DEFAULT_MODEL, CachedLLM, ModelCallFailed
+from recon.agent.client import CacheMiss, DEFAULT_MODEL, CachedLLM, ModelCallFailed
 from recon.agent.gate import GateResult, verify_bank_proposal, verify_invoice_proposal
 from recon.agent.schemas import BANK_SCHEMA, INVOICE_SCHEMA, BankProposal, InvoiceProposal
 from recon.domain.models import Invoice, Settlement
@@ -149,7 +149,7 @@ class Escalator:
             packet = build_bank_packet(exc, narrations.get(exc.bank_txn_id, ""), candidates, self.window_days)
             try:
                 raw = self.llm.propose(BANK_SYSTEM, packet, BANK_SCHEMA, self.model)
-            except ModelCallFailed as exc_err:
+            except (ModelCallFailed, CacheMiss) as exc_err:
                 self.outcomes.append(self._call_failed(exc.bank_txn_id, "bank", str(exc_err)))
                 continue
             proposal = BankProposal.model_validate(raw)
@@ -185,7 +185,7 @@ class Escalator:
             packet = build_invoice_packet(item, invoices)
             try:
                 raw = self.llm.propose(INVOICE_SYSTEM, packet, INVOICE_SCHEMA, self.model)
-            except ModelCallFailed as exc_err:
+            except (ModelCallFailed, CacheMiss) as exc_err:
                 self.outcomes.append(self._call_failed(item.payment_id, "invoice", str(exc_err)))
                 continue
             proposal = InvoiceProposal.model_validate(raw)
@@ -203,6 +203,12 @@ class Escalator:
     # ----------------------------------------------------------------- shared
 
     def _call_failed(self, target_id: str, level: str, detail: str) -> Outcome:
+        """No usable answer. Recorded as an unresolved item, never as a match.
+
+        This covers a provider failure during a live run and a missing entry during an
+        offline replay. Both mean the same thing to the pipeline - nothing was proposed -
+        and neither is allowed to stop the rest of the batch.
+        """
         return Outcome(
             target_id=target_id, level=level, model=self.model, verdict="needs_human",
             proposed=[], reasoning=f"model call failed: {detail}", confidence=0.0,

@@ -5,14 +5,14 @@
 | Metric | Value |
 |---|---|
 | **Precision (strict set equality)** | **100.00%** |
-| Recall (strict) | 91.67% |
+| Recall (strict) | 92.06% |
 | Mean Jaccard overlap | 1.000 |
-| False matches | 0 of 231 asserted |
+| False matches | 0 of 232 asserted |
 | False matches on unresolvable rows | 0 |
-| Coverage | 90.38% |
+| Coverage | 90.72% |
 | Bank rows | 291 |
-| Exceptions | 28 |
-| Value under investigation | ₹1,32,07,474.61 |
+| Exceptions | 27 |
+| Value under investigation | ₹1,23,68,489.74 |
 
 Agreement is **strict set equality**: a match is a set of payment ids, and getting four of five right is a wrong answer because the money does not reconcile. Mean Jaccard is reported alongside so near misses can be told apart from wild guesses.
 
@@ -27,6 +27,7 @@ The second number is the ceiling on UTR matching and therefore the size of the j
 
 | Tier | Rows |
 |---|---|
+| `llm_escalation` | 1 |
 | `tier0_dup_original` | 11 |
 | `tier0_dup_reversal` | 11 |
 | `tier0_out_of_scope_debit` | 10 |
@@ -43,7 +44,7 @@ The second number is the ceiling on UTR matching and therefore the size of the j
 |---|---|
 | `ambiguous_multiple_subsets` | 18 |
 | `no_gateway_counterpart` | 7 |
-| `utr_matched_amount_mismatch` | 3 |
+| `utr_matched_amount_mismatch` | 2 |
 
 ## Per case type
 
@@ -54,7 +55,7 @@ Where the system is strong and where it is not.
 | `amount_collision` | 18 | 0 | — | 18 | 0.00% |
 | `chargeback_in_batch` | 8 | 8 | 100.00% | 8 | 100.00% |
 | `clean_batch` | 99 | 99 | 100.00% | 99 | 100.00% |
-| `combined_payout` | 21 | 18 | 100.00% | 21 | 85.71% |
+| `combined_payout` | 21 | 19 | 100.00% | 21 | 90.48% |
 | `dup_original` | 11 | 0 | — | 0 | — |
 | `dup_repost` | 11 | 11 | 100.00% | 11 | 100.00% |
 | `dup_reversal` | 11 | 0 | — | 0 | — |
@@ -63,7 +64,20 @@ Where the system is strong and where it is not.
 | `out_of_scope_debit` | 10 | 0 | — | 0 | — |
 | `refund_in_batch` | 17 | 14 | 100.00% | 15 | 93.33% |
 | `rounding_drift` | 5 | 4 | 100.00% | 5 | 80.00% |
-| `settlement_hold` | 19 | 17 | 100.00% | 19 | 89.47% |
-| `timing_gap` | 40 | 37 | 100.00% | 38 | 97.37% |
+| `settlement_hold` | 19 | 18 | 100.00% | 19 | 94.74% |
+| `timing_gap` | 40 | 38 | 100.00% | 38 | 100.00% |
 | `truncated_narration` | 17 | 17 | 100.00% | 17 | 100.00% |
 | `unresolvable` | 7 | 0 | — | 0 | — |
+
+## Model escalation
+
+| Metric | Value |
+|---|---|
+| Model | `openai/gpt-oss-120b` |
+| Items escalated | 41 |
+| Proposed a match | 14 |
+| Declined (no_match / needs_human) | 27 |
+| **Accepted by the verification gate** | **14** |
+| **Rejected by the verification gate** | **0** |
+
+Rejected proposals are recorded as `llm_proposal_failed_verification` and handed to a human. They are never retried or downgraded into a weaker match.

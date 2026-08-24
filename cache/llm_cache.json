@@ -1,4 +1,17 @@
 {
+  "0261768d473207e6b125d2e07c7effacfd0af5ac5757c821e3a93a9afe424f99": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.9,
+      "payment_ids": [],
+      "reasoning": "None of the listed settlements (pay_000388, pay_001281, pay_001283) or any combination thereof sum to the bank credit amount of 10,433,458 paise. The single largest net (pay_000388) already exceeds the credit, and the remaining combinations are either too small or exceed the target. Therefore, no matching subset of settlements can explain this credit.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 378,
+      "prompt_tokens": 684
+    }
+  },
   "0b3ae8d975a2f6d166704ee24b3cb9b3d39502eb9d924f191ecf58eb8a78de32": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -38,6 +51,22 @@
       "prompt_tokens": 985
     }
   },
+  "2271b092e9d3bcbf8e95b12fff2430aef858302000e3b3cb151027771dfa4388": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.99,
+      "invoice_ids": [
+        "INV-2026-00173",
+        "INV-2026-00174"
+      ],
+      "reasoning": "The reference contains two invoice identifiers, INVOICE-2026-00173 and INVOICE-2026-00174, which map directly to the customer\u2019s invoices INV-2026-00173 (1,154,397\u202fpaise) and INV-2026-00174 (3,804,507\u202fpaise). Their combined gross amount equals the payment gross of 4,958,904\u202fpaise, so the payment fully settles both invoices.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 345,
+      "prompt_tokens": 690
+    }
+  },
   "23c69e845b059ef81d3ee925a843656e284e27b95ebd7ad6ec49da0d6ea54dd4": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -49,6 +78,19 @@
     "usage": {
       "completion_tokens": 637,
       "prompt_tokens": 918
+    }
+  },
+  "249539e65a711336a620b1357cee15cf2027c474ca467619835417b210e9781e": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.3,
+      "payment_ids": [],
+      "reasoning": "Both pay_000041 and pay_000042 individually have a net of 9728648 paise, matching the bank credit amount. Since the deterministic algorithm flagged an ambiguous_multiple_subsets situation, it cannot determine which single settlement (or if both) correspond to the credit. A wrong match would be costly, so human review is required to resolve the ambiguity.",
+      "verdict": "needs_human"
+    },
+    "usage": {
+      "completion_tokens": 527,
+      "prompt_tokens": 644
     }
   },
   "2615671b20cd076347a59a32dc49003b5df87ec449dd6c5ab48b86143897d05c": {
@@ -93,6 +135,19 @@
       "prompt_tokens": 959
     }
   },
+  "2db60121b36763f677bfe237a13d53c3d9b74bd8446d36c9b39b5303952bac90": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.3,
+      "payment_ids": [],
+      "reasoning": "The bank credit of 58,929,664 paise can be matched by two distinct subsets of the unsettled payments: either the single settlement pay_001343 (net 58,929,664) or the combination of pay_001341, pay_001339, pay_001340, and pay_001342 (net 28,956,528 + 17,876,435 + 6,981,591 + 5,115,110 = 58,929,664). The narration \u2018NEFT CR-RAZORPAY SOFTWARE PVT LTD\u2019 does not provide any indication of which payments were withheld or included in the batch, and the deterministic algorithm already flagged this as an ambiguous multiple subset case. Therefore, we cannot confidently determine the correct set of settlements without additional information.",
+      "verdict": "needs_human"
+    },
+    "usage": {
+      "completion_tokens": 2013,
+      "prompt_tokens": 762
+    }
+  },
   "326d53e95e8c3bf45e0345da3903afafa9504d64a5234e7311e1d6d4e19d5f52": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -104,6 +159,21 @@
     "usage": {
       "completion_tokens": 710,
       "prompt_tokens": 723
+    }
+  },
+  "348fc44544aaec506b47dc4853ea2d56a3be9141de81dea251cf6d253a657c8b": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.97,
+      "invoice_ids": [
+        "INV-2026-00954"
+      ],
+      "reasoning": "The reference '00954' is a truncated form of the full invoice ID INV-2026-00954 (missing the 'INV-2026-' prefix). The payment amount (5,323,800\u202fpaise) is less than the invoice total (14,193,047\u202fpaise), which is permissible as a partial settlement. No other invoice shares the suffix 00954, so the match is unambiguous.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 329,
+      "prompt_tokens": 677
     }
   },
   "3925c04593703447d336b831e268f6945b68190d3c93fb69b5d72996420144bc": {
@@ -145,6 +215,51 @@
       "prompt_tokens": 1032
     }
   },
+  "491e47dab549dfa657b2d63d06fe2085547836ca88f5ada89fdb1c7cac56b16a": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.98,
+      "invoice_ids": [
+        "INV-2026-00956"
+      ],
+      "reasoning": "The reference 'INVOICE-2026-00956' matches invoice INV-2026-00956 despite the word 'INVOICE' instead of the expected prefix 'INV'. The payment amount (7016422\u202fpaise) is less than the invoice total (10289602\u202fpaise), which is allowed as a partial settlement. No other invoice IDs correspond to the reference, so the match is unambiguous.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 378,
+      "prompt_tokens": 678
+    }
+  },
+  "4a9ebaacd5f1abeb6488c6b79de808598137b158064fd62ea0fc7840b90e9c0e": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.85,
+      "invoice_ids": [
+        "INV-2026-01106"
+      ],
+      "reasoning": "The reference 'INV-2026-01160' is not present in the invoice list, but it closely resembles INV-2026-01106 with a transposition of the last two digits (0 and 6). This is a common corruption pattern. The payment amount (11,968,494\u202fpaise) is less than the full invoice amount (18,456,842\u202fpaise), which is allowed as a partial settlement. No other invoice ID matches the corrupted reference as closely.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 518,
+      "prompt_tokens": 682
+    }
+  },
+  "501f18f13b862573149f9c5c0168cc5cd5161cc9523f6851168acebed130368a": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.97,
+      "invoice_ids": [
+        "INV-2026-00534"
+      ],
+      "reasoning": "The corrupted reference '00534' exactly matches the numeric suffix of invoice INV-2026-00534. No other invoice shares this suffix. The payment amount (108108\u202fpaise) is well below the invoice total (4540578\u202fpaise), which is permissible as a partial settlement. Hence the payment is confidently linked to INV-2026-00534.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 328,
+      "prompt_tokens": 672
+    }
+  },
   "55725048ab12d616fdd4bfc7847620db1dfcd42e4c6aefd431201dc88ba772a4": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -171,6 +286,23 @@
       "prompt_tokens": 684
     }
   },
+  "5f0e8df773842c54d5870833f175892497bfb242ee433ae05400def810621798": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.97,
+      "invoice_ids": [
+        "INV-2026-00179",
+        "INV-2026-00180",
+        "INV-2026-00181"
+      ],
+      "reasoning": "The reference lists INV-2026-00179 and INV-2026-00180 correctly. The third token '0018' is truncated; the only invoice starting with 0018 that completes the payment amount is INV-2026-00181 (gross 8,813,062 paise). The sum of 00179 (9,930,417) + 00180 (11,341,596) + 00181 (8,813,062) equals the payment gross of 30,085,075 paise, matching the total without exceeding it. This provides a unique, confidence\u2011high mapping.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 665,
+      "prompt_tokens": 696
+    }
+  },
   "64c5ac3ab9e54f4e88aac36cb0456115627c1d0f4037ae1571ef467ba85a39aa": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -184,6 +316,19 @@
       "prompt_tokens": 1095
     }
   },
+  "6910f2e6f47d33a4992c39d817e3664f1329ccba7659e4a7fdbe8d611d6120d2": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.2,
+      "payment_ids": [],
+      "reasoning": "Both pay_000041 and pay_000042 individually equal the credit amount, but there is no additional context to determine which settlement(s) correspond to the bank credit. The deterministic process identified an ambiguous multiple-subset situation, so a definitive match cannot be made.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 592,
+      "prompt_tokens": 644
+    }
+  },
   "7418a50270b2592e17a36a3b4ed8b3b5b39957d9b805a3121e039ef2c245f77f": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -195,6 +340,21 @@
     "usage": {
       "completion_tokens": 980,
       "prompt_tokens": 762
+    }
+  },
+  "77fa6be95caf3dfdbecd64e866909e4f98fefb5e31a576a440bde1fff6a00214": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.95,
+      "payment_ids": [
+        "pay_001343"
+      ],
+      "reasoning": "The bank credit of 58,929,664 paise matches exactly the net amount of settlement pay_001343. No other combination of the listed settlements sums to this amount, so the credit is attributable to that single settlement.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 1365,
+      "prompt_tokens": 759
     }
   },
   "7c2104b991ba3eaf26d1b32ee37a23a26b9f1fdcbc87895c9ad1e3a935ec49e0": {
@@ -272,6 +432,69 @@
       "prompt_tokens": 759
     }
   },
+  "974d1ca48ead749042e6edd67746867acbe42356a3ec5f60988a68c6a148ba0e": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.97,
+      "invoice_ids": [
+        "INV-2026-01293",
+        "INV-2026-01294"
+      ],
+      "reasoning": "The reference contains a clear token 'INV-2026-01293' which matches an invoice of 12,793,750\u202fpaise. The second token appears truncated as 'INV-2026-0129'; the only invoice for this customer with a matching prefix and the remaining amount needed to reach the payment total is INV-2026-01294 (8,614,296\u202fpaise). The sum of these two invoices equals the payment gross of 21,408,046\u202fpaise, satisfying the rule that a payment cannot exceed the total of the settled invoices. Hence the payment settles INV-2026-01293 and INV-2026-01294.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 603,
+      "prompt_tokens": 686
+    }
+  },
+  "98956e4af75665b35ed83bbf36967a344d2f9e6e196b86430070b432b073b42f": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 1.0,
+      "invoice_ids": [
+        "INV-2026-00376",
+        "INV-2026-00377",
+        "INV-2026-00378"
+      ],
+      "reasoning": "The reference lists three invoice numbers. Their combined gross (3,393,541\u202f+\u202f18,465,779\u202f+\u202f3,840,622\u202f=\u202f25,699,942\u202fpaise) exactly matches the payment amount, so the payment fully settles those invoices.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 513,
+      "prompt_tokens": 699
+    }
+  },
+  "9bdfd288799231059aa2421229e72717944a77fe6f92a71885e0aa069655064c": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.99,
+      "invoice_ids": [
+        "INV-2026-00192"
+      ],
+      "reasoning": "The reference 'INVOICE-2026-00192' normalises to the invoice ID INV-2026-00192, which exists for the customer. The payment amount (2,307,180\u202fpaise) is less than the invoice total (10,186,971\u202fpaise), indicating a partial settlement of that single invoice. No other invoice matches the reference, and the amount does not exceed the invoice total.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 347,
+      "prompt_tokens": 678
+    }
+  },
+  "a0d540041c3db3861394814c827912c329dafd78eab70d416ab3eb81b15d968f": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.97,
+      "invoice_ids": [
+        "INV-2026-00260"
+      ],
+      "reasoning": "Reference 'INVOICE-2026-00260' maps to invoice INV-2026-00260 after normalizing the prefix (INVOICE \u2192 INV). The payment amount (13,664,671\u202fpaise) is less than the invoice total (16,237,876\u202fpaise), indicating a partial settlement of that invoice.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 492,
+      "prompt_tokens": 681
+    }
+  },
   "bd5bc67c4707df11de904bf2d3bf895d6e05c497d02ae98b04da457dba5e4f60": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -283,6 +506,34 @@
     "usage": {
       "completion_tokens": 309,
       "prompt_tokens": 1095
+    }
+  },
+  "c30fef8b59996c7d1e8dfb448e27fe58ccf7489c3806f9ee93de961f0829e4ac": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.95,
+      "payment_ids": [],
+      "reasoning": "The bank credit of 4,473,305 paise cannot be formed by any subset of the listed settlement nets. All settlements are either larger than the credit or, when combined with the only smaller settlements (906,384; 666,088; 457,343), still fall short of the required amount. Additionally, the narration indicates a direct cash deposit, implying no gateway counterpart. Therefore, no matching settlements exist.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 906,
+      "prompt_tokens": 1024
+    }
+  },
+  "c370a26434b79cd8c95fe17dce8c97aa032d42ce2c109d9be60d3a6caf1ff5fc": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.92,
+      "invoice_ids": [
+        "INV-2026-00986"
+      ],
+      "reasoning": "The reference 'INV-2026-00968' differs from the existing invoice ID 'INV-2026-00986' by a simple transposition of the last two digits (986 \u2192 968), a common corruption. No other invoice ID is as close. The payment amount (3,569,272\u202fpaise) is less than the invoice total (8,117,416\u202fpaise), which is allowed as a partial settlement. Hence the payment most plausibly settles invoice INV-2026-00986.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 535,
+      "prompt_tokens": 680
     }
   },
   "cce4e336f621f30c0370f20a7db6ccb7175d9d16bb37e3ebd4e834bda4f0b958": {
@@ -350,6 +601,21 @@
       "prompt_tokens": 644
     }
   },
+  "ece951b1fecdcff1dd4b6d7ebfd09bf683bd9cb98a5c6cea47496c6b09aaeb1b": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.97,
+      "invoice_ids": [
+        "INV-2026-00525"
+      ],
+      "reasoning": "The reference 'INVOICE-2026-00525' normalises to the invoice ID INV-2026-00525, which exists for Prakash Lighting Co. The payment amount (1,629,234\u202fpaise) is less than the invoice total (5,605,548\u202fpaise), which is allowed as a partial settlement. No other invoice matches the reference, so the payment is tied to this single invoice.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 349,
+      "prompt_tokens": 681
+    }
+  },
   "f3554f2201b64e4fa16af63a004d48c79d0255bc8baa67f780705748cfc1882a": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -361,6 +627,19 @@
     "usage": {
       "completion_tokens": 713,
       "prompt_tokens": 723
+    }
+  },
+  "f79489039123247e853c3856162507e3c0c90f684a41134e9d5c484f5120a72c": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.9,
+      "payment_ids": [],
+      "reasoning": "The only settlement listed (pay_000235) has a net of 468,887 paise (Rs\u202f4,688.87), which is far below the bank credit of 9,445,201 paise (Rs\u202f94,452.01). No combination of the provided settlements can sum to the credit amount, and no other settlements are indicated for the relevant dates. Therefore, there is no matching set of gateway settlements for this credit.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 440,
+      "prompt_tokens": 610
     }
   }
 }
