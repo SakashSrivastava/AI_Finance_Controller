@@ -12,7 +12,7 @@ rate is an engineering metric; unreconciled cash is the number a finance team ac
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import date
+from datetime import date, timedelta
 
 from recon.domain.models import Invoice, Settlement
 from recon.matcher.invoices import InvoiceMatch
@@ -20,6 +20,8 @@ from recon.matcher.types import ExceptionRow, Sources
 from recon.domain.models import MatchRecord
 
 AGEING_BUCKETS = ((0, 30), (31, 60), (61, 10_000))
+# CONVENTIONS.md 3: a payout reaches the bank within this many days of settling.
+SETTLEMENT_LAG_DAYS = 3
 
 
 @dataclass
@@ -37,6 +39,7 @@ class CashPosition:
     as_of: date
     settled: Bucket = field(default_factory=Bucket)
     in_flight: Bucket = field(default_factory=Bucket)
+    settled_but_unattributed: Bucket = field(default_factory=Bucket)
     under_investigation: Bucket = field(default_factory=Bucket)
     unresolvable: Bucket = field(default_factory=Bucket)
     overdue: dict[str, Bucket] = field(default_factory=dict)
@@ -66,10 +69,19 @@ def build_cash_position(
         if m.payment_ids:
             position.settled.add(bank_by_id[m.bank_txn_id].credit_paise)
 
-    # Captured by the gateway but not yet in any bank credit: money in transit.
+    # A payment with no bank attribution is one of two very different things, and
+    # conflating them overstates incoming cash. If it settled inside the final
+    # settlement-lag window it is genuinely still in transit. If it settled earlier, the
+    # money has already moved and what is missing is the attribution, not the cash - that
+    # belongs with the exception queue, not with expected receipts.
+    in_transit_from = as_of - timedelta(days=SETTLEMENT_LAG_DAYS)
     for row in sources.settlements:
-        if row.payment_id not in attributed and row.type == "payment":
+        if row.payment_id in attributed or row.type != "payment":
+            continue
+        if row.settled_at >= in_transit_from:
             position.in_flight.add(_net(row))
+        else:
+            position.settled_but_unattributed.add(_net(row))
 
     for exc in exceptions:
         target = position.unresolvable if not exc.resolvable_with_context else position.under_investigation

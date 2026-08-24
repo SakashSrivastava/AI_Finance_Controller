@@ -152,13 +152,21 @@ def render_cash_position(position: CashPosition) -> str:
         "| Where the money is | Count | Value |",
         "|---|---|---|",
         f"| Settled and in the bank | {position.settled.count} | {format_paise(position.settled.paise)} |",
-        f"| In flight (captured, not yet paid out) | {position.in_flight.count} | {format_paise(position.in_flight.paise)} |",
+        f"| In flight (settled within the last {3} days, not yet on the statement) | {position.in_flight.count} | {format_paise(position.in_flight.paise)} |",
+        f"| Settled but unattributed | {position.settled_but_unattributed.count} | {format_paise(position.settled_but_unattributed.paise)} |",
         f"| **Under investigation** | {position.under_investigation.count} | **{format_paise(position.under_investigation.paise)}** |",
         f"| Unresolvable from available data | {position.unresolvable.count} | {format_paise(position.unresolvable.paise)} |",
         "",
-        "`Under investigation` is the rupee value a human still has to clear. It is the "
-        "number a finance team acts on, and it is the reason an exception list matters "
-        "more than a match rate.",
+        "`Under investigation` is the rupee value a human still has to clear, counted on "
+        "the bank side. It is the number a finance team acts on, and it is the reason an "
+        "exception list matters more than a match rate.",
+        "",
+        "`Settled but unattributed` is the gateway-side view, and it deliberately mixes two "
+        "things this data cannot separate: payments the gateway withheld against a reserve "
+        "or a risk review, and payments it did pay out that could not be tied to a specific "
+        "credit. Distinguishing them needs the gateway's own payout report. It is kept apart "
+        "from `in flight` because treating either as incoming cash would overstate the "
+        "position.",
         "",
         "## Receivables",
         "",
