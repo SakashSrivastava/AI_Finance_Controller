@@ -1,0 +1,12 @@
+bank_txn_id,value_date,amount_paise,amount,reason_code,resolvable_with_context,closest_candidates,what_a_human_needs_to_check
+bank_000011,2026-04-03,13012707,"₹1,30,127.07",no_gateway_counterpart,no,,
+bank_000064,2026-04-23,17363852,"₹1,73,638.52",no_gateway_counterpart,no,,
+bank_000086,2026-04-30,13929456,"₹1,39,294.56",no_gateway_counterpart,no,,
+bank_000093,2026-05-05,11796273,"₹1,17,962.73",no_gateway_counterpart,no,,
+bank_000111,2026-05-12,18040274,"₹1,80,402.74",no_gateway_counterpart,no,,
+bank_000139,2026-05-21,2063663,"₹20,636.63",no_gateway_counterpart,no,,
+bank_000161,2026-05-28,14746574,"₹1,47,465.74",no_gateway_counterpart,no,,
+bank_000185,2026-06-05,3469685,"₹34,696.85",no_gateway_counterpart,no,,
+bank_000232,2026-06-22,13791180,"₹1,37,911.80",no_gateway_counterpart,no,,
+bank_000253,2026-06-28,7813846,"₹78,138.46",no_gateway_counterpart,no,,
+bank_000262,2026-06-30,3618938,"₹36,189.38",no_gateway_counterpart,no,,

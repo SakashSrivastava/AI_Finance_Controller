@@ -1,4 +1,17 @@
 {
+  "05506555546416f0c9e6314f656639fc468ff4906fb9ddbf0a8b039d990b0b5e": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.95,
+      "payment_ids": [],
+      "reasoning": "The narration indicates an IMPS/P2A transfer from a customer (SAGARIKA SEAFOODS) directly to the merchant\u2019s bank account. Such direct bank transfers bypass the payment gateway and therefore have no settlement counterpart. The deterministic tiers already failed to find any gateway counterpart, and no settlements are listed for the relevant dates. Hence, this credit cannot be matched to any settlement batch.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 294,
+      "prompt_tokens": 575
+    }
+  },
   "09243562410c8502ac30c98a74f7387562d175a4c334656bd5caaa1e59bf9106": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -12,6 +25,50 @@
       "prompt_tokens": 684
     }
   },
+  "0a28162553cba215c4c2f57f17406090d72c84afdd9de18e4d63efa4134d19d3": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.95,
+      "invoice_ids": [
+        "INV-2026-00745"
+      ],
+      "reasoning": "The reference string contains the exact numeric portion \"2026-00745\" which matches the invoice ID INV-2026-00745. The prefix \"INVOICE\" is a common corruption of \"INV\" and does not affect the match. The payment amount (3396045 paise) is less than the invoice gross (4414559 paise), which is acceptable as a partial payment. No other invoice shares the same numeric suffix, so the match is unambiguous.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 291,
+      "prompt_tokens": 681
+    }
+  },
+  "1049709ab316bf94f26593c6bbf816bbb57aadbc70d6c07e6f0c678bc1e88cb1": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.95,
+      "invoice_ids": [
+        "INV-2026-01146",
+        "INV-2026-01147"
+      ],
+      "reasoning": "The reference contains two tokens: \"INV-2026-01146\" and a truncated \"INV-2026-0114\". The only invoice that matches the first token is INV-2026-01146 (gross 16,330,420 paise). The truncated token can be interpreted as INV-2026-01147, which is the only remaining invoice whose gross is 3,432,593 paise. The sum of these two invoices equals the payment amount of 19,763,013 paise, confirming that the payment settles both invoices. No other combination of invoices matches the amount or the reference pattern. Therefore the match is confident.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 466,
+      "prompt_tokens": 688
+    }
+  },
+  "130449cf3c46608ba1b2f9bf52f38ab56228f4dfa2ffdd2d43f0bc01201b81e4": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.99,
+      "payment_ids": [],
+      "reasoning": "There are no settlement records for the period 2026-04-20 to 2026-04-23, and the deterministic process already reported no gateway counterpart. The credit likely represents a direct customer payment or another non\u2011gateway source, which according to the guidelines should be classified as no_match.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 208,
+      "prompt_tokens": 576
+    }
+  },
   "14bfaed8f3553880773db73b0fae9c67072f23f8f5aa91919eb34b508ae69888": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -23,6 +80,47 @@
     "usage": {
       "completion_tokens": 169,
       "prompt_tokens": 575
+    }
+  },
+  "1bf5cf0fe900f90e59c839e1bd659a6ab7b8644394d57b7ae9a174e89467dcd4": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.95,
+      "payment_ids": [],
+      "reasoning": "The bank credit of Rs\u202f178,685.37 is a direct NEFT payment from Bharat Tyre Traders, with no gateway counterpart. The only settlement listed (pay_000433) nets Rs\u202f38,132.22, far short of the credit amount. No combination of the provided settlements sums to the credit, so it cannot be matched.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 317,
+      "prompt_tokens": 617
+    }
+  },
+  "1ffda3fa1e6c33018f0e4a9b522e0e3fa5d9d5f3d5bd891f827ae495edfb0125": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.9,
+      "invoice_ids": [
+        "INV-2026-00658"
+      ],
+      "reasoning": "The reference string is \"INV-2026-06058\". The only invoice in the customer\u2019s list that can be derived from this by a simple digit transposition (swap the 2nd and 3rd digits) is INV-2026-00658. The payment amount (Rs\u202f61,592.29) is less than the invoice total (Rs\u202f88,865.35), which is acceptable as a partial payment. No other invoice matches the pattern or could be inferred from the corrupted reference. Confidence: 0.9",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 596,
+      "prompt_tokens": 680
+    }
+  },
+  "23e98c58987214d352b4d3e1ce32f3420be90e4f357920c3f8cb87dcff6e245a": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.95,
+      "payment_ids": [],
+      "reasoning": "The bank credit is a NEFT transfer from Greenleaf Organics, indicating a direct customer payment that bypasses the payment gateway. No settlements are associated with this credit, and deterministic matching has already ruled out any gateway counterpart. Therefore, there is no set of settlements that sum to the credited amount.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 290,
+      "prompt_tokens": 574
     }
   },
   "2a81f9834c809eb36b55d172058c4b427c20387add6b2d7d1f291f0263e5288c": {
@@ -41,6 +139,21 @@
       "prompt_tokens": 675
     }
   },
+  "2cd34804d63bbc06f8856a303a72c1fdec91ba8c89a0f6d43ff7421994ee16cc": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.9,
+      "invoice_ids": [
+        "INV-2026-00852"
+      ],
+      "reasoning": "The reference string \"00852\" matches the numeric suffix of invoice INV-2026-00852. The payment amount (29,262,772 paise) exceeds the amount of this invoice (18,875,144 paise), which is permissible because a payment can cover multiple invoices or a partial amount of additional invoices. However, the reference does not provide any indication of other invoice numbers, so we can only confidently match INV-2026-00852. The remaining amount may be applied to other invoices, but that cannot be determined from the reference alone.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 735,
+      "prompt_tokens": 675
+    }
+  },
   "2d3fd3294fc5841ffd3cf4ee74c3b3c6f279cac6bdd6b6f49f66ec339ea04fc4": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -54,6 +167,32 @@
     "usage": {
       "completion_tokens": 339,
       "prompt_tokens": 674
+    }
+  },
+  "341b9766666e37783417776a62efa103e008ec8619e32259b09f481a7fd128e6": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.9,
+      "payment_ids": [],
+      "reasoning": "The bank credit is a NEFT payment from a customer (Aakash Sports Goods) directly to the merchant, as indicated by the narration. Such direct NEFT payments bypass the payment gateway and therefore have no settlement counterpart. The deterministic tiers already failed to find any gateway counterpart, and no settlements are listed for the relevant dates. Hence, there is no set of settlements that can explain this credit.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 291,
+      "prompt_tokens": 573
+    }
+  },
+  "3558681b34a806200b88aab32c0106a9acade23fde3f9b45d2f9ac7274b09cd9": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.99,
+      "payment_ids": [],
+      "reasoning": "The credit is a NEFT transfer from a customer (NIRMAL WATER SYSTEMS) and there are no gateway settlements for the period. Direct bank payments that bypass the gateway have no settlement counterpart, so the credit cannot be matched to any settlement net amounts.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 206,
+      "prompt_tokens": 574
     }
   },
   "38c763285929c7e125d95d306b2134dd67d83368096a9a87ae8607509a4f5053": {
@@ -116,6 +255,34 @@
       "prompt_tokens": 681
     }
   },
+  "4624ac4a1e03dd295ffbfe663452be9a9f2e16eeb2f44de51546f6b9a7ca6538": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.95,
+      "payment_ids": [],
+      "reasoning": "The narration indicates a direct NEFT credit from Surya Solar Solutions, bypassing the payment gateway. Direct payments have no settlement counterpart, so no set of settlements can sum to this amount.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 222,
+      "prompt_tokens": 579
+    }
+  },
+  "4660534b2c1aa5fedd26bd12a9d1e0715b2a5cd36ea06c8021e437c08cf71dec": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.95,
+      "invoice_ids": [
+        "INV-2026-00423"
+      ],
+      "reasoning": "The reference '00423' is a bare number, which per the rules maps to invoice INV-2026-00423. The payment amount (6019482 paise) is less than the invoice amount (10720455 paise), indicating a partial payment, which is acceptable. No other invoice matches the reference, and the payment does not exceed the invoice total.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 230,
+      "prompt_tokens": 674
+    }
+  },
   "5569384903b12f968bb1470855fa48aeff651a0a0f44d8f25c05be74006b9ef3": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -127,6 +294,19 @@
     "usage": {
       "completion_tokens": 213,
       "prompt_tokens": 617
+    }
+  },
+  "6087927576eb0a0c4afa0f95732608b499db719b1bddf148f649715fd33a1816": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.95,
+      "payment_ids": [],
+      "reasoning": "The credit is a direct RTGS from Priya Garments, with no gateway settlement counterpart. Deterministic matching (exact UTR, whole batch, bounded subset) already failed, indicating no combination of recorded settlements sums to Rs\u202f179,204.98. Therefore, no settlements can be matched to this bank credit.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 273,
+      "prompt_tokens": 574
     }
   },
   "67315771f1e1b2062142dc24663db73b6567dd5b005506b5caf12092664b5908": {
@@ -170,6 +350,116 @@
       "prompt_tokens": 579
     }
   },
+  "77fddd16e40da0eb54d4cfab5dfe11e61d1eb2a3a4e8287020eeb89305a24fa6": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.95,
+      "payment_ids": [],
+      "reasoning": "The bank credit of Rs\u202f147,505.55 is a cash deposit from Coastal Marine Exports, as indicated by the narration. No gateway settlements are listed for the relevant period (2026\u201105\u201122 to 2026\u201105\u201125) and the deterministic tiers already ruled out any gateway counterpart. Since cash deposits bypass the payment gateway, there is no set of settlement net amounts that can account for this credit. Therefore the correct verdict is no_match.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 380,
+      "prompt_tokens": 574
+    }
+  },
+  "788636569547eaab9bafd586e10ccf7b9504ae173e8512b36fb3696248077cc4": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.99,
+      "payment_ids": [],
+      "reasoning": "The bank credit is a direct NEFT transfer (narration mentions NEFT and an invoice payment) and no gateway settlements are listed for the relevant dates. Such customer\u2011to\u2011merchant payments bypass the payment gateway, so there is no settlement counterpart to match. Therefore the correct outcome is no_match.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 235,
+      "prompt_tokens": 574
+    }
+  },
+  "7e67888d8dd2f9d4cde9ffeeacb929af70a489eed3bb7b11d09879243e5be04f": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.9,
+      "invoice_ids": [
+        "INV-2026-00602",
+        "INV-2026-00603"
+      ],
+      "reasoning": "The reference string contains two tokens separated by a comma: \"INV-2026-00602\" and \"INV-2026-0060\". The first token matches invoice INV-2026-00602 exactly. The second token appears to be a truncated form of a valid invoice number; the only invoice in the customer\u2019s list that starts with \"INV-2026-0060\" and whose amount would make the payment total correct is INV-2026-00603 (gross 18,794,536 paise). Adding the amounts of INV-2026-00602 (17,036,531 paise) and INV-2026-00603 (18,794,536 paise) yields exactly the payment amount of 35,831,067 paise. No other combination of invoices matches the payment amount, and the reference does not point to any other invoice. Therefore the payment settles invoices INV-2026-00602 and INV-2026-00603 with high confidence.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 560,
+      "prompt_tokens": 688
+    }
+  },
+  "7f0ccd520666ea2066ef5a9827c41267d457fbfaa21c3469f5ff37d262a09aaf": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.3,
+      "invoice_ids": [],
+      "reasoning": "The reference string \"INV-2026-0010\" does not match any invoice ID exactly. The closest candidate is INV-2026-00109, but the reference is missing the final digit and could also be interpreted as a different invoice that does not exist. Because the match is ambiguous and cannot be resolved with confidence, we return no_match.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 447,
+      "prompt_tokens": 682
+    }
+  },
+  "83b6b7bb950c9ebc4cc1f1c69be2a6bf5377bf936c45e6de4199a67d48c7329b": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.99,
+      "invoice_ids": [
+        "INV-2026-01146",
+        "INV-2026-01147"
+      ],
+      "reasoning": "The reference contains 'INV-2026-01146' (exact) and a truncated 'INV-2026-0114' which matches the nearby invoice 'INV-2026-01147' when the missing last digit is restored. The payment amount (19,763,013 paise) equals the sum of the two invoices: 16,330,420 + 3,432,593 = 19,763,013, confirming that both invoices are settled.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 687,
+      "prompt_tokens": 688
+    }
+  },
+  "8ea8c128732bcecd1489cf97af93018c83003186556afed8a9a32c90651d9a00": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.99,
+      "payment_ids": [],
+      "reasoning": "The bank credit is a cash deposit ('BY CASH DEPOSIT ANAND FURNITURE HOUSE') and there are no gateway settlements for the period. Direct cash deposits bypass the payment gateway, so there is no settlement counterpart to match. Hence no set of settlements can sum to the credited amount.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 195,
+      "prompt_tokens": 574
+    }
+  },
+  "947fdb6f37b755e4002f74f244253016b2abbc0139bfd9cfcf27454bb18fddbc": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.95,
+      "payment_ids": [],
+      "reasoning": "The bank credit is a direct IMPS/P2A transfer from Chandra Printing Press, which is a customer payment that bypasses the payment gateway. No settlements in the relevant period match this amount, and deterministic checks (UTR, batch sums, subset search) have already failed. Therefore, there is no set of settlements that can account for this credit.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 392,
+      "prompt_tokens": 575
+    }
+  },
+  "9782d38a062f60beb3fc774c6fd562ff5e10175bb902323efa61213a12e6f0a9": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.95,
+      "payment_ids": [],
+      "reasoning": "The credit amount of 6,314,347 paise does not equal the sum of any subset of the listed settlements (2932600, 1701857, 11850516). Additionally, the narration indicates a cash deposit, which is not processed through the payment gateway, so there is no gateway counterpart. Therefore, no match can be made.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 390,
+      "prompt_tokens": 684
+    }
+  },
   "9a009bc53b374473ee9878f11dfaf060aa0d9f85cb8a6540ebc6b58c65052816": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -197,6 +487,62 @@
     "usage": {
       "completion_tokens": 204,
       "prompt_tokens": 577
+    }
+  },
+  "a351031226962840af667c49078a0918b06b6cc77e4fc76f044dd884fcb6fb42": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 1.0,
+      "invoice_ids": [
+        "INV-2026-00637",
+        "INV-2026-00638",
+        "INV-2026-00639"
+      ],
+      "reasoning": "The reference string contains three invoice identifiers: 00637, 00638, and 00639. All three correspond to invoices issued to Zenith Office Supplies. Summing their gross amounts (4623484 + 9672144 + 18004939) equals 32300567 paise, which matches the payment amount exactly. Therefore the payment settles these three invoices in full.",
+      "verdict": "match"
+    },
+    "usage": {
+      "completion_tokens": 351,
+      "prompt_tokens": 697
+    }
+  },
+  "a61def53c93c7de6484ff3d2617ec6292db0971736d25e0f4878a21618b0f632": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.0,
+      "invoice_ids": [],
+      "reasoning": "The reference 'INV-2026-0045' is ambiguous: it could refer to either INV-2026-00445 or INV-2026-00455, both of which start with '0045'. The payment amount (182,228 paise) is far less than either invoice\u2019s total, indicating a partial payment, but without additional context we cannot determine which invoice is being settled. Therefore, we cannot confidently match the payment to a specific invoice.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 471,
+      "prompt_tokens": 676
+    }
+  },
+  "b1e4339cccaec90a584302dcaa7fbe6d15830e44f17d57826c4a441f21261665": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.95,
+      "payment_ids": [],
+      "reasoning": "The bank credit of Rs\u202f116,833.29 has no corresponding settlement records in the gateway\u2019s batch for the relevant dates (2026\u201105\u201105 to 2026\u201105\u201108). The narration indicates a direct RTGS credit from Silverline Cosmetics, which is typical of a customer payment that bypasses the gateway. Since deterministic matching found no gateway counterpart and no settlements are available to sum to the amount, the correct verdict is no_match.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 429,
+      "prompt_tokens": 576
+    }
+  },
+  "c708232cf15616f4e9d47357783b65808188bbb4ed63fa1cf366895fed0259a8": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.99,
+      "payment_ids": [],
+      "reasoning": "The bank credit is a direct NEFT payment ('NEFT-EVEREST COLD STORAGE-INVOICE PAYMENT'), which bypasses the gateway. Neither of the listed settlements matches the credit amount (13,929,456\u202fpaise): pay_000754 is 13,873,757\u202fpaise (short by 55,699\u202fpaise) and pay_000554 is 16,961,149\u202fpaise (exceeds the credit). No combination of these nets sums to the credit, and deterministic subset search has already failed. Therefore there is no valid settlement counterpart.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 471,
+      "prompt_tokens": 648
     }
   },
   "cd9f4688df10ea57007d390239f8f2e2e4b39461630b033ba675caa07fd978be": {
@@ -266,6 +612,19 @@
       "prompt_tokens": 573
     }
   },
+  "f07799ca60b9a85273cd75b83b5eb60a8b22ee34e635c98318b9ad69e9931a16": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.95,
+      "payment_ids": [],
+      "reasoning": "The bank credit is a NEFT transfer from Indus Valley Handicrafts, a direct customer payment that bypasses the payment gateway. No settlements are listed for the relevant period, and deterministic matching has already ruled out any gateway counterpart. Therefore, there is no set of settlements that can account for this credit.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 272,
+      "prompt_tokens": 577
+    }
+  },
   "f7d1ee923e4fe3e779eb28f4e265a6549a35313179615cc791c2a7fabe3b0100": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -277,6 +636,19 @@
     "usage": {
       "completion_tokens": 303,
       "prompt_tokens": 574
+    }
+  },
+  "fede13b1c5f0e29b28e4fa7768104c626e9c8da9bb819199ec414f82d47b1ee6": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "confidence": 0.95,
+      "payment_ids": [],
+      "reasoning": "The bank credit of Rs\u202f132,503.07 dated 2026\u201104\u201124 has a narration indicating an IMPS/P2A transfer from Zenith Office Supplies, which is a direct customer payment to the merchant\u2019s account. No settlement records for the relevant period (2026\u201104\u201121 to 2026\u201104\u201124) exist, and deterministic checks have already ruled out any gateway counterpart. Therefore, there is no set of settlements that can account for this credit.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 320,
+      "prompt_tokens": 575
     }
   }
 }

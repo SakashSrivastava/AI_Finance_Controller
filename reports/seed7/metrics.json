@@ -1,0 +1,177 @@
+{
+  "asserted_matches": 239,
+  "bank_rows": 266,
+  "by_case_type": {
+    "chargeback_in_batch": {
+      "asserted": 11,
+      "matchable": 11,
+      "precision": 1.0,
+      "recall": 1.0,
+      "rows": 11
+    },
+    "clean_batch": {
+      "asserted": 125,
+      "matchable": 125,
+      "precision": 1.0,
+      "recall": 1.0,
+      "rows": 125
+    },
+    "dup_original": {
+      "asserted": 0,
+      "matchable": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "rows": 3
+    },
+    "dup_repost": {
+      "asserted": 3,
+      "matchable": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "rows": 3
+    },
+    "dup_reversal": {
+      "asserted": 0,
+      "matchable": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "rows": 3
+    },
+    "duplicate_posting": {
+      "asserted": 3,
+      "matchable": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "rows": 9
+    },
+    "missing_utr": {
+      "asserted": 20,
+      "matchable": 20,
+      "precision": 1.0,
+      "recall": 1.0,
+      "rows": 20
+    },
+    "out_of_scope_debit": {
+      "asserted": 0,
+      "matchable": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "rows": 10
+    },
+    "refund_in_batch": {
+      "asserted": 15,
+      "matchable": 15,
+      "precision": 1.0,
+      "recall": 1.0,
+      "rows": 15
+    },
+    "rounding_drift": {
+      "asserted": 7,
+      "matchable": 7,
+      "precision": 1.0,
+      "recall": 1.0,
+      "rows": 7
+    },
+    "settlement_hold": {
+      "asserted": 18,
+      "matchable": 18,
+      "precision": 1.0,
+      "recall": 1.0,
+      "rows": 20
+    },
+    "timing_gap": {
+      "asserted": 41,
+      "matchable": 41,
+      "precision": 1.0,
+      "recall": 1.0,
+      "rows": 43
+    },
+    "truncated_narration": {
+      "asserted": 22,
+      "matchable": 22,
+      "precision": 1.0,
+      "recall": 1.0,
+      "rows": 24
+    },
+    "unresolvable": {
+      "asserted": 0,
+      "matchable": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "rows": 11
+    }
+  },
+  "by_tier": {
+    "tier0_dup_original": 3,
+    "tier0_dup_reversal": 3,
+    "tier0_out_of_scope_debit": 10,
+    "tier1_utr_exact": 186,
+    "tier2_batch_sum_window": 28,
+    "tier3_subset_sum": 18,
+    "tier4_tolerance": 7
+  },
+  "classification_accuracy": 1.0,
+  "classifications": 16,
+  "coverage": 0.9586466165413534,
+  "exceptions": 11,
+  "exceptions_by_reason": {
+    "no_gateway_counterpart": 11
+  },
+  "false_match_rate": 0.0,
+  "false_matches": 0,
+  "false_matches_on_unresolvable": 0,
+  "invoice_level": {
+    "by_tier": {
+      "inv1_exact_ref": {
+        "n": 1100,
+        "precision": 1.0,
+        "wrong": 0
+      },
+      "inv2_canonical_ref": {
+        "n": 75,
+        "precision": 1.0,
+        "wrong": 0
+      },
+      "inv3_embedded_id": {
+        "n": 20,
+        "precision": 1.0,
+        "wrong": 0
+      },
+      "inv4_fuzzy_ref": {
+        "n": 10,
+        "precision": 1.0,
+        "wrong": 0
+      },
+      "inv5_amount_and_customer": {
+        "n": 23,
+        "precision": 1.0,
+        "wrong": 0
+      }
+    },
+    "coverage": 0.994331983805668,
+    "false_matches": 0,
+    "matched": 1228,
+    "mean_jaccard": 1.0,
+    "payments": 1235,
+    "precision_strict": 1.0,
+    "residue": 7
+  },
+  "llm_stats": {},
+  "mean_jaccard": 1.0,
+  "precision_strict": 1.0,
+  "recall_strict": 1.0,
+  "timings": {
+    "bank_s": 0.007793500000843778,
+    "invoice_s": 0.010370500000135507,
+    "llm_s": 0.0,
+    "load_s": 0.017193699997733347
+  },
+  "unresolved_value_paise": 119646448,
+  "utr_extraction_recall": {
+    "narrations_carrying_utr": 210,
+    "parsed": 210,
+    "parser_recall": 1.0,
+    "settlement_credits": 239,
+    "utr_available": 0.8786610878661087
+  }
+}

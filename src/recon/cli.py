@@ -75,6 +75,7 @@ def evaluate(
     from recon.controller.cash_position import build_cash_position
     from recon.eval.metrics import evaluate as score
     from recon.eval.metrics import evaluate_invoices, summarise_llm
+    from recon.eval.html_report import write_html_report
     from recon.eval.report import write_cash_position, write_exceptions, write_metrics
     from recon.pipeline import run_pipeline
 
@@ -94,6 +95,10 @@ def evaluate(
     write_metrics(metrics, reports)
     write_exceptions(result.bank.exceptions, reports)
     write_cash_position(position, reports)
+    write_html_report(
+        metrics, position, result.bank.exceptions, reports / "report.html",
+        dataset=f"seed {data.name}", holdout=data.name == "7",
+    )
 
     _report(result, data, metrics)
     typer.echo(f"\nWrote {reports}/metrics.md, metrics.json, exceptions.csv, cash_position.md")
