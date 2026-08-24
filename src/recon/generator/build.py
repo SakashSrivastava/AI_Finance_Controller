@@ -96,6 +96,15 @@ def _make_utr(rng: random.Random, counters: _Counters) -> str:
     return f"{prefix}N{next(counters.utr):011d}"
 
 
+def _transpose_digits(rng: random.Random, ref: str) -> str:
+    """A digit swap survives every kind of normalisation. Only context resolves it."""
+    positions = [i for i, c in enumerate(ref[:-1]) if c.isdigit() and ref[i + 1].isdigit()]
+    if not positions:
+        return ref
+    i = rng.choice(positions)
+    return ref[:i] + ref[i + 1] + ref[i] + ref[i + 2 :]
+
+
 def _garble(rng: random.Random, ref: str) -> str:
     ops = [
         lambda s: s.replace("I", "1", 1),
@@ -108,6 +117,11 @@ def _garble(rng: random.Random, ref: str) -> str:
         lambda s: s[:4] + " " + s[4:],
         lambda s: "#" + s,
         lambda s: s.replace("5", "S", 1),
+        lambda s: _transpose_digits(rng, s),
+        lambda s: s.split("-")[-1],
+        lambda s: f"PAYMENT FOR {s}",
+        lambda s: f"REF {s} - THANKS",
+        lambda s: s.replace("INV", "INVOICE"),
     ]
     return rng.choice(ops)(ref)
 
