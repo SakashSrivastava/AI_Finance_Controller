@@ -78,9 +78,13 @@ def render_markdown(m: dict) -> str:
         "|---|---|---|---|---|---|",
     ]
     for tag, s in sorted(m["by_case_type"].items()):
+        # A row with nothing to assert has no precision. Printing 0.00% there reads as
+        # failure when it means "not applicable" - a reversal leg carries no money.
+        precision = f"{s['precision']:.2%}" if s["asserted"] else "—"
+        recall = f"{s['recall']:.2%}" if s["matchable"] else "—"
         lines.append(
-            f"| `{tag}` | {s['rows']} | {s['asserted']} | {s['precision']:.2%} "
-            f"| {s['matchable']} | {s['recall']:.2%} |"
+            f"| `{tag}` | {s['rows']} | {s['asserted']} | {precision} "
+            f"| {s['matchable']} | {recall} |"
         )
 
     if m.get("llm"):

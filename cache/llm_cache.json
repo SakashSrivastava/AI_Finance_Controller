@@ -1,4 +1,56 @@
 {
+  "0b3ae8d975a2f6d166704ee24b3cb9b3d39502eb9d924f191ecf58eb8a78de32": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.96,
+      "payment_ids": [],
+      "reasoning": "The only listed settlement (pay_000235) has a net of 468,887\u202fpaise (Rs\u202f4,688.87), far short of the bank credit of 9,445,201\u202fpaise (Rs\u202f94,452.01). No other settlements are provided for the 2026\u201104\u201125 to 2026\u201104\u201128 window, and deterministic searches (exact UTR, whole\u2011batch, bounded subset) already failed. The large discrepancy suggests this credit is not a gateway payout but likely a direct customer payment, so it should be classified as no_match.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 504,
+      "prompt_tokens": 610
+    }
+  },
+  "1a0fae8a0940ad5b7943adf4ab53df8d79ae15bc2b1631957225e243c17212a6": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.1,
+      "payment_ids": [],
+      "reasoning": "The bank credit of 81,615,154\u202fpaise could be formed by several different combinations of the listed settlements. Deterministic exact\u2011UTR matching, whole\u2011batch sum, and bounded subset searches have already been performed and resulted in an ambiguous_multiple_subsets outcome, meaning multiple distinct subsets of the provided net amounts add up to the credit. Because we cannot uniquely identify a single correct set of settlements, the safe answer is no_match.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 299,
+      "prompt_tokens": 985
+    }
+  },
+  "3925c04593703447d336b831e268f6945b68190d3c93fb69b5d72996420144bc": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.2,
+      "payment_ids": [],
+      "reasoning": "The bank credit of 81,615,154 paise matches several different combinations of the listed settlement nets. Deterministic searches already reported an ambiguous_multiple_subsets condition, meaning more than one subset sums to the credit. Without a unique, deterministic mapping we cannot reliably assign specific payment IDs, so the safest outcome is no_match.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 328,
+      "prompt_tokens": 985
+    }
+  },
+  "55725048ab12d616fdd4bfc7847620db1dfcd42e4c6aefd431201dc88ba772a4": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.4,
+      "payment_ids": [],
+      "reasoning": "The credit amount (9,728,648\u202fpaise) exactly matches the net of each of the two listed settlements individually (pay_000041 and pay_000042). Both subsets {pay_000041} and {pay_000042} satisfy the sum, and there is no additional information (e.g., UTR, customer name in narration) to disambiguate which one generated the credit. Because the deterministic logic flagged an ambiguous_multiple_subsets situation, a human decision is required to select the correct settlement.",
+      "verdict": "needs_human"
+    },
+    "usage": {
+      "completion_tokens": 463,
+      "prompt_tokens": 644
+    }
+  },
   "7418a50270b2592e17a36a3b4ed8b3b5b39957d9b805a3121e039ef2c245f77f": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -10,6 +62,19 @@
     "usage": {
       "completion_tokens": 980,
       "prompt_tokens": 762
+    }
+  },
+  "7c2104b991ba3eaf26d1b32ee37a23a26b9f1fdcbc87895c9ad1e3a935ec49e0": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.99,
+      "payment_ids": [],
+      "reasoning": "The bank credit amount is 10,433,458 paise. The available settlement net amounts are 10,627,723 (pay_000388), 8,242,428 (pay_001281) and 906,384 (pay_001283). No single settlement equals the credit, and no combination of two or all three settlements sums to exactly 10,433,458 paise (the closest sums are 9,148,812 and 11,534,107). Since deterministic searches (exact UTR, whole\u2011batch, bounded subset) have already been performed and found no match, the credit cannot be explained by any subset of the listed settlements. Hence the correct verdict is no_match.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 435,
+      "prompt_tokens": 684
     }
   },
   "89e488912674462824c283919b67021ecdf8b21c9d238dc1e5497b269f715ea4": {
@@ -48,6 +113,19 @@
       "prompt_tokens": 759
     }
   },
+  "cce4e336f621f30c0370f20a7db6ccb7175d9d16bb37e3ebd4e834bda4f0b958": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.99,
+      "payment_ids": [],
+      "reasoning": "The bank credit of 9,284,490\u202fpaise does not match any single settlement net amount, and exhaustive subset checks (including the only small settlement of 141,358\u202fpaise) cannot produce the required total. The narration indicates a direct NEFT invoice payment, which typically bypasses the gateway, confirming there is no corresponding settlement.",
+      "verdict": "no_match"
+    },
+    "usage": {
+      "completion_tokens": 702,
+      "prompt_tokens": 988
+    }
+  },
   "d54eaf7f880f0d1ad08f0fe4263d8ecf32f908c058d3fc9eb3eabd242bb04504": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -59,6 +137,19 @@
     "usage": {
       "completion_tokens": 715,
       "prompt_tokens": 1024
+    }
+  },
+  "e467d5fb8741c5ef0a37a63dcd7613e1bf1eb81fa40739d4c7ad5afc00c7f31d": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "confidence": 0.4,
+      "payment_ids": [],
+      "reasoning": "Both pay_000041 and pay_000042 have net amounts exactly equal to the bank credit (9,728,648\u202fpaise) and settled on the same date. The deterministic search flagged an ambiguous_multiple_subsets situation, meaning either settlement could explain the credit but there is no way to determine which one from the narration alone. To avoid a potentially incorrect monetary match, human review is required to identify the correct settlement.",
+      "verdict": "needs_human"
+    },
+    "usage": {
+      "completion_tokens": 433,
+      "prompt_tokens": 644
     }
   }
 }

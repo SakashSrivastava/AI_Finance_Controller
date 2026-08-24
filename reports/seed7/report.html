@@ -34,15 +34,15 @@
 </style></head><body><div class="wrap">
 
 <h1>Reconciliation report</h1>
-<p class="sub">seed 7 &middot; 289 bank rows &middot; 1302 payments
+<p class="sub">seed 7 &middot; 291 bank rows &middot; 1343 payments
 &middot; <strong>held-out seed, never used for tuning</strong></p>
 
 <div class="cards">
   <div class="card"><div class="k">Precision (strict)</div><div class="v good">100.00%</div></div>
-  <div class="card"><div class="k">Recall (strict)</div><div class="v">94.42%</div></div>
+  <div class="card"><div class="k">Recall (strict)</div><div class="v">91.67%</div></div>
   <div class="card"><div class="k">False matches</div><div class="v good">0</div></div>
-  <div class="card"><div class="k">Coverage</div><div class="v">91.0%</div></div>
-  <div class="card"><div class="k">Exceptions</div><div class="v warn">26</div></div>
+  <div class="card"><div class="k">Coverage</div><div class="v">90.4%</div></div>
+  <div class="card"><div class="k">Exceptions</div><div class="v warn">28</div></div>
 </div>
 <p class="note">Agreement is <strong>strict set equality</strong>: four of five payments right is a
 wrong answer, because the money does not reconcile. Mean Jaccard overlap is
@@ -53,7 +53,7 @@ wrong answer, because the money does not reconcile. Mean Jaccard overlap is
 <h2>Resolution by tier</h2>
 <div class="scroll"><table>
 <thead><tr><th>Tier</th><th class="num">Rows</th></tr></thead><tbody>
-<tr><td><code>tier0_dup_original</code></td><td class="num">8</td></tr><tr><td><code>tier0_dup_reversal</code></td><td class="num">8</td></tr><tr><td><code>tier0_out_of_scope_debit</code></td><td class="num">10</td></tr><tr><td><code>tier1_utr_exact</code></td><td class="num">148</td></tr><tr><td><code>tier2_batch_sum_window</code></td><td class="num">43</td></tr><tr><td><code>tier2b_batch_combination</code></td><td class="num">12</td></tr><tr><td><code>tier3_subset_sum</code></td><td class="num">22</td></tr><tr><td><code>tier4_tolerance</code></td><td class="num">11</td></tr><tr><td><code>tier5_subset_with_tolerance</code></td><td class="num">1</td></tr>
+<tr><td><code>tier0_dup_original</code></td><td class="num">11</td></tr><tr><td><code>tier0_dup_reversal</code></td><td class="num">11</td></tr><tr><td><code>tier0_out_of_scope_debit</code></td><td class="num">10</td></tr><tr><td><code>tier1_utr_exact</code></td><td class="num">154</td></tr><tr><td><code>tier2_batch_sum_window</code></td><td class="num">39</td></tr><tr><td><code>tier2b_batch_combination</code></td><td class="num">18</td></tr><tr><td><code>tier3_subset_sum</code></td><td class="num">16</td></tr><tr><td><code>tier4_tolerance</code></td><td class="num">3</td></tr><tr><td><code>tier5_subset_with_tolerance</code></td><td class="num">1</td></tr>
 </tbody></table></div>
 
 <h2>Per case type</h2>
@@ -61,191 +61,215 @@ wrong answer, because the money does not reconcile. Mean Jaccard overlap is
 <div class="scroll"><table>
 <thead><tr><th>Case type</th><th class="num">Rows</th><th class="num">Asserted</th><th class="num">Precision</th><th class="num">Matchable</th><th class="num">Recall</th></tr></thead><tbody>
 
-<tr><td><code>amount_collision</code></td><td class="num">26</td><td class="num">16</td>
-<td class="num">100.0%</td><td class="num">26</td>
-<td class="num">61.5%</td></tr>
-
-<tr><td><code>chargeback_in_batch</code></td><td class="num">11</td><td class="num">11</td>
-<td class="num">100.0%</td><td class="num">11</td>
-<td class="num">100.0%</td></tr>
-
-<tr><td><code>clean_batch</code></td><td class="num">94</td><td class="num">94</td>
-<td class="num">100.0%</td><td class="num">94</td>
-<td class="num">100.0%</td></tr>
-
-<tr><td><code>combined_payout</code></td><td class="num">21</td><td class="num">13</td>
-<td class="num">100.0%</td><td class="num">19</td>
-<td class="num">68.4%</td></tr>
-
-<tr><td><code>dup_original</code></td><td class="num">8</td><td class="num">0</td>
-<td class="num">0.0%</td><td class="num">0</td>
+<tr><td><code>amount_collision</code></td><td class="num">18</td><td class="num">0</td>
+<td class="num">&mdash;</td>
+<td class="num">18</td>
 <td class="num">0.0%</td></tr>
 
-<tr><td><code>dup_repost</code></td><td class="num">8</td><td class="num">8</td>
-<td class="num">100.0%</td><td class="num">8</td>
+<tr><td><code>chargeback_in_batch</code></td><td class="num">8</td><td class="num">8</td>
+<td class="num">100.0%</td>
+<td class="num">8</td>
 <td class="num">100.0%</td></tr>
 
-<tr><td><code>dup_reversal</code></td><td class="num">8</td><td class="num">0</td>
-<td class="num">0.0%</td><td class="num">0</td>
-<td class="num">0.0%</td></tr>
-
-<tr><td><code>duplicate_posting</code></td><td class="num">24</td><td class="num">8</td>
-<td class="num">100.0%</td><td class="num">8</td>
+<tr><td><code>clean_batch</code></td><td class="num">99</td><td class="num">99</td>
+<td class="num">100.0%</td>
+<td class="num">99</td>
 <td class="num">100.0%</td></tr>
 
-<tr><td><code>missing_utr</code></td><td class="num">47</td><td class="num">35</td>
-<td class="num">100.0%</td><td class="num">43</td>
-<td class="num">81.4%</td></tr>
-
-<tr><td><code>out_of_scope_debit</code></td><td class="num">10</td><td class="num">0</td>
-<td class="num">0.0%</td><td class="num">0</td>
-<td class="num">0.0%</td></tr>
-
-<tr><td><code>refund_in_batch</code></td><td class="num">11</td><td class="num">10</td>
-<td class="num">100.0%</td><td class="num">11</td>
-<td class="num">90.9%</td></tr>
-
-<tr><td><code>rounding_drift</code></td><td class="num">14</td><td class="num">12</td>
-<td class="num">100.0%</td><td class="num">14</td>
+<tr><td><code>combined_payout</code></td><td class="num">21</td><td class="num">18</td>
+<td class="num">100.0%</td>
+<td class="num">21</td>
 <td class="num">85.7%</td></tr>
 
-<tr><td><code>settlement_hold</code></td><td class="num">25</td><td class="num">23</td>
-<td class="num">100.0%</td><td class="num">25</td>
-<td class="num">92.0%</td></tr>
+<tr><td><code>dup_original</code></td><td class="num">11</td><td class="num">0</td>
+<td class="num">&mdash;</td>
+<td class="num">0</td>
+<td class="num">&mdash;</td></tr>
 
-<tr><td><code>timing_gap</code></td><td class="num">40</td><td class="num">34</td>
-<td class="num">100.0%</td><td class="num">38</td>
+<tr><td><code>dup_repost</code></td><td class="num">11</td><td class="num">11</td>
+<td class="num">100.0%</td>
+<td class="num">11</td>
+<td class="num">100.0%</td></tr>
+
+<tr><td><code>dup_reversal</code></td><td class="num">11</td><td class="num">0</td>
+<td class="num">&mdash;</td>
+<td class="num">0</td>
+<td class="num">&mdash;</td></tr>
+
+<tr><td><code>duplicate_posting</code></td><td class="num">33</td><td class="num">11</td>
+<td class="num">100.0%</td>
+<td class="num">11</td>
+<td class="num">100.0%</td></tr>
+
+<tr><td><code>missing_utr</code></td><td class="num">64</td><td class="num">38</td>
+<td class="num">100.0%</td>
+<td class="num">56</td>
+<td class="num">67.9%</td></tr>
+
+<tr><td><code>out_of_scope_debit</code></td><td class="num">10</td><td class="num">0</td>
+<td class="num">&mdash;</td>
+<td class="num">0</td>
+<td class="num">&mdash;</td></tr>
+
+<tr><td><code>refund_in_batch</code></td><td class="num">17</td><td class="num">14</td>
+<td class="num">100.0%</td>
+<td class="num">15</td>
+<td class="num">93.3%</td></tr>
+
+<tr><td><code>rounding_drift</code></td><td class="num">5</td><td class="num">4</td>
+<td class="num">100.0%</td>
+<td class="num">5</td>
+<td class="num">80.0%</td></tr>
+
+<tr><td><code>settlement_hold</code></td><td class="num">19</td><td class="num">17</td>
+<td class="num">100.0%</td>
+<td class="num">19</td>
 <td class="num">89.5%</td></tr>
 
-<tr><td><code>truncated_narration</code></td><td class="num">34</td><td class="num">30</td>
-<td class="num">100.0%</td><td class="num">32</td>
-<td class="num">93.8%</td></tr>
+<tr><td><code>timing_gap</code></td><td class="num">40</td><td class="num">37</td>
+<td class="num">100.0%</td>
+<td class="num">38</td>
+<td class="num">97.4%</td></tr>
 
-<tr><td><code>unresolvable</code></td><td class="num">12</td><td class="num">0</td>
-<td class="num">0.0%</td><td class="num">0</td>
-<td class="num">0.0%</td></tr>
+<tr><td><code>truncated_narration</code></td><td class="num">17</td><td class="num">17</td>
+<td class="num">100.0%</td>
+<td class="num">17</td>
+<td class="num">100.0%</td></tr>
+
+<tr><td><code>unresolvable</code></td><td class="num">7</td><td class="num">0</td>
+<td class="num">&mdash;</td>
+<td class="num">0</td>
+<td class="num">&mdash;</td></tr>
 
 </tbody></table></div>
 
 <h2>Cash position <span style="font-weight:400;color:var(--muted);font-size:15px">as of 2026-06-30</span></h2>
 <div class="scroll"><table>
 <thead><tr><th>Where the money is</th><th class="num">Count</th><th class="num">Value</th></tr></thead><tbody>
-<tr><td>Settled and in the bank</td><td class="num">237</td><td class="num">₹10,61,66,529.52</td></tr>
-<tr><td>In flight (captured, not yet paid out)</td><td class="num">100</td><td class="num">₹1,25,40,371.00</td></tr>
-<tr><td><strong>Under investigation</strong></td><td class="num">13</td><td class="num"><strong>₹82,08,892.01</strong></td></tr>
-<tr><td>Unresolvable from available data</td><td class="num">13</td><td class="num">₹19,14,171.00</td></tr>
-<tr><td>Total receivables outstanding</td><td class="num"></td><td class="num">₹1,95,40,579.74</td></tr>
-<tr><td>Gateway fees + GST</td><td class="num"></td><td class="num">₹29,52,391.30</td></tr>
+<tr><td>Settled and in the bank</td><td class="num">231</td><td class="num">₹10,93,15,763.00</td></tr>
+<tr><td>In flight (captured, not yet paid out)</td><td class="num">107</td><td class="num">₹1,49,01,779.11</td></tr>
+<tr><td><strong>Under investigation</strong></td><td class="num">21</td><td class="num"><strong>₹1,25,23,054.21</strong></td></tr>
+<tr><td>Unresolvable from available data</td><td class="num">7</td><td class="num">₹6,84,420.40</td></tr>
+<tr><td>Total receivables outstanding</td><td class="num"></td><td class="num">₹2,12,95,940.83</td></tr>
+<tr><td>Gateway fees + GST</td><td class="num"></td><td class="num">₹30,86,417.38</td></tr>
 </tbody></table></div>
 
 <h2>Exception queue</h2>
-<p class="note">26 unresolved. Split into what a human could clear with
+<p class="note">28 unresolved. Split into what a human could clear with
 more context, and what is genuinely unresolvable from the three available sources.</p>
 <div class="scroll"><table>
 <thead><tr><th>Bank txn</th><th>Date</th><th class="num">Amount</th><th>Reason</th><th>Resolvable?</th></tr></thead><tbody>
 
-<tr><td><code>bank_000030</code></td><td>2026-04-11</td>
-<td class="num">₹1,69,403.12</td><td><code>no_gateway_counterpart</code></td>
-<td>no</td></tr>
-
-<tr><td><code>bank_000043</code></td><td>2026-04-14</td>
-<td class="num">₹4,99,124.69</td><td><code>ambiguous_multiple_subsets</code></td>
+<tr><td><code>bank_000005</code></td><td>2026-04-03</td>
+<td class="num">₹5,89,296.64</td><td><code>ambiguous_multiple_subsets</code></td>
 <td>with context</td></tr>
 
-<tr><td><code>bank_000044</code></td><td>2026-04-15</td>
-<td class="num">₹4,59,393.00</td><td><code>ambiguous_multiple_subsets</code></td>
+<tr><td><code>bank_000006</code></td><td>2026-04-03</td>
+<td class="num">₹5,89,296.64</td><td><code>ambiguous_multiple_subsets</code></td>
 <td>with context</td></tr>
 
-<tr><td><code>bank_000045</code></td><td>2026-04-15</td>
-<td class="num">₹4,59,393.00</td><td><code>ambiguous_multiple_subsets</code></td>
+<tr><td><code>bank_000045</code></td><td>2026-04-12</td>
+<td class="num">₹44,733.05</td><td><code>no_gateway_counterpart</code></td>
+<td>no</td></tr>
+
+<tr><td><code>bank_000046</code></td><td>2026-04-13</td>
+<td class="num">₹8,38,984.87</td><td><code>utr_matched_amount_mismatch</code></td>
 <td>with context</td></tr>
 
-<tr><td><code>bank_000051</code></td><td>2026-04-16</td>
-<td class="num">₹8,37,742.55</td><td><code>ambiguous_multiple_subsets</code></td>
+<tr><td><code>bank_000057</code></td><td>2026-04-15</td>
+<td class="num">₹1,04,334.58</td><td><code>no_gateway_counterpart</code></td>
+<td>no</td></tr>
+
+<tr><td><code>bank_000069</code></td><td>2026-04-21</td>
+<td class="num">₹97,286.48</td><td><code>ambiguous_multiple_subsets</code></td>
 <td>with context</td></tr>
 
-<tr><td><code>bank_000052</code></td><td>2026-04-17</td>
-<td class="num">₹5,70,407.21</td><td><code>ambiguous_multiple_subsets</code></td>
+<tr><td><code>bank_000070</code></td><td>2026-04-21</td>
+<td class="num">₹97,286.48</td><td><code>ambiguous_multiple_subsets</code></td>
 <td>with context</td></tr>
 
-<tr><td><code>bank_000058</code></td><td>2026-04-20</td>
-<td class="num">₹7,62,497.41</td><td><code>ambiguous_multiple_subsets</code></td>
+<tr><td><code>bank_000083</code></td><td>2026-04-28</td>
+<td class="num">₹94,452.01</td><td><code>no_gateway_counterpart</code></td>
+<td>no</td></tr>
+
+<tr><td><code>bank_000087</code></td><td>2026-04-29</td>
+<td class="num">₹8,16,151.54</td><td><code>ambiguous_multiple_subsets</code></td>
 <td>with context</td></tr>
 
-<tr><td><code>bank_000061</code></td><td>2026-04-20</td>
-<td class="num">₹14,365.79</td><td><code>no_gateway_counterpart</code></td>
-<td>no</td></tr>
-
-<tr><td><code>bank_000062</code></td><td>2026-04-21</td>
-<td class="num">₹1,29,464.63</td><td><code>no_gateway_counterpart</code></td>
-<td>no</td></tr>
-
-<tr><td><code>bank_000069</code></td><td>2026-04-25</td>
-<td class="num">₹73,780.30</td><td><code>no_gateway_counterpart</code></td>
-<td>no</td></tr>
-
-<tr><td><code>bank_000083</code></td><td>2026-04-30</td>
-<td class="num">₹1,47,014.57</td><td><code>no_gateway_counterpart</code></td>
-<td>no</td></tr>
-
-<tr><td><code>bank_000094</code></td><td>2026-05-03</td>
-<td class="num">₹90,646.41</td><td><code>no_gateway_counterpart</code></td>
-<td>no</td></tr>
-
-<tr><td><code>bank_000098</code></td><td>2026-05-04</td>
-<td class="num">₹5,87,796.28</td><td><code>no_gateway_counterpart</code></td>
-<td>no</td></tr>
-
-<tr><td><code>bank_000104</code></td><td>2026-05-09</td>
-<td class="num">₹1,26,519.59</td><td><code>no_gateway_counterpart</code></td>
-<td>no</td></tr>
-
-<tr><td><code>bank_000146</code></td><td>2026-05-23</td>
-<td class="num">₹9,14,198.80</td><td><code>utr_matched_amount_mismatch</code></td>
+<tr><td><code>bank_000088</code></td><td>2026-04-29</td>
+<td class="num">₹8,16,151.54</td><td><code>ambiguous_multiple_subsets</code></td>
 <td>with context</td></tr>
 
-<tr><td><code>bank_000163</code></td><td>2026-05-28</td>
-<td class="num">₹1,47,465.74</td><td><code>no_gateway_counterpart</code></td>
+<tr><td><code>bank_000089</code></td><td>2026-04-29</td>
+<td class="num">₹92,844.90</td><td><code>no_gateway_counterpart</code></td>
 <td>no</td></tr>
 
-<tr><td><code>bank_000171</code></td><td>2026-05-30</td>
-<td class="num">₹12,23,656.73</td><td><code>utr_matched_amount_mismatch</code></td>
+<tr><td><code>bank_000092</code></td><td>2026-04-30</td>
+<td class="num">₹12,046.31</td><td><code>no_gateway_counterpart</code></td>
+<td>no</td></tr>
+
+<tr><td><code>bank_000133</code></td><td>2026-05-16</td>
+<td class="num">₹3,01,971.26</td><td><code>ambiguous_multiple_subsets</code></td>
 <td>with context</td></tr>
 
-<tr><td><code>bank_000177</code></td><td>2026-05-31</td>
-<td class="num">₹5,71,320.24</td><td><code>utr_matched_amount_mismatch</code></td>
+<tr><td><code>bank_000134</code></td><td>2026-05-16</td>
+<td class="num">₹3,01,971.26</td><td><code>ambiguous_multiple_subsets</code></td>
 <td>with context</td></tr>
 
-<tr><td><code>bank_000209</code></td><td>2026-06-07</td>
+<tr><td><code>bank_000184</code></td><td>2026-06-01</td>
+<td class="num">₹7,19,204.05</td><td><code>ambiguous_multiple_subsets</code></td>
+<td>with context</td></tr>
+
+<tr><td><code>bank_000185</code></td><td>2026-06-01</td>
+<td class="num">₹7,19,204.05</td><td><code>ambiguous_multiple_subsets</code></td>
+<td>with context</td></tr>
+
+<tr><td><code>bank_000195</code></td><td>2026-06-03</td>
+<td class="num">₹44,762.61</td><td><code>ambiguous_multiple_subsets</code></td>
+<td>with context</td></tr>
+
+<tr><td><code>bank_000196</code></td><td>2026-06-03</td>
+<td class="num">₹44,762.61</td><td><code>ambiguous_multiple_subsets</code></td>
+<td>with context</td></tr>
+
+<tr><td><code>bank_000201</code></td><td>2026-06-07</td>
 <td class="num">₹7,83,771.95</td><td><code>ambiguous_multiple_subsets</code></td>
 <td>with context</td></tr>
 
-<tr><td><code>bank_000210</code></td><td>2026-06-07</td>
+<tr><td><code>bank_000202</code></td><td>2026-06-07</td>
 <td class="num">₹7,83,771.95</td><td><code>ambiguous_multiple_subsets</code></td>
 <td>with context</td></tr>
 
-<tr><td><code>bank_000212</code></td><td>2026-06-07</td>
-<td class="num">₹51,135.03</td><td><code>no_gateway_counterpart</code></td>
-<td>no</td></tr>
-
-<tr><td><code>bank_000246</code></td><td>2026-06-17</td>
-<td class="num">₹1,77,997.00</td><td><code>no_gateway_counterpart</code></td>
-<td>no</td></tr>
-
-<tr><td><code>bank_000247</code></td><td>2026-06-18</td>
-<td class="num">₹1,71,807.24</td><td><code>ambiguous_multiple_subsets</code></td>
+<tr><td><code>bank_000229</code></td><td>2026-06-16</td>
+<td class="num">₹5,46,968.92</td><td><code>utr_matched_amount_mismatch</code></td>
 <td>with context</td></tr>
 
-<tr><td><code>bank_000248</code></td><td>2026-06-18</td>
-<td class="num">₹1,71,807.24</td><td><code>ambiguous_multiple_subsets</code></td>
+<tr><td><code>bank_000231</code></td><td>2026-06-16</td>
+<td class="num">₹11,78,594.04</td><td><code>utr_matched_amount_mismatch</code></td>
 <td>with context</td></tr>
 
-<tr><td><code>bank_000265</code></td><td>2026-06-22</td>
-<td class="num">₹1,76,993.00</td><td><code>no_gateway_counterpart</code></td>
+<tr><td><code>bank_000251</code></td><td>2026-06-22</td>
+<td class="num">₹96,002.26</td><td><code>ambiguous_multiple_subsets</code></td>
+<td>with context</td></tr>
+
+<tr><td><code>bank_000252</code></td><td>2026-06-22</td>
+<td class="num">₹96,002.26</td><td><code>ambiguous_multiple_subsets</code></td>
+<td>with context</td></tr>
+
+<tr><td><code>bank_000261</code></td><td>2026-06-25</td>
+<td class="num">₹1,62,960.95</td><td><code>no_gateway_counterpart</code></td>
 <td>no</td></tr>
 
-<tr><td><code>bank_000266</code></td><td>2026-06-22</td>
-<td class="num">₹21,589.54</td><td><code>no_gateway_counterpart</code></td>
+<tr><td><code>bank_000269</code></td><td>2026-06-26</td>
+<td class="num">₹15,30,806.40</td><td><code>ambiguous_multiple_subsets</code></td>
+<td>with context</td></tr>
+
+<tr><td><code>bank_000270</code></td><td>2026-06-26</td>
+<td class="num">₹15,30,806.40</td><td><code>ambiguous_multiple_subsets</code></td>
+<td>with context</td></tr>
+
+<tr><td><code>bank_000284</code></td><td>2026-06-28</td>
+<td class="num">₹1,73,048.60</td><td><code>no_gateway_counterpart</code></td>
 <td>no</td></tr>
 
 </tbody></table></div>
@@ -253,7 +277,7 @@ more context, and what is genuinely unresolvable from the three available source
 <hr class="rule">
 <p class="note">Synthetic data, generated from a fixed seed. Tuning was done on seed 42;
 these numbers are from unseen seed 7.
-Deterministic matching ran 1591 records in 0.053s
-(30,271 records/second).</p>
+Deterministic matching ran 1634 records in 0.081s
+(20,230 records/second).</p>
 
 </div></body></html>

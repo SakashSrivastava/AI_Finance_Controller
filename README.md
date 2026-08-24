@@ -18,33 +18,34 @@ equality fails on most rows.
 **Tuning was done on seed 42. Every number below is from seed 7, which was generated
 after the matcher was finished and never used to tune anything.**
 
-### Bank ↔ batch
+### Bank ↔ batch — 291 rows
 
 | Metric | Value |
 |---|---|
 | **Precision (strict set equality)** | **100.00%** |
-| Recall (strict) | 100.00% |
+| Recall (strict) | 91.67% |
 | Mean Jaccard overlap | 1.000 |
-| **False matches** | **0 of 239 asserted** |
+| **False matches** | **0 of 231 asserted** |
 | False matches on unresolvable rows | 0 |
-| Coverage | 95.86% |
-| Exceptions | 11 |
+| Coverage | 90.38% |
+| Exceptions | 28 |
+| Value under investigation | ₹1,32,07,474.61 |
 
-### Payment ↔ invoice
+### Payment ↔ invoice — 1,343 payments
 
 | Metric | Value |
 |---|---|
 | **Precision (strict set equality)** | **100.00%** |
-| Matched | 1,228 of 1,235 payments (deterministic only) |
-| Residue escalated to the model | 7 |
+| Matched | 1,330 of 1,343 (deterministic only) |
+| Residue escalated to the model | 13 |
 
 ### Throughput
 
 | Metric | Value |
 |---|---|
-| Deterministic matching | 1,501 records in 0.021s |
-| Records/second | **73,047** |
-| Model calls | 21 (cached; replayable offline) |
+| Deterministic matching | 1,634 records in 0.081s |
+| Records/second | **~20,000** |
+| Model calls | 41 per model (cached; replayable offline) |
 | Cost | ₹0 — Groq free tier |
 
 Precision is stated before match rate everywhere in this project, because **a wrong match
@@ -53,10 +54,33 @@ payment ids, and getting four of five right in a batch is a wrong answer, becaus
 money does not reconcile. Mean Jaccard is reported alongside so near misses can be
 distinguished from wild guesses.
 
-The 11 remaining exceptions are **genuinely unresolvable**: direct NEFT credits from
-customers that bypassed the gateway entirely, so no settlement record exists. A system
-reporting 100% coverage on this data would be lying. They are listed, with reasons, in
-`reports/exceptions.csv`.
+### Why recall is 91.67% and not higher
+
+The missing 8% is almost entirely one case type, and the system is **behaving correctly**
+on it:
+
+| Case type | Rows | Asserted | Precision | Recall |
+|---|---|---|---|---|
+| `amount_collision` | 18 | **0** | — | **0.00%** |
+| `missing_utr` | 64 | 38 | 100.00% | 67.86% |
+| `combined_payout` | 21 | 18 | 100.00% | 85.71% |
+| `settlement_hold` | 19 | 17 | 100.00% | 89.47% |
+| `rounding_drift` | 5 | 4 | 100.00% | 80.00% |
+| `clean_batch` | 99 | 99 | 100.00% | 100.00% |
+| `truncated_narration` | 17 | 17 | 100.00% | 100.00% |
+| `timing_gap` | 40 | 37 | 100.00% | 97.37% |
+
+An **amount collision** is two batches settling in the same window with an identical net
+total, where neither bank narration carries a UTR. Nothing in the data distinguishes them.
+The system asserts nothing on all 18 and files them as
+`ambiguous_multiple_subsets`. Guessing would have raised recall to ~97% and produced
+roughly nine false matches on real money. Refusing is the correct answer, and it is why
+recall is reported second.
+
+The remaining 7 exceptions are **genuinely unresolvable**: direct NEFT credits from
+customers who bypassed the gateway, so no settlement record exists at all. A system
+reporting 100% coverage on this data would be lying. Every exception is listed with a
+specific reason code and the action a human should take, in `reports/exceptions.csv`.
 
 ---
 
@@ -213,11 +237,21 @@ To run live instead of from cache, put a [Groq](https://console.groq.com/keys) k
 - **Not modelled**: multi-currency, TDS, settlement holds beyond a simple withhold,
   reserve release schedules, international settlement lag, or partial reversals.
 - **100% precision is not a claim about reconciliation in general.** It is a measurement on
-  a 250-transaction synthetic batch whose difficulty this project chose. The per-case-type
-  table in `reports/metrics.md` shows where the difficulty actually was.
+  a synthetic batch whose difficulty this project chose. The per-case-type table in
+  `reports/metrics.md` shows where the difficulty actually was — and it is worth reading
+  the 91.67% recall next to it, because the two numbers trade against each other. This
+  system is tuned to refuse rather than guess; a system tuned the other way would report a
+  better match rate and move money to the wrong place.
+- **The 8% recall gap is a deliberate refusal, not a bug** — but it is also a real
+  limitation. A production system would resolve most `amount_collision` rows by pulling the
+  gateway's own payout report for the UTR, which is a data source this project does not
+  have. The right fix is more evidence, not cleverer matching.
 - **The model's measured contribution is small in absolute terms** — it resolves the
   handful of references deterministic tiers refuse. That is the honest result, and it is
   the empirical form of the track's own claim: generation was never the bottleneck.
+- **Escalation is not free.** Groq's free tier throttles to a few thousand tokens per
+  minute, so the full escalation pass takes tens of minutes of wall clock even though the
+  deterministic pass takes 80 milliseconds. The committed cache means you pay that once.
 
 ---
 

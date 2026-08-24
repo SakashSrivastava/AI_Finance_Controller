@@ -91,8 +91,9 @@ never downgraded into a weaker match.</p>
 <thead><tr><th>Case type</th><th class="num">Rows</th><th class="num">Asserted</th><th class="num">Precision</th><th class="num">Matchable</th><th class="num">Recall</th></tr></thead><tbody>
 {% for tag, s in m.by_case_type|dictsort %}
 <tr><td><code>{{ tag }}</code></td><td class="num">{{ s.rows }}</td><td class="num">{{ s.asserted }}</td>
-<td class="num">{{ '%.1f'|format(s.precision*100) }}%</td><td class="num">{{ s.matchable }}</td>
-<td class="num">{{ '%.1f'|format(s.recall*100) }}%</td></tr>
+<td class="num">{% if s.asserted %}{{ '%.1f'|format(s.precision*100) }}%{% else %}&mdash;{% endif %}</td>
+<td class="num">{{ s.matchable }}</td>
+<td class="num">{% if s.matchable %}{{ '%.1f'|format(s.recall*100) }}%{% else %}&mdash;{% endif %}</td></tr>
 {% endfor %}
 </tbody></table></div>
 

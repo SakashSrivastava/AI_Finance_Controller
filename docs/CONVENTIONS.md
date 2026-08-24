@@ -68,6 +68,35 @@ Consequences:
 
 Any approach that assumes 1:1 amount equality fails on the majority of rows.
 
+### 4a. Withheld payments
+
+Not every payment captured under a batch is paid out with it. The gateway withholds some
+against a rolling reserve or a risk review, releasing them later. The credit is then a
+**strict subset** of the payments sharing that UTR, and the batch total will exceed it.
+
+A matcher that only ever compares whole batch totals will miss these. The shortfall is
+not rounding and must not be absorbed as though it were.
+
+### 4b. Combined payouts
+
+The gateway sometimes settles **several whole batches in one credit**, typically when two
+batches close on the same day. Both UTRs exist in the settlement report, but the bank
+narration carries only one of them — or neither.
+
+So a credit does not necessarily live inside a single batch. The natural unit for this
+case is the batch, not the payment: search combinations of whole batch totals rather than
+arbitrary cross-batch sets of payments, which cannot occur.
+
+### 4c. Colliding amounts
+
+Two different batches can settle in the same window with an **identical net total**. When
+neither narration carries a UTR, there is genuinely nothing in the data that distinguishes
+them.
+
+There is no correct answer here, and the correct behaviour is to **refuse both** rather
+than pick one. Reporting a match for either is a coin flip dressed up as reconciliation.
+This is what an `ambiguous_multiple_subsets` exception is for.
+
 ## 5. The UTR
 
 Each batch payout carries a **UTR** (Unique Transaction Reference). Format:

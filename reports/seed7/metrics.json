@@ -1,33 +1,33 @@
 {
-  "asserted_matches": 237,
-  "bank_rows": 289,
+  "asserted_matches": 231,
+  "bank_rows": 291,
   "by_case_type": {
     "amount_collision": {
-      "asserted": 16,
-      "matchable": 26,
-      "precision": 1.0,
-      "recall": 0.6153846153846154,
-      "rows": 26
+      "asserted": 0,
+      "matchable": 18,
+      "precision": 0.0,
+      "recall": 0.0,
+      "rows": 18
     },
     "chargeback_in_batch": {
-      "asserted": 11,
-      "matchable": 11,
+      "asserted": 8,
+      "matchable": 8,
       "precision": 1.0,
       "recall": 1.0,
-      "rows": 11
+      "rows": 8
     },
     "clean_batch": {
-      "asserted": 94,
-      "matchable": 94,
+      "asserted": 99,
+      "matchable": 99,
       "precision": 1.0,
       "recall": 1.0,
-      "rows": 94
+      "rows": 99
     },
     "combined_payout": {
-      "asserted": 13,
-      "matchable": 19,
+      "asserted": 18,
+      "matchable": 21,
       "precision": 1.0,
-      "recall": 0.6842105263157895,
+      "recall": 0.8571428571428571,
       "rows": 21
     },
     "dup_original": {
@@ -35,35 +35,35 @@
       "matchable": 0,
       "precision": 0.0,
       "recall": 0.0,
-      "rows": 8
+      "rows": 11
     },
     "dup_repost": {
-      "asserted": 8,
-      "matchable": 8,
+      "asserted": 11,
+      "matchable": 11,
       "precision": 1.0,
       "recall": 1.0,
-      "rows": 8
+      "rows": 11
     },
     "dup_reversal": {
       "asserted": 0,
       "matchable": 0,
       "precision": 0.0,
       "recall": 0.0,
-      "rows": 8
+      "rows": 11
     },
     "duplicate_posting": {
-      "asserted": 8,
-      "matchable": 8,
+      "asserted": 11,
+      "matchable": 11,
       "precision": 1.0,
       "recall": 1.0,
-      "rows": 24
+      "rows": 33
     },
     "missing_utr": {
-      "asserted": 35,
-      "matchable": 43,
+      "asserted": 38,
+      "matchable": 56,
       "precision": 1.0,
-      "recall": 0.813953488372093,
-      "rows": 47
+      "recall": 0.6785714285714286,
+      "rows": 64
     },
     "out_of_scope_debit": {
       "asserted": 0,
@@ -73,66 +73,66 @@
       "rows": 10
     },
     "refund_in_batch": {
-      "asserted": 10,
-      "matchable": 11,
+      "asserted": 14,
+      "matchable": 15,
       "precision": 1.0,
-      "recall": 0.9090909090909091,
-      "rows": 11
+      "recall": 0.9333333333333333,
+      "rows": 17
     },
     "rounding_drift": {
-      "asserted": 12,
-      "matchable": 14,
+      "asserted": 4,
+      "matchable": 5,
       "precision": 1.0,
-      "recall": 0.8571428571428571,
-      "rows": 14
+      "recall": 0.8,
+      "rows": 5
     },
     "settlement_hold": {
-      "asserted": 23,
-      "matchable": 25,
-      "precision": 1.0,
-      "recall": 0.92,
-      "rows": 25
-    },
-    "timing_gap": {
-      "asserted": 34,
-      "matchable": 38,
+      "asserted": 17,
+      "matchable": 19,
       "precision": 1.0,
       "recall": 0.8947368421052632,
+      "rows": 19
+    },
+    "timing_gap": {
+      "asserted": 37,
+      "matchable": 38,
+      "precision": 1.0,
+      "recall": 0.9736842105263158,
       "rows": 40
     },
     "truncated_narration": {
-      "asserted": 30,
-      "matchable": 32,
+      "asserted": 17,
+      "matchable": 17,
       "precision": 1.0,
-      "recall": 0.9375,
-      "rows": 34
+      "recall": 1.0,
+      "rows": 17
     },
     "unresolvable": {
       "asserted": 0,
       "matchable": 0,
       "precision": 0.0,
       "recall": 0.0,
-      "rows": 12
+      "rows": 7
     }
   },
   "by_tier": {
-    "tier0_dup_original": 8,
-    "tier0_dup_reversal": 8,
+    "tier0_dup_original": 11,
+    "tier0_dup_reversal": 11,
     "tier0_out_of_scope_debit": 10,
-    "tier1_utr_exact": 148,
-    "tier2_batch_sum_window": 43,
-    "tier2b_batch_combination": 12,
-    "tier3_subset_sum": 22,
-    "tier4_tolerance": 11,
+    "tier1_utr_exact": 154,
+    "tier2_batch_sum_window": 39,
+    "tier2b_batch_combination": 18,
+    "tier3_subset_sum": 16,
+    "tier4_tolerance": 3,
     "tier5_subset_with_tolerance": 1
   },
   "classification_accuracy": 1.0,
-  "classifications": 26,
-  "coverage": 0.9100346020761245,
-  "exceptions": 26,
+  "classifications": 32,
+  "coverage": 0.9037800687285223,
+  "exceptions": 28,
   "exceptions_by_reason": {
-    "ambiguous_multiple_subsets": 10,
-    "no_gateway_counterpart": 13,
+    "ambiguous_multiple_subsets": 18,
+    "no_gateway_counterpart": 7,
     "utr_matched_amount_mismatch": 3
   },
   "false_match_rate": 0.0,
@@ -141,55 +141,55 @@
   "invoice_level": {
     "by_tier": {
       "inv1_exact_ref": {
-        "n": 1156,
+        "n": 1201,
         "precision": 1.0,
         "wrong": 0
       },
       "inv2_canonical_ref": {
-        "n": 87,
+        "n": 73,
         "precision": 1.0,
         "wrong": 0
       },
       "inv3_embedded_id": {
-        "n": 21,
+        "n": 27,
         "precision": 1.0,
         "wrong": 0
       },
       "inv4_fuzzy_ref": {
-        "n": 5,
+        "n": 6,
         "precision": 1.0,
         "wrong": 0
       },
       "inv5_amount_and_customer": {
-        "n": 24,
+        "n": 23,
         "precision": 1.0,
         "wrong": 0
       }
     },
-    "coverage": 0.9930875576036866,
+    "coverage": 0.9903201787043932,
     "false_matches": 0,
-    "matched": 1293,
+    "matched": 1330,
     "mean_jaccard": 1.0,
-    "payments": 1302,
+    "payments": 1343,
     "precision_strict": 1.0,
-    "residue": 9
+    "residue": 13
   },
   "llm_stats": {},
   "mean_jaccard": 1.0,
   "precision_strict": 1.0,
-  "recall_strict": 0.9442231075697212,
+  "recall_strict": 0.9166666666666666,
   "timings": {
-    "bank_s": 0.032432399995741434,
-    "invoice_s": 0.020125999995798338,
+    "bank_s": 0.03525619999709306,
+    "invoice_s": 0.0455154000010225,
     "llm_s": 0.0,
-    "load_s": 0.03672020000522025
+    "load_s": 0.043789199997263495
   },
-  "unresolved_value_paise": 1012306301,
+  "unresolved_value_paise": 1320747461,
   "utr_extraction_recall": {
-    "narrations_carrying_utr": 193,
-    "parsed": 193,
+    "narrations_carrying_utr": 190,
+    "parsed": 190,
     "parser_recall": 1.0,
-    "settlement_credits": 251,
-    "utr_available": 0.7689243027888446
+    "settlement_credits": 252,
+    "utr_available": 0.753968253968254
   }
 }
