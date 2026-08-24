@@ -219,7 +219,15 @@ def _report(result, data: Path, metrics: dict | None = None) -> None:
     rows = m["bank_rows"] + (inv["payments"] if inv else 0)
     _echo("deterministic matching", f"{deterministic:.3f}s for {rows} records")
     _echo("records/second (deterministic)", f"{rows/deterministic:,.0f}")
-    _echo("model escalation wall clock", f"{t['llm_s']:.1f}s")
+    stats = getattr(result, "llm_stats", {}) or {}
+    if stats.get("cache_hits") and not stats.get("calls"):
+        _echo("model escalation", f"{t['llm_s']:.2f}s ({stats['cache_hits']} replayed from cache)")
+    elif stats:
+        _echo(
+            "model escalation",
+            f"{t['llm_s']:.1f}s ({stats.get('calls', 0)} live calls, "
+            f"{stats.get('cache_hits', 0)} cached)",
+        )
 
 
 if __name__ == "__main__":

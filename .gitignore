@@ -7,9 +7,13 @@ dist/
 .env
 .pytest_cache/
 audit/*.jsonl
+
+# Scratch output from ad-hoc runs. The published results live in reports/seed7/,
+# which IS committed so the reported numbers can be read without running anything.
 reports/*.html
 reports/*.json
 reports/*.md
+reports/*.csv
 !reports/.gitkeep
 .ipynb_checkpoints/
 
