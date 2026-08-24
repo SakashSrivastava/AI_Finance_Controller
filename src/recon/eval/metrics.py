@@ -156,3 +156,63 @@ def _by_case_type(
             "recall": _safe(len([t for t in tag_matchable if t in found]), len(tag_matchable)),
         }
     return out
+
+
+def evaluate_invoices(data_dir: Path, matches: list, residue: list) -> dict:
+    """The payment-to-invoice level, scored the same strict way as the bank level."""
+    from recon.domain.models import GroundTruthInvoice
+
+    truth = {
+        g.payment_id: set(g.invoice_ids)
+        for g in read_models(data_dir / "ground_truth_invoice.csv", GroundTruthInvoice)
+    }
+    correct = [m for m in matches if set(m.invoice_ids) == truth.get(m.payment_id, set())]
+    jaccards = [_jaccard(set(m.invoice_ids), truth.get(m.payment_id, set())) for m in matches]
+
+    by_tier: dict[str, dict] = defaultdict(lambda: {"n": 0, "wrong": 0})
+    for m in matches:
+        by_tier[m.tier]["n"] += 1
+        if set(m.invoice_ids) != truth.get(m.payment_id, set()):
+            by_tier[m.tier]["wrong"] += 1
+    for stats in by_tier.values():
+        stats["precision"] = _safe(stats["n"] - stats["wrong"], stats["n"])
+
+    return {
+        "payments": len(truth),
+        "matched": len(matches),
+        "precision_strict": _safe(len(correct), len(matches)),
+        "mean_jaccard": _safe(sum(jaccards), len(jaccards)),
+        "false_matches": len(matches) - len(correct),
+        "coverage": _safe(len(matches), len(truth)),
+        "residue": len(residue),
+        "by_tier": {k: dict(v) for k, v in sorted(by_tier.items())},
+    }
+
+
+def summarise_llm(outcomes: list, model: str = "") -> dict:
+    """The diagnostic the whole project exists to produce."""
+    proposed = [o for o in outcomes if o.verdict == "match"]
+    accepted = [o for o in proposed if o.accepted]
+    rejected = [o for o in proposed if not o.accepted]
+    failures: dict[str, int] = defaultdict(int)
+    for o in rejected:
+        failures[o.failure or "unknown"] += 1
+    return {
+        "model": model,
+        "escalated": len(outcomes),
+        "proposed_match": len(proposed),
+        "declined": len(outcomes) - len(proposed),
+        "accepted": len(accepted),
+        "failed_verification": len(rejected),
+        "gate_failures": dict(failures),
+        "by_level": {
+            level: {
+                "escalated": sum(1 for o in outcomes if o.level == level),
+                "accepted": sum(1 for o in outcomes if o.level == level and o.accepted),
+                "failed_verification": sum(
+                    1 for o in outcomes if o.level == level and o.verdict == "match" and not o.accepted
+                ),
+            }
+            for level in ("bank", "invoice")
+        },
+    }

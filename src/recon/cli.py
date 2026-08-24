@@ -1,0 +1,173 @@
+"""Command line interface."""
+
+from __future__ import annotations
+
+import sys
+import time
+from pathlib import Path
+
+import typer
+from dotenv import load_dotenv
+
+# Windows consoles default to cp1252, which cannot encode the rupee sign. Without this
+# the demo dies mid-run on its own output.
+for stream in (sys.stdout, sys.stderr):
+    if hasattr(stream, "reconfigure"):
+        stream.reconfigure(encoding="utf-8", errors="replace")
+
+load_dotenv()
+
+app = typer.Typer(add_completion=False, help="Multi-source reconciliation agent.")
+
+
+def _echo(label: str, value: str) -> None:
+    typer.echo(f"  {label:<38} {value}")
+
+
+@app.command()
+def generate(
+    seed: int = typer.Option(42, help="Same seed produces byte-identical data."),
+    n: int = typer.Option(250, help="Number of bank transaction slots."),
+    out: Path = typer.Option(None, help="Output directory (defaults to data/<seed>)."),
+) -> None:
+    """Generate the synthetic three-source dataset and its ground truth."""
+    from dataclasses import replace
+
+    from recon.generator.build import build, write_dataset
+    from recon.generator.config import DEFAULT_CONFIG
+
+    cfg = replace(DEFAULT_CONFIG, n_bank_txns=n)
+    target = out or Path("data") / str(seed)
+    t0 = time.perf_counter()
+    ds = build(seed, cfg)
+    write_dataset(ds, target)
+    typer.echo(f"Generated seed {seed} into {target} in {time.perf_counter()-t0:.2f}s")
+    _echo("invoices", str(len(ds.invoices)))
+    _echo("gateway settlements", str(len(ds.settlements)))
+    _echo("bank transactions", str(len(ds.bank)))
+
+
+@app.command()
+def match(
+    data: Path = typer.Option(Path("data/42"), help="Dataset directory."),
+    no_llm: bool = typer.Option(False, "--no-llm", help="Deterministic tiers only."),
+    offline: bool = typer.Option(False, "--offline", help="Replay the committed cache; no API key."),
+    model: str = typer.Option(None, help="Override the escalation model."),
+) -> None:
+    """Run the reconciliation pipeline."""
+    from recon.agent.client import DEFAULT_MODEL
+    from recon.pipeline import run_pipeline
+
+    result = run_pipeline(data, use_llm=not no_llm, offline=offline, model=model or DEFAULT_MODEL)
+    _report(result, data)
+
+
+@app.command()
+def evaluate(
+    data: Path = typer.Option(Path("data/42"), help="Dataset directory."),
+    no_llm: bool = typer.Option(False, "--no-llm"),
+    offline: bool = typer.Option(True, "--offline/--live", help="Replay the committed cache."),
+    model: str = typer.Option(None),
+    reports: Path = typer.Option(Path("reports"), help="Where to write the reports."),
+) -> None:
+    """Score the pipeline against ground truth and write the reports."""
+    from recon.agent.client import DEFAULT_MODEL
+    from recon.controller.cash_position import build_cash_position
+    from recon.eval.metrics import evaluate as score
+    from recon.eval.metrics import evaluate_invoices, summarise_llm
+    from recon.eval.report import write_cash_position, write_exceptions, write_metrics
+    from recon.pipeline import run_pipeline
+
+    chosen = model or DEFAULT_MODEL
+    result = run_pipeline(data, use_llm=not no_llm, offline=offline, model=chosen)
+
+    metrics = score(data, result.bank)
+    metrics["invoice_level"] = evaluate_invoices(data, result.invoice_matches, result.invoice_residue)
+    metrics["timings"] = result.timings
+    metrics["llm_stats"] = result.llm_stats
+    if result.outcomes:
+        metrics["llm"] = summarise_llm(result.outcomes, chosen)
+
+    position = build_cash_position(
+        result.sources, result.bank.matches, result.bank.exceptions, result.invoice_matches
+    )
+    write_metrics(metrics, reports)
+    write_exceptions(result.bank.exceptions, reports)
+    write_cash_position(position, reports)
+
+    _report(result, data, metrics)
+    typer.echo(f"\nWrote {reports}/metrics.md, metrics.json, exceptions.csv, cash_position.md")
+
+
+@app.command("cash-position")
+def cash_position(
+    data: Path = typer.Option(Path("data/42")),
+    no_llm: bool = typer.Option(False, "--no-llm"),
+    offline: bool = typer.Option(True, "--offline/--live"),
+) -> None:
+    """Show where the money is."""
+    from recon.controller.cash_position import build_cash_position
+    from recon.eval.report import render_cash_position
+    from recon.pipeline import run_pipeline
+
+    result = run_pipeline(data, use_llm=not no_llm, offline=offline)
+    position = build_cash_position(
+        result.sources, result.bank.matches, result.bank.exceptions, result.invoice_matches
+    )
+    typer.echo(render_cash_position(position))
+
+
+@app.command()
+def demo(seed: int = typer.Option(42), n: int = typer.Option(250)) -> None:
+    """Generate, reconcile, and evaluate end to end. Replays the cache, so no key needed."""
+    data = Path("data") / str(seed)
+    typer.echo("=" * 72)
+    typer.echo(f"  RECONCILIATION DEMO  -  seed {seed}")
+    typer.echo("=" * 72)
+    generate(seed=seed, n=n, out=data)
+    typer.echo("")
+    evaluate(data=data, no_llm=False, offline=True, model=None, reports=Path("reports"))
+
+
+def _report(result, data: Path, metrics: dict | None = None) -> None:
+    from recon.eval.metrics import evaluate as score
+
+    m = metrics or score(data, result.bank)
+    typer.echo("")
+    typer.echo("BANK <-> BATCH")
+    _echo("precision (strict set equality)", f"{m['precision_strict']:.2%}")
+    _echo("recall (strict)", f"{m['recall_strict']:.2%}")
+    _echo("false matches", f"{m['false_matches']} of {m['asserted_matches']} asserted")
+    _echo("coverage", f"{m['coverage']:.2%}")
+    _echo("exceptions", str(m["exceptions"]))
+
+    inv = m.get("invoice_level")
+    if inv:
+        typer.echo("")
+        typer.echo("PAYMENT <-> INVOICE")
+        _echo("precision (strict set equality)", f"{inv['precision_strict']:.2%}")
+        _echo("matched", f"{inv['matched']} of {inv['payments']}")
+        _echo("residue", str(inv["residue"]))
+
+    llm = m.get("llm")
+    if llm:
+        typer.echo("")
+        typer.echo("MODEL ESCALATION")
+        _echo("model", llm["model"])
+        _echo("items escalated", str(llm["escalated"]))
+        _echo("proposed a match", str(llm["proposed_match"]))
+        _echo("accepted by verification gate", str(llm["accepted"]))
+        _echo("REJECTED by verification gate", str(llm["failed_verification"]))
+
+    t = result.timings
+    typer.echo("")
+    typer.echo("THROUGHPUT")
+    deterministic = t["bank_s"] + t["invoice_s"]
+    rows = m["bank_rows"] + (inv["payments"] if inv else 0)
+    _echo("deterministic matching", f"{deterministic:.3f}s for {rows} records")
+    _echo("records/second (deterministic)", f"{rows/deterministic:,.0f}")
+    _echo("model escalation wall clock", f"{t['llm_s']:.1f}s")
+
+
+if __name__ == "__main__":
+    app()
