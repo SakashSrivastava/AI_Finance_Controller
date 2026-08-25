@@ -305,7 +305,10 @@ was self-verification, which the agent performed correctly and which was not eno
 > conversation each turn, so the run exhausted the daily budget partway. The finding above
 > concerns the *nature* of the failure and holds on the completed items; the headline
 > results in this README come from the completed single-shot runs, not from this one.
-> Reproduce with `recon compare --data data/7 --models openai/gpt-oss-20b`.
+> Reproduce with `recon compare --data data/7 --models openai/gpt-oss-20b --agentic`.
+> Every refused proposal, with the agent's own reasoning and whether it had verified
+> itself, is committed in
+> [`reports/seed7/gate_rejections.openai-gpt-oss-20b-agentic.md`](reports/seed7/gate_rejections.openai-gpt-oss-20b-agentic.md).
 
 ### Model comparison
 

@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import csv
 import json
+import re
 from pathlib import Path
 
 from recon.controller.cash_position import CashPosition
@@ -303,7 +304,7 @@ def write_gate_rejections(outcomes: list, model: str, out_dir: Path) -> None:
     able to overwrite the weaker model's rejections - that is the evidence the README
     cites."""
     out_dir.mkdir(parents=True, exist_ok=True)
-    slug = model.replace("/", "-").replace(".", "-")
+    slug = re.sub(r"[^A-Za-z0-9]+", "-", model).strip("-").lower()
     (out_dir / f"gate_rejections.{slug}.md").write_text(
         render_gate_rejections(outcomes, model), encoding="utf-8"
     )

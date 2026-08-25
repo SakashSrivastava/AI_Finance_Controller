@@ -1,6 +1,6 @@
 # Proposals the verification gate refused
 
-Model `openai/gpt-oss-20b (agentic)`, held-out seed. 8 of 10 proposals refused.
+Model `openai/gpt-oss-20b agentic`, held-out seed. 8 of 10 proposals refused.
 
 Reproduce with `recon compare --data data/7` - it replays the committed cache, so no API key is needed.
 
