@@ -180,6 +180,24 @@
     "precision_strict": 1.0,
     "residue": 0
   },
+  "ledger": {
+    "balances": true,
+    "entries": 291,
+    "suspense_paise": -1236848974,
+    "total_credits_paise": 14301576592,
+    "total_debits_paise": 14301576592,
+    "trial_balance": {
+      "Accounts receivable": -11617769369,
+      "Bank": 12132385312,
+      "Chargebacks": 148789531,
+      "GST input credit": 41895977,
+      "Gateway fees": 232755395,
+      "Other business outflows": 119938449,
+      "Refunds and sales returns": 178853680,
+      "Rounding difference": -1,
+      "Suspense": -1236848974
+    }
+  },
   "llm": {
     "accepted": 14,
     "by_level": {
@@ -207,14 +225,15 @@
     "completion_tokens": 0,
     "prompt_tokens": 0
   },
+  "match_rate": 0.7972508591065293,
   "mean_jaccard": 1.0,
   "precision_strict": 1.0,
   "recall_strict": 0.9206349206349206,
   "timings": {
-    "bank_s": 0.019402500001888257,
-    "invoice_s": 0.02808029999869177,
-    "llm_s": 0.005330599997250829,
-    "load_s": 0.03478270000050543
+    "bank_s": 0.009257599999955346,
+    "invoice_s": 0.013404699999910008,
+    "llm_s": 0.0025580000001355074,
+    "load_s": 0.01244770000016615
   },
   "unresolved_value_paise": 1236848974,
   "utr_extraction_recall": {

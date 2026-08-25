@@ -12,6 +12,7 @@ from pathlib import Path
 
 from recon.controller.cash_position import CashPosition
 from recon.domain.money import format_paise
+from recon.controller.ledger import Ledger
 from recon.matcher.types import HUMAN_ACTION, ExceptionRow
 
 
@@ -37,7 +38,8 @@ def render_markdown(m: dict) -> str:
         f"| Mean Jaccard overlap | {m['mean_jaccard']:.3f} |",
         f"| False matches | {m['false_matches']} of {m['asserted_matches']} asserted |",
         f"| False matches on unresolvable rows | {m['false_matches_on_unresolvable']} |",
-        f"| Coverage | {m['coverage']:.2%} |",
+        f"| Match rate | {m['match_rate']:.2%} |",
+        f"| Coverage (any verdict, including explained non-matches) | {m['coverage']:.2%} |",
         f"| Bank rows | {m['bank_rows']} |",
         f"| Exceptions | {m['exceptions']} |",
         f"| Value under investigation | {format_paise(m['unresolved_value_paise'])} |",
@@ -193,3 +195,58 @@ def render_cash_position(position: CashPosition) -> str:
 def write_cash_position(position: CashPosition, out_dir: Path) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "cash_position.md").write_text(render_cash_position(position), encoding="utf-8")
+
+
+def render_ledger(ledger: Ledger, exception_value_paise: int) -> str:
+    """The books: a trial balance plus the tie-out that makes it checkable."""
+    trial = ledger.trial_balance()
+    lines = [
+        "# The books",
+        "",
+        f"{len(ledger.entries)} journal entries, one per bank transaction, derived entirely "
+        "from the reconciliation.",
+        "",
+        "## Trial balance",
+        "",
+        "| Account | | Balance |",
+        "|---|---|---|",
+    ]
+    for account, balance in trial.items():
+        side = "Dr" if balance >= 0 else "Cr"
+        lines.append(f"| {account} | {side} | {format_paise(abs(balance))} |")
+    lines += [
+        "",
+        f"| **Total debits** | | **{format_paise(ledger.total_debits)}** |",
+        f"| **Total credits** | | **{format_paise(ledger.total_credits)}** |",
+        "",
+        f"**Balanced: {ledger.balances}**",
+        "",
+        "## Why this is a check and not a rendering",
+        "",
+        "Double entry is an arithmetic invariant over the whole reconciliation that never "
+        "consults the matcher's logic. If a batch were mis-attributed in a way that moved "
+        "amounts, the trial balance would stop closing.",
+        "",
+        "The tie-out below is the same idea. The exception queue is produced by the matcher; "
+        "the suspense balance falls out of bookkeeping over every bank row. Two independent "
+        "routes, one number.",
+        "",
+        "| | Value |",
+        "|---|---|",
+        f"| Suspense balance | {format_paise(abs(ledger.suspense_paise))} |",
+        f"| Exception queue | {format_paise(exception_value_paise)} |",
+        f"| **Agree** | **{abs(ledger.suspense_paise) == exception_value_paise}** |",
+        "",
+        "Gateway fees and the GST on them never arrive as a payment - they are netted before "
+        "the money reaches the bank. Reconstructing them from the fee model is the only way "
+        "they are ever recorded, and the GST input credit is real money the merchant can "
+        "claim back.",
+    ]
+    return "\n".join(lines) + "\n"
+
+
+def write_ledger(ledger: Ledger, exception_value_paise: int, out_dir: Path) -> None:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "ledger.md").write_text(
+        render_ledger(ledger, exception_value_paise), encoding="utf-8"
+    )

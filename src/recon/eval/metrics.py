@@ -64,6 +64,10 @@ def evaluate(data_dir: Path, result: ReconResult) -> dict:
 
     metrics = {
         "bank_rows": len(bank),
+        # The brief asks for a match rate by name. It is the share of bank rows carrying an
+        # asserted match, and it is reported *after* precision on purpose: a system that
+        # matches everything wrongly scores 100% here.
+        "match_rate": _safe(len(asserted), len(bank)),
         "coverage": _safe(len(result.matches), len(bank)),
         "asserted_matches": len(asserted),
         "precision_strict": _safe(len(correct), len(asserted)),

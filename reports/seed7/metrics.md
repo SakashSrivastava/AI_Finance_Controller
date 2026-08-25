@@ -9,7 +9,8 @@
 | Mean Jaccard overlap | 1.000 |
 | False matches | 0 of 232 asserted |
 | False matches on unresolvable rows | 0 |
-| Coverage | 90.72% |
+| Match rate | 79.73% |
+| Coverage (any verdict, including explained non-matches) | 90.72% |
 | Bank rows | 291 |
 | Exceptions | 27 |
 | Value under investigation | ₹1,23,68,489.74 |

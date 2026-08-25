@@ -73,10 +73,11 @@ def evaluate(
     """Score the pipeline against ground truth and write the reports."""
     from recon.agent.client import DEFAULT_MODEL
     from recon.controller.cash_position import build_cash_position
+    from recon.controller.ledger import build_ledger
     from recon.eval.metrics import evaluate as score
     from recon.eval.metrics import evaluate_invoices, summarise_llm
     from recon.eval.html_report import write_html_report
-    from recon.eval.report import write_cash_position, write_exceptions, write_metrics
+    from recon.eval.report import write_cash_position, write_exceptions, write_ledger, write_metrics
     from recon.pipeline import run_pipeline
 
     chosen = model or DEFAULT_MODEL
@@ -92,16 +93,38 @@ def evaluate(
     position = build_cash_position(
         result.sources, result.bank.matches, result.bank.exceptions, result.invoice_matches
     )
+    ledger = build_ledger(result.sources, result.bank.matches, result.bank.exceptions)
+    metrics["ledger"] = {
+        "entries": len(ledger.entries),
+        "balances": ledger.balances,
+        "total_debits_paise": ledger.total_debits,
+        "total_credits_paise": ledger.total_credits,
+        "suspense_paise": ledger.suspense_paise,
+        "trial_balance": ledger.trial_balance(),
+    }
+
     write_metrics(metrics, reports)
     write_exceptions(result.bank.exceptions, reports)
     write_cash_position(position, reports)
+    write_ledger(ledger, metrics["unresolved_value_paise"], reports)
     write_html_report(
         metrics, position, result.bank.exceptions, reports / "report.html",
         dataset=f"seed {data.name}", holdout=data.name == "7",
     )
 
     _report(result, data, metrics)
-    typer.echo(f"\nWrote {reports}/metrics.md, metrics.json, exceptions.csv, cash_position.md")
+    typer.echo("")
+    typer.echo("THE BOOKS")
+    _echo("journal entries", str(len(ledger.entries)))
+    _echo("trial balance", "BALANCED" if ledger.balances else "OUT OF BALANCE")
+    _echo(
+        "suspense ties to exception queue",
+        str(abs(ledger.suspense_paise) == metrics["unresolved_value_paise"]),
+    )
+    typer.echo(
+        f"\nWrote {reports}/report.html, metrics.md, metrics.json, "
+        f"exceptions.csv, cash_position.md, ledger.md"
+    )
 
 
 @app.command("cash-position")
@@ -120,6 +143,22 @@ def cash_position(
         result.sources, result.bank.matches, result.bank.exceptions, result.invoice_matches
     )
     typer.echo(render_cash_position(position))
+
+
+@app.command()
+def ledger(
+    data: Path = typer.Option(Path("data/7")),
+    no_llm: bool = typer.Option(False, "--no-llm"),
+    offline: bool = typer.Option(True, "--offline/--live"),
+) -> None:
+    """Post the reconciliation to a double-entry ledger and show the trial balance."""
+    from recon.controller.ledger import build_ledger
+    from recon.eval.report import render_ledger
+    from recon.pipeline import run_pipeline
+
+    result = run_pipeline(data, use_llm=not no_llm, offline=offline)
+    book = build_ledger(result.sources, result.bank.matches, result.bank.exceptions)
+    typer.echo(render_ledger(book, sum(e.amount_paise for e in result.bank.exceptions)))
 
 
 @app.command()
@@ -191,7 +230,8 @@ def _report(result, data: Path, metrics: dict | None = None) -> None:
     _echo("precision (strict set equality)", f"{m['precision_strict']:.2%}")
     _echo("recall (strict)", f"{m['recall_strict']:.2%}")
     _echo("false matches", f"{m['false_matches']} of {m['asserted_matches']} asserted")
-    _echo("coverage", f"{m['coverage']:.2%}")
+    _echo("match rate", f"{m['match_rate']:.2%}")
+    _echo("coverage (any verdict)", f"{m['coverage']:.2%}")
     _echo("exceptions", str(m["exceptions"]))
 
     inv = m.get("invoice_level")
