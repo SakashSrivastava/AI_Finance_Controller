@@ -40,6 +40,9 @@ class Backend(Protocol):
     def complete(self, system: str, user: str, schema: dict, model: str) -> tuple[dict, dict]:
         """Returns (parsed_payload, usage)."""
 
+    def chat(self, messages: list, tools: list, model: str) -> tuple[dict, dict]:
+        """One turn of a tool-using conversation. Returns (message_dict, usage)."""
+
 
 @dataclass
 class RateLimiter:
@@ -99,6 +102,33 @@ class GroqBackend:
             "completion_tokens": response.usage.completion_tokens,
         }
         return json.loads(response.choices[0].message.content), usage
+
+    def chat(self, messages: list, tools: list, model: str) -> tuple[dict, dict]:
+        response = self._client.chat.completions.create(
+            model=model,
+            temperature=0,
+            max_tokens=3000,
+            tools=tools,
+            tool_choice="auto",
+            messages=messages,
+        )
+        message = response.choices[0].message
+        payload = {
+            "content": message.content,
+            "tool_calls": [
+                {
+                    "id": tc.id,
+                    "name": tc.function.name,
+                    "arguments": tc.function.arguments,
+                }
+                for tc in (message.tool_calls or [])
+            ],
+        }
+        usage = {
+            "prompt_tokens": response.usage.prompt_tokens,
+            "completion_tokens": response.usage.completion_tokens,
+        }
+        return payload, usage
 
 
 class CachedLLM:
@@ -167,6 +197,41 @@ class CachedLLM:
         # later crash costs minutes of wall clock to recover.
         self.save()
         self._audit(cache_key, model, system, user, payload, usage)
+        return payload
+
+    def chat(self, messages: list, tools: list, model: str = DEFAULT_MODEL) -> dict:
+        """One turn of an agent loop, cached on the whole conversation so far.
+
+        Keying on the full message list means a replay follows the identical path through
+        the loop: same tool calls, same results, same decision. Multi-turn reproducibility
+        is otherwise impossible.
+        """
+        cache_key = self.key(json.dumps(messages, sort_keys=True), "", {"tools": tools}, model)
+        if cache_key in self.cache:
+            self.stats["cache_hits"] += 1
+            return self.cache[cache_key]["payload"]
+
+        if self.offline:
+            raise CacheMiss(f"no cached turn for {cache_key[:12]} and --offline is set")
+        if self.backend is None:
+            raise CacheMiss("no backend configured and no cached turn")
+        if self.stats["calls"] >= self.max_calls:
+            raise SpendCapExceeded(f"hit the {self.max_calls} call cap")
+
+        self.limiter.acquire(len(json.dumps(messages)) // 3 + 600)
+        try:
+            payload, usage = self.backend.chat(messages, tools, model)
+        except Exception as exc:
+            self.stats["calls"] += 1
+            self.stats["failures"] = self.stats.get("failures", 0) + 1
+            raise ModelCallFailed(str(exc)[:300]) from exc
+
+        self.stats["calls"] += 1
+        self.stats["prompt_tokens"] += usage.get("prompt_tokens", 0)
+        self.stats["completion_tokens"] += usage.get("completion_tokens", 0)
+        self.cache[cache_key] = {"model": model, "payload": payload, "usage": usage}
+        self.save()
+        self._audit(cache_key, model, "[agent turn]", json.dumps(messages)[-2000:], payload, usage)
         return payload
 
     def _audit(self, key: str, model: str, system: str, user: str, payload: dict, usage: dict) -> None:

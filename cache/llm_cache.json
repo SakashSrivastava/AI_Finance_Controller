@@ -16,6 +16,17 @@
       "prompt_tokens": 699
     }
   },
+  "014a596c98339e07c1fa0d156918faccb46fd1315b64b38a2dbb11b632ea8959": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "{\n  \"confidence\": 0.99,\n  \"payment_ids\": [],\n  \"reasoning\": \"The bank credit amount is 4,473,305 paise. The available unattributed settlements around the value date are all either much larger (e.g., 4,743,932 paise, 8,749,184 paise, etc.) or much smaller (457,343 and 666,088 paise). No combination of these positive net amounts can sum exactly to 4,473,305 paise, and there are no negative settlements (refunds/chargebacks) to offset larger amounts. The credit narration indicates a direct cash deposit from Deccan Steel Works, which typically bypasses the gateway. Therefore, there is no matching settlement batch for this credit.\",\n  \"verdict\": \"no_match\"\n}",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 488,
+      "prompt_tokens": 1842
+    }
+  },
   "0261768d473207e6b125d2e07c7effacfd0af5ac5757c821e3a93a9afe424f99": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -27,6 +38,74 @@
     "usage": {
       "completion_tokens": 378,
       "prompt_tokens": 684
+    }
+  },
+  "035f652099067d14d443280b0106593c4f03fb08146dc1a4512ed6607eac6e36": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[],\"reasoning\":\"Both pay_000041 and pay_000042 individually match the bank credit amount exactly (9728648 paise). Since there are two distinct possible matches, this is an ambiguous situation. According to the guidelines, ambiguous cases must be reported as no_match to avoid risking an incorrect allocation.\",\"verdict\":\"no_match\"}",
+          "id": "fc_96646cb3-fec2-417c-bdcc-d696a002a070",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 165,
+      "prompt_tokens": 893
+    }
+  },
+  "050909ba0220ead53819940e8e714482a041a2bc97b411c42708b7ca76f0002c": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"HDFCN00000000014\"}",
+          "id": "fc_4f4257b8-083b-4fea-8a33-97009985cdbc",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 286,
+      "prompt_tokens": 1286
+    }
+  },
+  "07155b206c44612319b4d7c618a2200450081783c4d4ee70e2b47bdda0ee3434": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_000271\",\"pay_000954\",\"pay_000955\",\"pay_000951\",\"pay_000946\",\"pay_000949\",\"pay_000952\",\"pay_000274\",\"pay_000947\",\"pay_000275\",\"pay_000279\",\"pay_000280\",\"pay_000944\",\"pay_000272\",\"pay_000950\"]}",
+          "id": "fc_180ebb25-f1f8-40cf-8a17-800fa9eeb09c",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 771,
+      "prompt_tokens": 1140
+    }
+  },
+  "073792ce1c0240206ff8fa2deddf8d1c6a2295b0f7a676ba2b093dc8de245834": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[],\"reasoning\":\"Both a single settlement (pay_001007) and a combination of three other settlements (pay_001005, pay_001004, pay_001006) exactly match the bank credit amount of 30,197,126 paise. Since multiple distinct subsets close the credit, the situation is genuinely ambiguous. According to the guidelines, we must avoid guessing and return no_match.\",\"verdict\":\"no_match\"}",
+          "id": "fc_08942c9e-0d21-423e-aaee-adfd0faa9d66",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 158,
+      "prompt_tokens": 1098
     }
   },
   "08b9e7ceb9ed8e4f585ff9eb54d720468ee6781fdb63bf91d5e1d646642f58c7": {
@@ -44,6 +123,23 @@
       "prompt_tokens": 678
     }
   },
+  "09d54cc275190196d16a96bef990ed39eb495fb70b9e383e162bf2511992570c": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.97,\"payment_ids\":[],\"reasoning\":\"The bank credit of 1,204,631 paise does not match any single settlement net amount. The only settlement under the credit amount is pay_000899 (141,358 paise). Any combination with other settlements exceeds the credit, and there are no negative net settlements to offset. Therefore this credit is a direct customer payment bypassing the gateway, resulting in no_match.\",\"verdict\":\"no_match\"}",
+          "id": "fc_ff3c29aa-36ac-4d5b-971f-94e6cf487804",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 609,
+      "prompt_tokens": 1872
+    }
+  },
   "0b3ae8d975a2f6d166704ee24b3cb9b3d39502eb9d924f191ecf58eb8a78de32": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -55,6 +151,57 @@
     "usage": {
       "completion_tokens": 504,
       "prompt_tokens": 610
+    }
+  },
+  "0b547ceaf0628f0e8eaefffa7354938ff28c53e3406c4984c69560265cc0ad1d": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"UTIBN00000000013\"}",
+          "id": "fc_1758d906-3fe2-4f3f-b507-e4552da56de8",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 631,
+      "prompt_tokens": 903
+    }
+  },
+  "0c4a90a9800840450a4858c1eac23635aa56217a75b485c9565bd548b934b261": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":30}",
+          "id": "fc_e043d35a-3a70-436f-adac-cdcba0c39361",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 369,
+      "prompt_tokens": 1076
+    }
+  },
+  "0dbc99158e79f9615de7d70642e2b8dbf99a4e9511ea8fb20518bc574dcd95a4": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"UTIBN00000000018\"}",
+          "id": "fc_d7fbca9e-e57f-4d58-8d5d-50a487a28e03",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 378,
+      "prompt_tokens": 1026
     }
   },
   "0ecf72a2ce34b93e7d6adcd97c141efd9c3d72fc3be6667c2a9b88855b5494e1": {
@@ -126,6 +273,51 @@
       "prompt_tokens": 985
     }
   },
+  "20f4dde6e6493c7f3486df8d09fa9b0a4f097eb8e6a7728c9ff12b23b6206386": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[],\"reasoning\":\"The bank credit amount 58,929,664 paise matches exactly both a single settlement (pay_001343) and the sum of four other settlements (pay_001341, pay_001339, pay_001340, pay_001342). This creates genuine ambiguity, so per guidelines we must return no_match rather than guessing.\",\"verdict\":\"no_match\"}",
+          "id": "fc_13597b41-0ba0-4b95-aa3d-3ae6419ea214",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 570,
+      "prompt_tokens": 810
+    }
+  },
+  "21d4ab0483714ef8c1615d4aeff2927b56ce7e08aca3b69eb98123b63ef6a4c0": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "{\n  \"confidence\": 0.97,\n  \"payment_ids\": [],\n  \"reasoning\": \"The bank credit of 10,433,458\u202fpaise does not match any exact sum of unattributed settlements within the allowed 3\u2011day window. The nearest candidates (pay_000388, pay_001281, pay_001283) either exceed the credit or fall short, and no combination of available net amounts (including possible small settlements) adds up to the credit amount. There is also no evidence of a negative net (refund/chargeback) that could adjust a larger batch down to the credit. The narration suggests a direct NEFT payment, which typically bypasses the gateway. Therefore the correct verdict is no_match.\",\n  \"verdict\": \"no_match\"\n}",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 1150,
+      "prompt_tokens": 1732
+    }
+  },
+  "222f5dd1e5f3bcf17a567c6500cb295cb3786ccdb77d6d5175496862c49c54ef": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_001056\"]}",
+          "id": "fc_1650b7f3-8771-415c-8f8a-2b871a3ba4bf",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 193,
+      "prompt_tokens": 998
+    }
+  },
   "2271b092e9d3bcbf8e95b12fff2430aef858302000e3b3cb151027771dfa4388": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -181,6 +373,17 @@
       "prompt_tokens": 729
     }
   },
+  "26dcba6d3c4f4af37065f7731bc4dfe0d95f8492cdc3745d19b7c10bb430a235": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 1280
+    }
+  },
   "28abc9dd8bf4e183b8db0c3bf913b237ca411d833907fb883fe47eb157a780fe": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -195,6 +398,23 @@
     "usage": {
       "completion_tokens": 418,
       "prompt_tokens": 685
+    }
+  },
+  "2915cb67af971ffa453e9780ab7a7b699248fc758a40ba0fbdafd96e150a7b64": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3}",
+          "id": "fc_2179f6c7-491d-4cf9-8494-ab5bbecf9c72",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 205,
+      "prompt_tokens": 690
     }
   },
   "2a3c123350213ee44c39fd8fd9ef20d40b5e03bc5aac15daa062dc5754071342": {
@@ -239,6 +459,23 @@
       "prompt_tokens": 762
     }
   },
+  "2fbc42714838952d31c65a03225104de3392a2fac44a4037d89e1b873fc6dba8": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.95,\"invoice_ids\":[\"INV-2026-00003\",\"INV-2026-00004\"],\"reasoning\":\"The reference contains a clear first invoice ID INV-2026-00003. The second token 'INV-2026-0000' is a truncated form of INV-2026-00004, which together with the first invoice sums to the payment amount 32306379 paise. Both invoices belong to the customer and the payment amount matches the total. No other combination of invoices for this customer matches the amount or the reference pattern.\",\"verdict\":\"match\"}",
+          "id": "fc_f5614975-fa45-42e1-be8c-8e0d0b6ccfde",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 253,
+      "prompt_tokens": 1052
+    }
+  },
   "326d53e95e8c3bf45e0345da3903afafa9504d64a5234e7311e1d6d4e19d5f52": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -250,6 +487,17 @@
     "usage": {
       "completion_tokens": 710,
       "prompt_tokens": 723
+    }
+  },
+  "332a29efbc39684d646004251e0e2d122b1370b9977c29ad0afe184b5aaaddc2": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "{\n  \"confidence\": 0.99,\n  \"payment_ids\": [\"pay_001056\"],\n  \"reasoning\": \"The bank credit amount (71,920,405 paise) exactly matches the net amount of settlement pay_001056 (71,920,405 paise). No other combination is needed, and the settlement is currently unattributed.\",\n  \"verdict\": \"match\"\n}",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 214,
+      "prompt_tokens": 1066
     }
   },
   "348fc44544aaec506b47dc4853ea2d56a3be9141de81dea251cf6d253a657c8b": {
@@ -308,6 +556,23 @@
       "prompt_tokens": 985
     }
   },
+  "392e8fb8c4f0b0438b0952061201da7511feccd25f3ffa91e1c87a65fbb99109": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"ICICN00000000254\"}",
+          "id": "fc_52d22324-ea5c-45f2-b0ba-97df289e3450",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 302,
+      "prompt_tokens": 1659
+    }
+  },
   "396d2c0895fe2a066ee628f1329084188f9ff4505da9ceec1b54794f99d74012": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -319,6 +584,40 @@
     "usage": {
       "completion_tokens": 508,
       "prompt_tokens": 683
+    }
+  },
+  "3ae06f51e19f1e63f8fef6e449ba1e10f9406b310762f8a8208351949c314237": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[],\"reasoning\":\"The bank credit amount is 4,473,305 paise. The available unattributed settlements around the value date are all either much larger (e.g., 4,743,932 paise, 8,749,184 paise, etc.) or much smaller (457,343 and 666,088 paise). No combination of these positive net amounts can sum exactly to 4,473,305 paise, and there are no negative settlements (refunds/chargebacks) to offset larger amounts. The credit narration indicates a direct cash deposit from Deccan Steel Works, which typically bypasses the gateway. Therefore, there is no matching settlement batch for this credit.\",\"verdict\":\"no_match\"}",
+          "id": "fc_a291d810-bc00-426e-bb4f-33eadb7fea83",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 214,
+      "prompt_tokens": 2031
+    }
+  },
+  "3b20746b595fb730cb64bdab9ba5ddbe1c37c8a54d3e905177b5e7c8be629b01": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"HDFCN00000000255\"}",
+          "id": "fc_ee918dd0-e964-41f4-bf1b-abb0a774b82c",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 91,
+      "prompt_tokens": 1153
     }
   },
   "3ba5ed7bef6c962475553d2de74dae3b3ddc69e973bd44b3ef8699a670e52c57": {
@@ -337,6 +636,74 @@
       "prompt_tokens": 690
     }
   },
+  "3fc152365fa6d81f835de3b33690ab6724c9cfb00bf6e10780ff9ad96abe777b": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"UTIBN00000000273\"}",
+          "id": "fc_d1356bbb-0174-4518-8139-9d3decd068d4",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 156,
+      "prompt_tokens": 913
+    }
+  },
+  "434ad74280b4dda662115c610f345c81141c1e586a11258124ba85cb7f6edf5a": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"invoice_ids\":[\"INV-2026-00003\",\"INV-2026-00004\"]}",
+          "id": "fc_cd821e3d-4425-43af-8723-6d0a98647634",
+          "name": "test_invoice_set"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 342,
+      "prompt_tokens": 963
+    }
+  },
+  "442ad6b00522bcfb55a092263d9024d1ea0d084c51bf1ba383f165722591d3e6": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"SBINN00000000019\"}",
+          "id": "fc_8f712b35-0914-4f58-87c5-55e0abdd9314",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 452,
+      "prompt_tokens": 1410
+    }
+  },
+  "44c267c1312602a2f38a5ddeb54dcd17ac78526ea62e18a8f7c5e35f75c8d823": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[\"pay_001343\"],\"reasoning\":\"The bank credit amount (58929664 paise) exactly matches the net of settlement pay_001343, which shares the same UTR (UTIBN00000000273) and settled on the same date (2026-04-03). No other combination of settlements can produce this amount, and the deterministic tier already identified this as a single settlement match. Therefore, this is the correct match.\",\"verdict\":\"match\"}",
+          "id": "fc_648978f3-02b0-4b3b-9d9c-25d136e02df3",
+          "name": "functions.submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 300,
+      "prompt_tokens": 1091
+    }
+  },
   "45fe4f847f50fe08288dd1a4cee703fb7e2bd57cbbaa9e63b2579a823f6d6429": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -348,6 +715,34 @@
     "usage": {
       "completion_tokens": 526,
       "prompt_tokens": 1032
+    }
+  },
+  "46b72b11dba928800dec81ae59061a2b0482e12ef840dc4186f9d759067bfbfc": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_001247\"]}",
+          "id": "fc_afa3ee61-174e-46d0-a159-6bb466092584",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 599,
+      "prompt_tokens": 1085
+    }
+  },
+  "46f43b2367a3359908317c37b81ced85ac56c42b2ec01b06fcb27ec455adbeeb": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 1053
     }
   },
   "491e47dab549dfa657b2d63d06fe2085547836ca88f5ada89fdb1c7cac56b16a": {
@@ -459,6 +854,23 @@
       "prompt_tokens": 869
     }
   },
+  "5355999f5e0943f34cd136403fbed218e02ee7b57927b8dd9f81f2e3a5b5cd6a": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"UTIBN00000000200\"}",
+          "id": "fc_083b37ec-7d84-4eec-be7a-2153e2121dbe",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 743,
+      "prompt_tokens": 782
+    }
+  },
   "539768e2f848fb7e28e13862480e5ecc5b4517d9423dc96e8b68f9ee01bc0c80": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -488,6 +900,23 @@
       "prompt_tokens": 644
     }
   },
+  "573a5a65719d6d38eeeaabcb53c391082979b801259488cdb2584baa01dcafd7": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":1,\"payment_ids\":[],\"reasoning\":\"Two distinct combinations of unattributed settlements exactly match the bank credit amount (4476261 paise): a single payment (pay_001247) and a pair of payments (pay_001245 + pay_001246). This genuine ambiguity means we cannot confidently select one over the other, so we must report no_match.\",\"verdict\":\"no_match\"}",
+          "id": "fc_809026fe-8a9e-4b58-891f-9211fba0a2e5",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 295,
+      "prompt_tokens": 1379
+    }
+  },
   "596299b4fec1be86897e25b54c9fddd06499c72d395eb39aa989bc3c18a1f389": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -499,6 +928,17 @@
     "usage": {
       "completion_tokens": 622,
       "prompt_tokens": 684
+    }
+  },
+  "5d267d4bbbb7b3c87c61eebbb009b931cba220eb72e0e6d2dbb83bb017cb1664": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 1191
     }
   },
   "5f0e8df773842c54d5870833f175892497bfb242ee433ae05400def810621798": {
@@ -535,6 +975,17 @@
       "prompt_tokens": 696
     }
   },
+  "612dba85e5b63cc2fdbeba1bdce36ce8a4086d059a498a4144f0b7d0175165af": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 1153
+    }
+  },
   "64c5ac3ab9e54f4e88aac36cb0456115627c1d0f4037ae1571ef467ba85a39aa": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -548,6 +999,23 @@
       "prompt_tokens": 1095
     }
   },
+  "67525d8332dcbd51b56b54956936d5b16ba108827b9476465dda2a24998d2fa5": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"invoice_ids\":[\"INV-2026-00173\",\"INV-2026-00174\"],\"reasoning\":\"The reference contains the correct invoice numbers but with the prefix INVOICE instead of INV. Both invoices belong to Maple Leaf Stationers and their combined amount equals the payment gross of 4,958,904 paise. Therefore the payment settles these two invoices.\",\"verdict\":\"match\"}",
+          "id": "fc_cb352072-0c77-43f0-8a68-ca2d6820d716",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 214,
+      "prompt_tokens": 971
+    }
+  },
   "6910f2e6f47d33a4992c39d817e3664f1329ccba7659e4a7fdbe8d611d6120d2": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -559,6 +1027,34 @@
     "usage": {
       "completion_tokens": 592,
       "prompt_tokens": 644
+    }
+  },
+  "6e888ef7b69359bafd1a961917acad15f67565ebaf891f719edb55c32d79a3fa": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"UTIBN00000000273\"}",
+          "id": "fc_36e3a36f-c161-4588-a9f3-0ffc619935f4",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 199,
+      "prompt_tokens": 910
+    }
+  },
+  "708ffacb2ff33a2d44c363ce420a882afb10fae598dceeacaee0338219f293c5": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 1134
     }
   },
   "70916682654352c87a0147445154126c9d739cb0e0d21826b89b751c9e1dab01": {
@@ -623,6 +1119,17 @@
       "prompt_tokens": 957
     }
   },
+  "71e4d65c5f65f3ca58abe429924dcd76dfb5276c1bd2ffa2448fae4b44ba2274": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 1172
+    }
+  },
   "7418a50270b2592e17a36a3b4ed8b3b5b39957d9b805a3121e039ef2c245f77f": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -634,6 +1141,23 @@
     "usage": {
       "completion_tokens": 980,
       "prompt_tokens": 762
+    }
+  },
+  "75a19e8e071fc60e63c87ec10249e493aecc875b53968b356c38b9b7f69d217e": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_001343\"]}",
+          "id": "fc_fb513efb-3073-47f4-97e6-fad968e09a30",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 252,
+      "prompt_tokens": 1120
     }
   },
   "77fa6be95caf3dfdbecd64e866909e4f98fefb5e31a576a440bde1fff6a00214": {
@@ -651,6 +1175,23 @@
       "prompt_tokens": 759
     }
   },
+  "7930c4caa3a3625b67cb457de42b0fcf31ccdbab0cdb9b1b8068f18f3dc460c2": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3,\"max_paise\":1300000,\"min_paise\":0}",
+          "id": "fc_a2e5e077-f7e2-4b0a-97fc-10512775179e",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 393,
+      "prompt_tokens": 1035
+    }
+  },
   "7a8917dd2186db8608d830847f0b5b3cda49e6dd765e673ad36fe84b00629ce9": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -664,6 +1205,23 @@
     "usage": {
       "completion_tokens": 1704,
       "prompt_tokens": 723
+    }
+  },
+  "7ad883e69a01a386f98a3f4da8f16af5cd42ab2796abf138d65a8855b2d75f5e": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[\"pay_001343\"],\"reasoning\":\"The bank credit amount (58929664 paise) exactly matches the net of settlement pay_001343, which shares the same UTR (UTIBN00000000273) and settled on the same date (2026-04-03). No other combination of settlements can produce this amount, and the deterministic tier already identified this as a single settlement match. Therefore, this is the correct match.\",\"verdict\":\"match\"}",
+          "id": "fc_bf3999e0-e700-4d19-a1d4-bb4ae90f39b0",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 154,
+      "prompt_tokens": 1226
     }
   },
   "7c2104b991ba3eaf26d1b32ee37a23a26b9f1fdcbc87895c9ad1e3a935ec49e0": {
@@ -690,6 +1248,23 @@
     "usage": {
       "completion_tokens": 393,
       "prompt_tokens": 866
+    }
+  },
+  "7f8ae991d9f13fcd475e9e4dd991ef6e51d3f54fd2192da1783604ca6e157e28": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.97,\"payment_ids\":[],\"reasoning\":\"The bank credit amount is 9,284,490 paise. Exhaustive search of all unattributed settlements within the 3\u2011day window shows no single settlement or combination of settlements that sum exactly to this amount. The smallest settlement is 141,358 paise; adding it to any other settlement either falls short or exceeds the target, and no further small settlements exist to bridge the gap. Therefore the credit likely originates from a direct customer NEFT payment that bypasses the gateway, matching the 'no_match' scenario.\",\"verdict\":\"no_match\"}",
+          "id": "fc_26e950a8-6434-4c54-aef6-76bef8fc7509",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 816,
+      "prompt_tokens": 998
     }
   },
   "81510144b5708c5d48b9e9e5eefc368b54b405e11dfd4880ec14893eaca2f98f": {
@@ -720,6 +1295,23 @@
     "usage": {
       "completion_tokens": 341,
       "prompt_tokens": 672
+    }
+  },
+  "8825463db53ec74a9af7a3650a1fa1d39646eef47540778d33f73f4dfb2ffaf2": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3,\"max_paise\":4476261,\"min_paise\":0}",
+          "id": "fc_c9e10b06-7c3d-49a3-b32a-c33814c28333",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 139,
+      "prompt_tokens": 1263
     }
   },
   "892b2983203014c9676db00050921eac0e1f9e7992d156cf922af9d62d7511a3": {
@@ -756,6 +1348,68 @@
     "usage": {
       "completion_tokens": 2210,
       "prompt_tokens": 1032
+    }
+  },
+  "8fe62d36e0e3499e4a1459fa2f524c1999bd61436e92c8198f5e21d8ac9b2cc2": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 1248
+    }
+  },
+  "92448bd1895425ffc9c58ba841bbe0dc28d2d43c813fc82690a853989c686c20": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":10}",
+          "id": "fc_2fead7b2-3aae-41e5-9ec9-ce51b121a9cd",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 190,
+      "prompt_tokens": 802
+    }
+  },
+  "94acf166d3feda37dfb4b9b199d4bc5288a0e52be0da8b4c360ad58b120fd6b6": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"UTIBN00000000262\"}",
+          "id": "fc_3aeb555b-023f-49a6-8763-5df8371d04ed",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 338,
+      "prompt_tokens": 1612
+    }
+  },
+  "962521bb063a039662344aac05007e990d07e87bb5a120b8eb4905435d449268": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_000057\",\"pay_000063\"]}",
+          "id": "fc_4e7fe0a1-597b-48cc-aa04-cde15bc4f556",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 317,
+      "prompt_tokens": 1767
     }
   },
   "9681dea20ed1d3a4194864c68ae9569af12a4dd0dbf612795eb91faf363437b5": {
@@ -804,6 +1458,40 @@
       "prompt_tokens": 699
     }
   },
+  "99937e71588b0e2b64158465b6588dae9acf8d753fa4f8921f7a7ff61015f737": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[\"pay_001343\"],\"reasoning\":\"The bank credit of 58,929,664 paise on 2026-04-03 matches exactly the net amount of settlement pay_001343 (UTIBN00000000273) settled on the same date. Test_combination confirms a perfect closure with zero delta. No other combination of unattributed settlements within the search window sums to this amount, making this the correct and unambiguous match.\",\"verdict\":\"match\"}",
+          "id": "fc_e295a73c-7437-4557-99f9-09d2e43cb190",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 499,
+      "prompt_tokens": 1188
+    }
+  },
+  "9a947e2efa6cddb6d13a195784b2f1e22d9a630c945f7f1856998f9576a679fe": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_001343\"]}",
+          "id": "fc_4ada68ee-087e-4955-9eac-be8329969650",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 2154,
+      "prompt_tokens": 1020
+    }
+  },
   "9bcde03abb62edc0537c250b4f3216bb3602daf318572fced5420e31d2eb8fa7": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -832,6 +1520,51 @@
       "prompt_tokens": 678
     }
   },
+  "9d497c13ef2eefa13113a7a471e8830ebd0c00f1ecd4252d4492930c58a7cf2b": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 1210
+    }
+  },
+  "9ef64226356b234cb29e96523ba950a774c62f298ff2ec3124675ed3e1351858": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_001056\"]}",
+          "id": "fc_72a2978d-8723-4e7a-8563-20c9ae1903ea",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 313,
+      "prompt_tokens": 998
+    }
+  },
+  "9f088ec78c52ba3a3e2ad7222e6f5d6a4a577770d6981f83622f8a3a62b8b439": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[\"pay_000064\",\"pay_000061\",\"pay_000058\",\"pay_000062\",\"pay_000066\",\"pay_000060\",\"pay_000065\",\"pay_000057\",\"pay_000063\"],\"reasoning\":\"Total of all listed settlements is 110,328,896 paise. The bank credit is 83,898,487 paise, a difference of 26,430,409 paise. The subset {pay_000059 (17,281,597), pay_001281 (8,242,428), pay_001283 (906,384)} sums exactly to this difference, so excluding them yields the credit amount. The remaining settlements sum to the credit, providing an exact match.\",\"verdict\":\"match\"}",
+          "id": "fc_9afcc9f4-1e53-41ff-a7c5-a4b000008c42",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 2407,
+      "prompt_tokens": 1197
+    }
+  },
   "a0d540041c3db3861394814c827912c329dafd78eab70d416ab3eb81b15d968f": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -847,6 +1580,79 @@
       "prompt_tokens": 681
     }
   },
+  "a2f22a52aaf5742921619941bd955f0de0bde02eb659c728c0573f3fba70fffa": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_001343\"]}",
+          "id": "fc_92ece5ef-4b75-4582-af69-e79c00cc0ddc",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 252,
+      "prompt_tokens": 910
+    }
+  },
+  "a84146f511c412c0d80f0ae51b646cb364339996002621abe1b7b28aae8af677": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[\"pay_001343\"],\"reasoning\":\"The bank credit of 58,929,664 paise matches exactly the net amount of settlement pay_001343 (UTIBN00000000273) settled on 2026-04-03. No other combination of unattributed settlements within the 3\u2011day window sums to the same amount. The settlement is not yet attributed, so it can be matched.\",\"verdict\":\"match\"}",
+          "id": "fc_5fec6047-1f01-4117-9b54-d0666f927e22",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 380,
+      "prompt_tokens": 1088
+    }
+  },
+  "aa0f4c7adee03326ab2bca9dc146601ff9527b7b72bb4a76911d3752bdac49c9": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "{\n  \"confidence\": 0.99,\n  \"payment_ids\": [],\n  \"reasoning\": \"Both a single settlement (pay_001007) and a combination of three other settlements (pay_001005, pay_001004, pay_001006) exactly match the bank credit amount of 30,197,126 paise. Since multiple distinct subsets close the credit, the situation is genuinely ambiguous. According to the guidelines, we must avoid guessing and return no_match.\",\n  \"verdict\": \"no_match\"\n}",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 224,
+      "prompt_tokens": 970
+    }
+  },
+  "aea77dcc583614ae3f2e0bdad5f49cdd6065078c8d8135784d756ddb4f1befc5": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_000059\",\"pay_000064\",\"pay_000061\",\"pay_000058\",\"pay_000062\",\"pay_000066\",\"pay_000060\",\"pay_001281\",\"pay_000065\",\"pay_001283\",\"pay_000057\",\"pay_000063\"]}",
+          "id": "fc_04c7be88-db50-4006-afbc-637c4ad12651",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 2295,
+      "prompt_tokens": 1072
+    }
+  },
+  "b0572aeff357ef632c6dfde0c3b003e218a59fa2bf4bb47456f2f8694f03e39e": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 1034
+    }
+  },
   "b368110b578eb1b776202ddb7560fc76e346f07edd5c817185b27255e33524b6": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -860,6 +1666,34 @@
     "usage": {
       "completion_tokens": 310,
       "prompt_tokens": 681
+    }
+  },
+  "b5334eb31a2181da5b2af02938dac3d45804cd2bcc4087c86eb23af684f1932b": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 1267
+    }
+  },
+  "bb0b865e5d08a70f26770dfbb2045397bdd4dd9434ed455f060520344691e286": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_000041\"]}",
+          "id": "fc_fc584c4c-6f6a-49dd-8610-54704fe2c22c",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 192,
+      "prompt_tokens": 716
     }
   },
   "bb9df0c33b4349d366c664524cf82027395adf067ccc6a38e9b0d00680d3be61": {
@@ -901,6 +1735,85 @@
       "prompt_tokens": 1095
     }
   },
+  "bde5aa7cb1de324a86c944421629d820ba48a7486107efbae2eb5ab7d8a20c74": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.97,\"payment_ids\":[],\"reasoning\":\"The bank credit of 10,433,458 paise does not match any exact sum of unattributed settlements within the allowed 3\u2011day window. The nearest candidates (pay_000388, pay_001281, pay_001283) either exceed the credit or fall short, and no combination of available net amounts (including possible small settlements) adds up to the credit amount. There is also no evidence of a negative net (refund/chargeback) that could adjust a larger batch down to the credit. The narration suggests a direct NEFT payment, which typically bypasses the gateway. Therefore the correct verdict is no_match.\",\"verdict\":\"no_match\"}",
+          "id": "fc_aa1444ec-22d0-4d3a-a88b-39bcc48cc0de",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 188,
+      "prompt_tokens": 1912
+    }
+  },
+  "bf1487a6f85f0b5bf973ca86191c9899879cc8669d0dc55384062ffbee93d5bf": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"UTIBN00000000013\"}",
+          "id": "fc_364b05a9-8d2d-4029-9eac-8c828e18cfb3",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 891,
+      "prompt_tokens": 900
+    }
+  },
+  "bfaa79eabd1a383ab11917a387b68d13da895f8a74c6747b95f9164f15522256": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 1121
+    }
+  },
+  "bfd48f480412f93a9be6a313168685638af9f2739b34b1dcab559bdbba82ea70": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"HDFCN00000000255\"}",
+          "id": "fc_7fc03013-e13a-4429-9dfe-dfb9c351f3fa",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 92,
+      "prompt_tokens": 1153
+    }
+  },
+  "c0340639da54bc4903b0150b8234460b72e3a31a4fb5ac9d912e86967a5c686b": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3}",
+          "id": "fc_15d5c58f-3de0-49cb-bfb6-12ba4bef9b28",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 189,
+      "prompt_tokens": 1161
+    }
+  },
   "c30fef8b59996c7d1e8dfb448e27fe58ccf7489c3806f9ee93de961f0829e4ac": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -929,6 +1842,91 @@
       "prompt_tokens": 680
     }
   },
+  "c652bdb9667e9d4db58bc167ae48c2890475e3d70c4d5e1a4dc809a770bfa0cc": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"UTIBN00000000052\"}",
+          "id": "fc_b2c7aac1-7369-4299-b388-9e4f77f31da3",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 571,
+      "prompt_tokens": 2434
+    }
+  },
+  "c8623e9f925fa47552a15e5d83ef2f2a204b7116d65e160bb777462b8bd32130": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_001004\",\"pay_001005\",\"pay_001006\"]}",
+          "id": "fc_542ba191-6419-417a-b33b-7b26686e46ca",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 106,
+      "prompt_tokens": 984
+    }
+  },
+  "cae5f50afa69eaa6632d0b57c34d6026d78402aaf824434361cadae7f946e29c": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[\"pay_001056\"],\"reasoning\":\"The bank credit amount (71,920,405 paise) exactly matches the net amount of settlement pay_001056 (71,920,405 paise). No other combination is needed, and the settlement is currently unattributed.\",\"verdict\":\"match\"}",
+          "id": "fc_1293b4c5-3160-4d19-9ed7-52e8e8d69101",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 111,
+      "prompt_tokens": 1168
+    }
+  },
+  "cb84b77bbaced163f47d94ed72c988a01a1bb42c31c60d1c68dbcca36e82c7a2": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_001343\"]}",
+          "id": "fc_38501262-5f9c-4770-864d-1906e9e9510a",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 210,
+      "prompt_tokens": 1023
+    }
+  },
+  "ccd41c15a576f707e95710506b4dfe58e0a8a10977a1c55a6fa514dea01b7b7f": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_001247\"]}",
+          "id": "fc_6e90b365-6846-4555-8e2f-26448f99a273",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 181,
+      "prompt_tokens": 1085
+    }
+  },
   "cce4e336f621f30c0370f20a7db6ccb7175d9d16bb37e3ebd4e834bda4f0b958": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -942,6 +1940,40 @@
       "prompt_tokens": 988
     }
   },
+  "d0ce7d2eb6838e4441e51fa269fc301f310dfc416cbb9c335bae18da8b554b68": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[],\"reasoning\":\"Two distinct settlements (pay_000041 and pay_000042) each have a net amount exactly equal to the bank credit (9,728,648 paise) on the same settled date. Since both single-payment subsets are valid matches, there is genuine ambiguity about which settlement the credit corresponds to. According to the guidelines, ambiguous cases must be reported as no_match rather than guessing.\",\"verdict\":\"no_match\"}",
+          "id": "fc_a7ade835-394e-4dd7-bc27-e86e511a59be",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 320,
+      "prompt_tokens": 716
+    }
+  },
+  "d13aba504104e3d0e07bb7e1e947fd7baa459d319ea895aa18abd3f10b98b95c": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_000903\",\"pay_000904\",\"pay_000898\",\"pay_000896\",\"pay_000901\",\"pay_000902\",\"pay_000900\",\"pay_000897\",\"pay_000899\"]}",
+          "id": "fc_5fc1e582-6a68-4d70-9ee9-bfc6a164db17",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 333,
+      "prompt_tokens": 995
+    }
+  },
   "d1a0979951a7a9b7b64231003a53e0a06b7abb4a5590e5a8962797aa8659fbfd": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -953,6 +1985,23 @@
     "usage": {
       "completion_tokens": 466,
       "prompt_tokens": 988
+    }
+  },
+  "d41889a85e7f4604f1fa459a3ebffd652433bc0bff111846d692d4efb26fa21f": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Maple Leaf Stationers\"}",
+          "id": "fc_9b704168-6dc7-43b0-9424-ff78f44979fe",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 87,
+      "prompt_tokens": 507
     }
   },
   "d54eaf7f880f0d1ad08f0fe4263d8ecf32f908c058d3fc9eb3eabd242bb04504": {
@@ -994,6 +2043,34 @@
       "prompt_tokens": 644
     }
   },
+  "e5fa6655a5da13fb7592069db850a9ce69484aed68d50db94109eb91c4d7bc58": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3,\"max_paise\":5000000,\"min_paise\":4000000}",
+          "id": "fc_9eef5f32-1857-492d-9984-677d525415d0",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 310,
+      "prompt_tokens": 912
+    }
+  },
+  "e8f1b5dd61633531d95f960eb3965fa48390190acba7cb9970a671b9ef71fe51": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "{\n  \"confidence\": 0.99,\n  \"payment_ids\": [],\n  \"reasoning\": \"Both pay_000041 and pay_000042 individually match the bank credit amount exactly (9728648 paise). Since there are two distinct possible matches, this is an ambiguous situation. According to the guidelines, ambiguous cases must be reported as no_match to avoid risking an incorrect allocation.\",\n  \"verdict\": \"no_match\"\n}",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 195,
+      "prompt_tokens": 784
+    }
+  },
   "ece951b1fecdcff1dd4b6d7ebfd09bf683bd9cb98a5c6cea47496c6b09aaeb1b": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -1009,6 +2086,51 @@
       "prompt_tokens": 681
     }
   },
+  "f16709d4b8a2cf7d7585256e4f868f1a35ec03b1c0f0ca6bcea22fcbb4f5df96": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 1229
+    }
+  },
+  "f263a7f013ed35098110bf0ddea6262949239a7554a631988ea76261d6931c8d": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[],\"reasoning\":\"The bank credit amount 58,929,664 paise matches exactly both a single settlement (pay_001343) and the sum of four other settlements (pay_001341, pay_001339, pay_001340, pay_001342). Since multiple distinct subsets of unattributed settlements sum to the credit, the situation is genuinely ambiguous. According to the guidelines, we must return 'no_match' rather than guessing.\",\"verdict\":\"no_match\"}",
+          "id": "fc_762a98cf-a7d7-4814-9da9-7cbaa9df9e5f",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 564,
+      "prompt_tokens": 813
+    }
+  },
+  "f3152c8ad520226219ce41a82fbbd9d6346476bda6d2fd6c6f6a2b2e2469b97a": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"UTIBN00000000199\"}",
+          "id": "fc_6da0b24c-73a8-40a9-9250-9a235a79910a",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 642,
+      "prompt_tokens": 782
+    }
+  },
   "f3554f2201b64e4fa16af63a004d48c79d0255bc8baa67f780705748cfc1882a": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -1022,6 +2144,68 @@
       "prompt_tokens": 723
     }
   },
+  "f5445f3f5f6e688eb9571d0706e1a98315c513e4205e409c6ec7b34e48aeb9b6": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[],\"reasoning\":\"The bank credit amount 81,615,154 paise matches exactly both a single settlement (pay_000905) and the sum of multiple settlements under UTR UTIBN00000000179. Since two distinct valid combinations exist, the situation is ambiguous per guidelines, so we must return no_match.\",\"verdict\":\"no_match\"}",
+          "id": "fc_e6d16964-5d8d-454d-91dd-93bf9a05bf94",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 658,
+      "prompt_tokens": 995
+    }
+  },
+  "f60b8812ce98056b0f5633fb03fcf4b5d5d9a389dbc965e9817c94ce313fe3b8": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 2542
+    }
+  },
+  "f72ae865ad35d1a355a3504c51fe37f9a3e3c8480db49e9bf24342fe0637d10e": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Infinite Loop Software\"}",
+          "id": "fc_116d9d18-d41d-40a4-9651-884e9f74ac72",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 117,
+      "prompt_tokens": 504
+    }
+  },
+  "f732e9d98a72eb010d9b62c06942d7aa0b7bf720cd1db943ed75fbdaf83c2a2d": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_001005\",\"pay_001004\",\"pay_001006\"]}",
+          "id": "fc_e1c87462-eb3d-45b7-8f6b-2e7681cc5374",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 181,
+      "prompt_tokens": 892
+    }
+  },
   "f79489039123247e853c3856162507e3c0c90f684a41134e9d5c484f5120a72c": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -1033,6 +2217,68 @@
     "usage": {
       "completion_tokens": 440,
       "prompt_tokens": 610
+    }
+  },
+  "f99d4a5e02ba809d644a9e13c3f802d01b5fd602038def47929545655c2c3cf6": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3}",
+          "id": "fc_a5835a55-75df-4f11-a80d-ca8fdc707be8",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 281,
+      "prompt_tokens": 750
+    }
+  },
+  "f9bcb134475e153259008a6024b9183f8b2a6e560ed65abf288b0b19cb5d8466": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "{\n  \"confidence\": 0.99,\n  \"payment_ids\": [],\n  \"reasoning\": \"Two distinct combinations of unattributed settlements exactly match the bank credit amount (4476261 paise): a single payment (pay_001247) and a pair of payments (pay_001245 + pay_001246). This genuine ambiguity means we cannot confidently select one over the other, so we must report no_match.\",\n  \"verdict\": \"no_match\"\n}",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 410,
+      "prompt_tokens": 1263
+    }
+  },
+  "fd8b3162030ff56fdc100851d2e6194fab43852c4aee233d91029c276a1cedc4": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[],\"reasoning\":\"The bank credit of 78,377,195 paise matches exactly two distinct settlement combinations: (1) the entire batch UTIBN00000000013, which consists of seven payments whose net sum equals the credit, and (2) a single payment pay_000050 with the same net amount and same value date but a different UTR. Since both combinations are valid and there is genuine ambiguity, we must not guess a match. Therefore, the correct verdict is no_match.\",\"verdict\":\"no_match\"}",
+          "id": "fc_113f152e-f635-4f7a-9c9f-5e63b24cd89e",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 377,
+      "prompt_tokens": 1289
+    }
+  },
+  "fddc1e746a09887b5a32d71f6b8aa7200fd871738d53def3e2b698e4dc6abbeb": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":5}",
+          "id": "fc_3be85e03-96a3-49d7-91dd-780ff0ba1c61",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 409,
+      "prompt_tokens": 971
     }
   }
 }

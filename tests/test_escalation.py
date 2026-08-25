@@ -4,6 +4,7 @@ The point of these tests is the seam between "the model said something" and "the
 asserted something". They are separate events and only the gate connects them.
 """
 
+import json
 from pathlib import Path
 
 import pytest
@@ -27,6 +28,24 @@ class FakeBackend:
         if isinstance(self.payload, Exception):
             raise self.payload
         return self.payload, {"prompt_tokens": 100, "completion_tokens": 20}
+
+    def chat(self, messages, tools, model):
+        """Agent mode: answer by immediately calling `submit` with the scripted payload.
+
+        A liar that submits on turn one is the worst case for the gate, which is exactly
+        what these tests want to put in front of it.
+        """
+        self.calls += 1
+        if isinstance(self.payload, Exception):
+            raise self.payload
+        args = dict(self.payload)
+        reply = {
+            "content": "",
+            "tool_calls": [
+                {"id": "call_1", "name": "submit", "arguments": json.dumps(args)}
+            ],
+        }
+        return reply, {"prompt_tokens": 100, "completion_tokens": 20}
 
 
 def fake_llm(payload, tmp_path, **kwargs):
@@ -153,3 +172,35 @@ def test_offline_replay_survives_a_gap_in_the_cache(tmp_path):
     before = {m.bank_txn_id: sorted(m.payment_ids) for m in baseline.bank.matches}
     after = {m.bank_txn_id: sorted(m.payment_ids) for m in result.bank.matches}
     assert before == after, "a missing cache entry must not change any asserted match"
+
+
+def test_agent_mode_is_the_default_and_still_gated(tmp_path):
+    """The loop changes how a proposal is reached, not who decides whether it stands."""
+    result = run_pipeline(DATA, use_llm=True, llm=fake_llm(CONFIDENT_LIE, tmp_path))
+    assert result.outcomes
+    assert all(o.stopped == "submitted" for o in result.outcomes), "agent path should submit"
+    assert not any(o.accepted for o in result.outcomes), "the gate let a fabrication through"
+
+
+def test_single_shot_mode_still_available_for_ablation(tmp_path):
+    """Keeping the old path means 'does the loop help' is measured, not assumed."""
+    agentic = run_pipeline(DATA, use_llm=True, llm=fake_llm(CONFIDENT_LIE, tmp_path))
+    single = run_pipeline(
+        DATA, use_llm=True, llm=fake_llm(CONFIDENT_LIE, tmp_path / "b"), agentic=False
+    )
+    assert agentic.outcomes and single.outcomes
+    assert all(o.stopped == "" for o in single.outcomes), "single-shot has no agent trace"
+    # Neither mode may move money on a fabrication.
+    assert not any(o.accepted for o in agentic.outcomes)
+    assert not any(o.accepted for o in single.outcomes)
+
+
+def test_agent_telemetry_is_recorded(tmp_path):
+    """`self_tested` is the measurement that a single-shot prompt cannot produce: did the
+    agent run its own arithmetic check on exactly what it went on to submit?"""
+    result = run_pipeline(DATA, use_llm=True, llm=fake_llm(CONFIDENT_LIE, tmp_path))
+    o = result.outcomes[0]
+    assert o.steps >= 1
+    assert o.stopped == "submitted"
+    # This fake submits without testing anything, so the answer must be "never tested".
+    assert o.self_tested is None

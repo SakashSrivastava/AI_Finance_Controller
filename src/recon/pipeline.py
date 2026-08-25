@@ -34,6 +34,7 @@ def run_pipeline(
     model: str = DEFAULT_MODEL,
     cfg: MatcherConfig = DEFAULT_MATCHER_CONFIG,
     llm: CachedLLM | None = None,
+    agentic: bool = True,
 ) -> PipelineResult:
     t0 = time.perf_counter()
     sources = load_sources(data_dir)
@@ -65,7 +66,7 @@ def run_pipeline(
         llm = CachedLLM(backend=backend, offline=offline)
 
     escalator = Escalator(llm, model=model, window_days=cfg.date_window_days,
-                          tolerance_paise=cfg.tolerance_paise)
+                          tolerance_paise=cfg.tolerance_paise, agentic=agentic)
 
     settlements = {s.payment_id: s for s in sources.settlements}
     nets = {s.payment_id: s.net_paise for s in reconciler.settlements}

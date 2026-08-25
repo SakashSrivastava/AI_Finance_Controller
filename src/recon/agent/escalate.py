@@ -15,12 +15,22 @@ from datetime import timedelta
 
 from recon.agent.client import CacheMiss, DEFAULT_MODEL, CachedLLM, ModelCallFailed
 from recon.agent.gate import GateResult, verify_bank_proposal, verify_invoice_proposal
+from recon.agent.loop import (
+    BANK_SYSTEM as AGENT_BANK_SYSTEM,
+    INVOICE_SYSTEM as AGENT_INVOICE_SYSTEM,
+    bank_opening,
+    invoice_opening,
+    run_agent,
+)
+from recon.agent.tools import BankToolbox, InvoiceToolbox
 from recon.agent.schemas import BANK_SCHEMA, INVOICE_SCHEMA, BankProposal, InvoiceProposal
 from recon.domain.models import Invoice, Settlement
 from recon.matcher.invoices import InvoiceResidue
 from recon.matcher.types import ExceptionRow, NormalisedSettlement
 
 MAX_CANDIDATES = 15
+# The agent can search for itself, so its opening packet does not need the full shortlist.
+AGENT_CANDIDATES = 8
 
 BANK_SYSTEM = """You reconcile an Indian merchant's bank statement against payment gateway settlements.
 
@@ -71,6 +81,12 @@ class Outcome:
     failure: str | None = None
     checks: dict = field(default_factory=dict)
     detail: dict = field(default_factory=dict)
+    # Agent-mode telemetry. `self_tested` is the interesting one: True/False if the agent
+    # ran test_combination on exactly what it then submitted, None if it never did.
+    steps: int = 0
+    tool_calls: int = 0
+    stopped: str = ""
+    self_tested: bool | None = None
 
 
 def _rupees(paise: int) -> str:
@@ -125,11 +141,12 @@ def build_invoice_packet(residue: InvoiceResidue, invoices: dict[str, Invoice]) 
 
 
 class Escalator:
-    def __init__(self, llm: CachedLLM, model: str = DEFAULT_MODEL, window_days: int = 3, tolerance_paise: int = 5):
+    def __init__(self, llm: CachedLLM, model: str = DEFAULT_MODEL, window_days: int = 3, tolerance_paise: int = 5, agentic: bool = True):
         self.llm = llm
         self.model = model
         self.window_days = window_days
         self.tolerance_paise = tolerance_paise
+        self.agentic = agentic
         self.outcomes: list[Outcome] = []
 
     # ------------------------------------------------------------- bank level
@@ -146,16 +163,43 @@ class Escalator:
     ) -> list[Outcome]:
         for exc in exceptions:
             candidates = self._bank_candidates(exc, available)
-            packet = build_bank_packet(exc, narrations.get(exc.bank_txn_id, ""), candidates, self.window_days)
+            narration = narrations.get(exc.bank_txn_id, "")
+            agent = None
             try:
-                raw = self.llm.propose(BANK_SYSTEM, packet, BANK_SCHEMA, self.model)
+                if self.agentic:
+                    toolbox = BankToolbox(
+                        credit_paise=exc.amount_paise,
+                        value_date=exc.value_date,
+                        settlements=available,
+                        consumed=consumed,
+                        tolerance_paise=self.tolerance_paise,
+                    )
+                    agent = run_agent(
+                        self.llm,
+                        "bank",
+                        AGENT_BANK_SYSTEM,
+                        bank_opening(exc, narration, candidates[:AGENT_CANDIDATES], self.window_days),
+                        toolbox,
+                        self.model,
+                    )
+                    proposal = BankProposal(
+                        verdict=agent.verdict,
+                        payment_ids=agent.ids,
+                        reasoning=agent.reasoning,
+                        confidence=agent.confidence,
+                    )
+                else:
+                    packet = build_bank_packet(exc, narration, candidates, self.window_days)
+                    raw = self.llm.propose(BANK_SYSTEM, packet, BANK_SCHEMA, self.model)
+                    proposal = BankProposal.model_validate(raw)
             except (ModelCallFailed, CacheMiss) as exc_err:
                 self.outcomes.append(self._call_failed(exc.bank_txn_id, "bank", str(exc_err)))
                 continue
-            proposal = BankProposal.model_validate(raw)
 
             if proposal.verdict != "match":
-                self.outcomes.append(self._declined(exc.bank_txn_id, "bank", proposal))
+                self.outcomes.append(
+                    self._trace(self._declined(exc.bank_txn_id, "bank", proposal), agent)
+                )
                 continue
 
             gate = verify_bank_proposal(
@@ -168,7 +212,12 @@ class Escalator:
                 self.tolerance_paise,
                 candidate_pool={s.payment_id: s.net_paise for s in candidates},
             )
-            self.outcomes.append(self._graded(exc.bank_txn_id, "bank", proposal, proposal.payment_ids, gate))
+            self.outcomes.append(
+                self._trace(
+                    self._graded(exc.bank_txn_id, "bank", proposal, proposal.payment_ids, gate),
+                    agent,
+                )
+            )
         return self.outcomes
 
     def _bank_candidates(self, exc: ExceptionRow, available: list[NormalisedSettlement]) -> list[NormalisedSettlement]:
@@ -183,25 +232,59 @@ class Escalator:
         self, residue: list[InvoiceResidue], payments: dict[str, Settlement], invoices: dict[str, Invoice]
     ) -> list[Outcome]:
         for item in residue:
-            packet = build_invoice_packet(item, invoices)
+            agent = None
             try:
-                raw = self.llm.propose(INVOICE_SYSTEM, packet, INVOICE_SCHEMA, self.model)
+                if self.agentic:
+                    toolbox = InvoiceToolbox(payments[item.payment_id], list(invoices.values()))
+                    agent = run_agent(
+                        self.llm,
+                        "invoice",
+                        AGENT_INVOICE_SYSTEM,
+                        invoice_opening(item),
+                        toolbox,
+                        self.model,
+                    )
+                    proposal = InvoiceProposal(
+                        verdict=agent.verdict,
+                        invoice_ids=agent.ids,
+                        reasoning=agent.reasoning,
+                        confidence=agent.confidence,
+                    )
+                else:
+                    packet = build_invoice_packet(item, invoices)
+                    raw = self.llm.propose(INVOICE_SYSTEM, packet, INVOICE_SCHEMA, self.model)
+                    proposal = InvoiceProposal.model_validate(raw)
             except (ModelCallFailed, CacheMiss) as exc_err:
                 self.outcomes.append(self._call_failed(item.payment_id, "invoice", str(exc_err)))
                 continue
-            proposal = InvoiceProposal.model_validate(raw)
 
             if proposal.verdict != "match":
-                self.outcomes.append(self._declined(item.payment_id, "invoice", proposal))
+                self.outcomes.append(
+                    self._trace(self._declined(item.payment_id, "invoice", proposal), agent)
+                )
                 continue
 
             gate = verify_invoice_proposal(proposal, payments[item.payment_id], invoices)
             self.outcomes.append(
-                self._graded(item.payment_id, "invoice", proposal, proposal.invoice_ids, gate)
+                self._trace(
+                    self._graded(item.payment_id, "invoice", proposal, proposal.invoice_ids, gate),
+                    agent,
+                )
             )
         return self.outcomes
 
     # ----------------------------------------------------------------- shared
+
+    @staticmethod
+    def _trace(outcome: Outcome, agent) -> Outcome:
+        """Attach what the agent actually did, so the loop can be measured not assumed."""
+        if agent is None:
+            return outcome
+        outcome.steps = agent.steps
+        outcome.tool_calls = len(agent.investigation.calls)
+        outcome.stopped = agent.stopped
+        outcome.self_tested = agent.self_tested
+        return outcome
 
     def _call_failed(self, target_id: str, level: str, detail: str) -> Outcome:
         """No usable answer. Recorded as an unresolved item, never as a match.
