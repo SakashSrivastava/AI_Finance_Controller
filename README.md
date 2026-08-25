@@ -220,8 +220,11 @@ and the one that happens to match ground truth is luck, not verification. So the
 re-searches the same shortlist the model was shown and refuses anything not **uniquely**
 determined.
 
-Escalating the holdout residue to `gpt-oss-20b` produced these two, verbatim from
-`audit/llm_calls.jsonl`. They are best read as a pair.
+Escalating the holdout residue to `gpt-oss-20b` produced these two. They are best read as
+a pair. All seven refused proposals, with the model's own words beside the arithmetic that
+refuted them, are committed in
+[`reports/seed7/gate_rejections.openai-gpt-oss-20b.md`](reports/seed7/gate_rejections.openai-gpt-oss-20b.md) — and reproduce with
+`recon compare --data data/7`, no API key required.
 
 **`bank_000005`** — ₹5,89,296.64
 

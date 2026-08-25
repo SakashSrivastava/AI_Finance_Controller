@@ -77,7 +77,13 @@ def evaluate(
     from recon.eval.metrics import evaluate as score
     from recon.eval.metrics import evaluate_invoices, summarise_llm
     from recon.eval.html_report import write_html_report
-    from recon.eval.report import write_cash_position, write_exceptions, write_ledger, write_metrics
+    from recon.eval.report import (
+        write_cash_position,
+        write_exceptions,
+        write_gate_rejections,
+        write_ledger,
+        write_metrics,
+    )
     from recon.pipeline import run_pipeline
 
     chosen = model or DEFAULT_MODEL
@@ -107,6 +113,8 @@ def evaluate(
     write_exceptions(result.bank.exceptions, reports)
     write_cash_position(position, reports)
     write_ledger(ledger, metrics["unresolved_value_paise"], reports)
+    if result.outcomes:
+        write_gate_rejections(result.outcomes, chosen, reports)
     write_html_report(
         metrics, position, result.bank.exceptions, reports / "report.html",
         dataset=f"seed {data.name}", holdout=data.name == "7", book=ledger,

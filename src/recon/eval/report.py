@@ -250,3 +250,60 @@ def write_ledger(ledger: Ledger, exception_value_paise: int, out_dir: Path) -> N
     (out_dir / "ledger.md").write_text(
         render_ledger(ledger, exception_value_paise), encoding="utf-8"
     )
+
+
+def render_gate_rejections(outcomes: list, model: str) -> str:
+    """Every proposal the gate refused, with the model's own words beside the arithmetic.
+
+    Committed so the claims in the README are checkable without rerunning anything and
+    without an API key. Citing evidence that is not in the repository is not evidence.
+    """
+    refused = [o for o in outcomes if o.verdict == "match" and not o.accepted]
+    lines = [
+        "# Proposals the verification gate refused",
+        "",
+        f"Model `{model}`, held-out seed. {len(refused)} of "
+        f"{sum(1 for o in outcomes if o.verdict == 'match')} proposals refused.",
+        "",
+        "Reproduce with `recon compare --data data/7` - it replays the committed cache, so "
+        "no API key is needed.",
+        "",
+    ]
+    if not refused:
+        lines.append("No proposals were refused in this run.")
+        return "\n".join(lines) + "\n"
+
+    for o in refused:
+        lines += [
+            f"## `{o.target_id}` - {o.failure}",
+            "",
+            f"**The model proposed** `{sorted(o.proposed)}` at confidence {o.confidence}.",
+            "",
+            "> " + o.reasoning.replace("\n", " "),
+            "",
+            "**The gate checked:**",
+            "",
+            "| Check | Result |",
+            "|---|---|",
+        ]
+        for check, passed in o.checks.items():
+            lines.append(f"| `{check}` | {'pass' if passed else '**FAIL**'} |")
+        if o.detail:
+            lines += ["", "**Arithmetic:**", "", "```json", _pretty(o.detail), "```"]
+        lines.append("")
+    return "\n".join(lines) + "\n"
+
+
+def _pretty(detail: dict) -> str:
+    return json.dumps(detail, indent=2, sort_keys=True)
+
+
+def write_gate_rejections(outcomes: list, model: str, out_dir: Path) -> None:
+    """One file per model. A run of the stronger model refuses nothing, and must not be
+    able to overwrite the weaker model's rejections - that is the evidence the README
+    cites."""
+    out_dir.mkdir(parents=True, exist_ok=True)
+    slug = model.replace("/", "-").replace(".", "-")
+    (out_dir / f"gate_rejections.{slug}.md").write_text(
+        render_gate_rejections(outcomes, model), encoding="utf-8"
+    )
