@@ -109,7 +109,7 @@ def evaluate(
     write_ledger(ledger, metrics["unresolved_value_paise"], reports)
     write_html_report(
         metrics, position, result.bank.exceptions, reports / "report.html",
-        dataset=f"seed {data.name}", holdout=data.name == "7",
+        dataset=f"seed {data.name}", holdout=data.name == "7", book=ledger,
     )
 
     _report(result, data, metrics)

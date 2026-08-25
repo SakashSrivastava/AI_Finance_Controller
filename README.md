@@ -343,7 +343,7 @@ To run live instead of from cache, put a [Groq](https://console.groq.com/keys) k
   reserve release schedules, international settlement lag, or partial reversals.
 - **100% precision is not a claim about reconciliation in general.** It is a measurement on
   a synthetic batch whose difficulty this project chose. The per-case-type table in
-  `reports/metrics.md` shows where the difficulty actually was — and it is worth reading
+  `reports/seed7/metrics.md` shows where the difficulty actually was — and it is worth reading
   the 91.67% recall next to it, because the two numbers trade against each other. This
   system is tuned to refuse rather than guess; a system tuned the other way would report a
   better match rate and move money to the wrong place.

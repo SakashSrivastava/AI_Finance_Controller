@@ -26,7 +26,8 @@ flowchart TD
     D[Tier 0 · collapse duplicate postings<br/>credit + reversal + repost = ONE event] --> T1
 
     T1[Tier 1 · UTR exact<br/>UTR matches AND batch sum closes] --> T2
-    T2[Tier 2 · whole batch sum in date window] --> T3
+    T2[Tier 2 · whole batch sum in date window] --> T2B
+    T2B[Tier 2b · combination of whole batches<br/>one credit paying out several batches] --> T3
     T3[Tier 3 · bounded subset sum<br/>solutions counted to 2] --> T4
     T4[Tier 4 · rounding tolerance ±5p] --> T5
     T5[Tier 5 · subset sum with tolerance] --> R
@@ -44,9 +45,12 @@ flowchart TD
     G -->|fails| X[exception<br/>llm_proposal_failed_verification]
     R -->|no proposal| X
 
-    T1 & T2 & T3 & T4 & T5 --> M
+    T1 & T2 & T2B & T3 & T4 & T5 --> M
     M --> CP[cash position]
     X --> CP
+    M --> LG[double-entry ledger]
+    X --> LG
+    LG -.->|suspense == exception value| CP
 ```
 
 ## Two levels, never conflated
@@ -116,8 +120,21 @@ answer.
 
 | Level | Checks, in order |
 |---|---|
-| Bank | payment set non-empty → every id exists → none already attributed → all inside the date window → **net amounts sum to the credit within tolerance** |
+| Bank | payment set non-empty → every id exists → none already attributed → all inside the date window → **net amounts sum to the credit within tolerance** → **no other subset of the shortlist also reconciles** |
 | Invoice | invoice set non-empty → every id exists → **every invoice belongs to the paying customer** → **payment does not exceed the invoiced total** |
+
+**Uniqueness, not just consistency.** A sum that closes is not proof on its own. If two
+different subsets of the candidates both reconcile, accepting either is a coin flip, and
+the one that happens to agree with ground truth is luck rather than verification. The gate
+re-searches the same fifteen-candidate shortlist the model was shown and refuses anything
+not uniquely determined. On the held-out run this fired five times against
+`gpt-oss-20b` — including once where the model explicitly asserted *"no other combination
+of the listed settlements sums to this amount"* and was wrong.
+
+It also means the gate sometimes refuses a correct answer, which is the honest price of
+the policy rather than a defect: on one row the model noticed the ambiguity, reasoned well,
+and reached the right invoice, and was refused on the same evidence as the row where it
+reasoned badly. From the available data those two are indistinguishable.
 
 The gate returns which checks ran and the arithmetic it found, not a boolean, because the
 exception report has to be able to say *why*. A refused proposal keeps the model's own
@@ -156,6 +173,55 @@ which is what the gate is for.
 - **Evaluation.** Ground truth is read only inside `src/recon/eval`, enforced by a test
   that scans the import graph of every other package.
 
+## The books
+
+Reconciliation says whether rows agree; the cash position says where the money is. Neither
+is bookkeeping. Every bank transaction also posts as a balanced journal entry:
+
+| | Debit | Credit |
+|---|---|---|
+| Settled batch | Bank (net credit), Gateway fees, GST input credit, Refunds, Chargebacks | Accounts receivable (**gross**) |
+| Unreconciled credit | Bank | Suspense |
+| Out-of-scope debit | Other business outflows | Bank |
+| Rounding drift | Rounding difference (either side) | |
+
+Receivables are credited **gross**, not net. Posting net would understate revenue by the
+fee and silently discard the GST input credit — which is real money the merchant can claim
+back. The merchant never sees that fee as a payment, because it is netted before the money
+arrives, so reconstructing it from the fee model is the only route by which it reaches the
+books at all.
+
+Two invariants make this a second opinion rather than a rendering:
+
+**Double entry** is arithmetic over the whole reconciliation that never consults the
+matcher's logic. A mis-attribution that moved amounts would stop the trial balance closing.
+It earned its place immediately: four `rounding_drift` batches could not balance, because
+the bank credited a few paise away from the batch total. Real books post that difference
+rather than absorbing it.
+
+**The suspense tie-out.** The exception queue is produced by the matcher; the suspense
+balance falls out of bookkeeping over every bank row. They agree to the paise. Two
+independent routes to one number, and if they ever diverge, one of them is wrong.
+
+Duplicate-posting legs and out-of-scope debits deliberately stay out of suspense — the
+first pair nets to zero because the repost carries the real entry, and a salary run is a
+known outflow rather than a mystery. Leaving either in would overstate what is genuinely
+unreconciled.
+
+## Is this an agent?
+
+It is an agent in the sense that matters here: it takes in three unlabelled sources,
+decides which strategy applies to each row, chooses when a case is beyond deterministic
+reasoning and escalates it, assembles its own evidence packet, forms a proposal, checks
+its own work against the source data, and stops — either asserting, or declining and
+saying why.
+
+It is deliberately **not** a free-roaming tool-using loop that picks its own next action
+each turn. Money movement wants bounded autonomy: a fixed decision procedure, a known
+escalation path, an arithmetic gate the model cannot argue past, and an audit trail for
+every proposal including the refused ones. The autonomy is spent on judgement and withheld
+from execution.
+
 ## Module map
 
 | Path | Responsibility |
@@ -164,10 +230,10 @@ which is what the gate is for.
 | `src/recon/generator/` | Synthetic three-source data and two-level ground truth |
 | `src/recon/matcher/` | Tier 0–5 bank matching, subset search, invoice matching |
 | `src/recon/agent/` | Packets, model client with cache and rate limiting, **the gate** |
-| `src/recon/controller/` | Cash position |
+| `src/recon/controller/` | Cash position and the double-entry ledger |
 | `src/recon/eval/` | Scoring against ground truth, report rendering |
 | `src/recon/pipeline.py` | Orchestration and absorption of verified proposals |
-| `src/recon/cli.py` | `generate`, `match`, `evaluate`, `cash-position`, `demo` |
+| `src/recon/cli.py` | `generate`, `match`, `evaluate`, `cash-position`, `ledger`, `compare`, `demo` |
 
 ## What the fee model is
 

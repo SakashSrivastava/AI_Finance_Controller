@@ -173,6 +173,44 @@ deliberately mixes two things this data cannot separate: payments the gateway wi
 payments it did pay out that could not be tied to a credit. Neither is counted as incoming
 cash.</p>
 
+
+<h2>The books <span style="font-weight:400;color:var(--muted);font-size:15px">291 journal entries</span></h2>
+<div class="cards">
+  <div class="card"><div class="k">Trial balance</div><div class="v good">BALANCED</div></div>
+  <div class="card"><div class="k">Total debits</div><div class="v" style="font-size:19px">₹14,30,15,765.92</div></div>
+  <div class="card"><div class="k">Total credits</div><div class="v" style="font-size:19px">₹14,30,15,765.92</div></div>
+  <div class="card"><div class="k">Suspense ties to queue</div><div class="v good">YES</div></div>
+</div>
+<div class="scroll"><table>
+<thead><tr><th>Account</th><th></th><th class="num">Balance</th></tr></thead><tbody>
+
+<tr><td>Accounts receivable</td><td>Cr</td><td class="num">₹11,61,77,693.69</td></tr>
+
+<tr><td>Bank</td><td>Dr</td><td class="num">₹12,13,23,853.12</td></tr>
+
+<tr><td>Chargebacks</td><td>Dr</td><td class="num">₹14,87,895.31</td></tr>
+
+<tr><td>GST input credit</td><td>Dr</td><td class="num">₹4,18,959.77</td></tr>
+
+<tr><td>Gateway fees</td><td>Dr</td><td class="num">₹23,27,553.95</td></tr>
+
+<tr><td>Other business outflows</td><td>Dr</td><td class="num">₹11,99,384.49</td></tr>
+
+<tr><td>Refunds and sales returns</td><td>Dr</td><td class="num">₹17,88,536.80</td></tr>
+
+<tr><td>Rounding difference</td><td>Cr</td><td class="num">₹0.01</td></tr>
+
+<tr><td>Suspense</td><td>Cr</td><td class="num">₹1,23,68,489.74</td></tr>
+
+</tbody></table></div>
+<p class="note">Double entry is arithmetic over the whole reconciliation that never consults
+the matcher's logic &mdash; a mis-attribution that moved amounts would stop the trial balance
+closing. The suspense balance and the exception queue are two independent routes to the same
+number: the queue comes from the matcher, the balance falls out of bookkeeping over every
+bank row. Receivables are credited <strong>gross</strong>, because posting net would
+understate revenue by the fee and discard the GST input credit.</p>
+
+
 <h2>Exception queue</h2>
 <p class="note">27 unresolved. Split into what a human could clear with
 more context, and what is genuinely unresolvable from the three available sources.</p>
@@ -292,7 +330,7 @@ more context, and what is genuinely unresolvable from the three available source
 <hr class="rule">
 <p class="note">Synthetic data, generated from a fixed seed. Tuning was done on seed 42;
 these numbers are from unseen seed 7.
-Deterministic matching ran 1634 records in 0.023s
-(72,102 records/second).</p>
+Deterministic matching ran 1634 records in 0.027s
+(60,143 records/second).</p>
 
 </div></body></html>

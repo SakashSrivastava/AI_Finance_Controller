@@ -115,6 +115,28 @@ deliberately mixes two things this data cannot separate: payments the gateway wi
 payments it did pay out that could not be tied to a credit. Neither is counted as incoming
 cash.</p>
 
+{% if book %}
+<h2>The books <span style="font-weight:400;color:var(--muted);font-size:15px">{{ book.entries|length }} journal entries</span></h2>
+<div class="cards">
+  <div class="card"><div class="k">Trial balance</div><div class="v {{ 'good' if book.balances else 'bad' }}">{{ 'BALANCED' if book.balances else 'OUT' }}</div></div>
+  <div class="card"><div class="k">Total debits</div><div class="v" style="font-size:19px">{{ fmt(book.total_debits) }}</div></div>
+  <div class="card"><div class="k">Total credits</div><div class="v" style="font-size:19px">{{ fmt(book.total_credits) }}</div></div>
+  <div class="card"><div class="k">Suspense ties to queue</div><div class="v {{ 'good' if tie_out else 'bad' }}">{{ 'YES' if tie_out else 'NO' }}</div></div>
+</div>
+<div class="scroll"><table>
+<thead><tr><th>Account</th><th></th><th class="num">Balance</th></tr></thead><tbody>
+{% for account, balance in book.trial_balance().items() %}
+<tr><td>{{ account }}</td><td>{{ 'Dr' if balance >= 0 else 'Cr' }}</td><td class="num">{{ fmt(balance if balance >= 0 else -balance) }}</td></tr>
+{% endfor %}
+</tbody></table></div>
+<p class="note">Double entry is arithmetic over the whole reconciliation that never consults
+the matcher's logic &mdash; a mis-attribution that moved amounts would stop the trial balance
+closing. The suspense balance and the exception queue are two independent routes to the same
+number: the queue comes from the matcher, the balance falls out of bookkeeping over every
+bank row. Receivables are credited <strong>gross</strong>, because posting net would
+understate revenue by the fee and discard the GST input credit.</p>
+{% endif %}
+
 <h2>Exception queue</h2>
 <p class="note">{{ exceptions|length }} unresolved. Split into what a human could clear with
 more context, and what is genuinely unresolvable from the three available sources.</p>
@@ -144,6 +166,7 @@ def write_html_report(
     out_path: Path,
     dataset: str = "seed 42",
     holdout: bool = False,
+    book=None,
 ) -> None:
     timings = metrics.get("timings", {})
     det = max(timings.get("bank_s", 0) + timings.get("invoice_s", 0), 1e-6)
@@ -161,6 +184,11 @@ def write_html_report(
             payments=metrics.get("invoice_level", {}).get("payments", 0),
             records=records,
             det_seconds=det,
+            book=book,
+            tie_out=(
+                book is not None
+                and abs(book.suspense_paise) == metrics.get("unresolved_value_paise", -1)
+            ),
         ),
         encoding="utf-8",
     )
