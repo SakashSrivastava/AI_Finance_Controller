@@ -27,8 +27,14 @@ after the matcher was finished and never used to tune anything.**
 | Recall (strict) | 92.06% | — |
 | Matched | 232 of 291 rows | **1,343 of 1,343** |
 | Coverage | 90.72% | 100% |
+| Match rate | 79.73% | 100% |
 | Unresolved | 27 exceptions | 0 |
 | Value under investigation | ₹1,23,68,489.74 | |
+
+Match rate is the share of bank rows carrying an asserted match. It is reported **after**
+precision on purpose: a system that matches everything wrongly scores 100% on it. Coverage
+(90.72%) is higher because it also counts rows the system *explained* without asserting
+money against them — a reversal leg, an out-of-scope debit.
 
 Precision is stated before match rate everywhere in this project, because **a wrong match
 on money is worse than no match.** Agreement is *strict set equality*: a match is a set of
@@ -130,6 +136,59 @@ that happens to call an LLM.
 The model is never asked to do arithmetic. Structured outputs are enforced provider-side
 by a strict JSON schema, so a malformed reply is impossible — which says nothing about
 whether the content is *right*, which is exactly what the gate is for.
+
+### Is this an agent?
+
+Worth answering directly, because "agent" usually means something more autonomous than
+this.
+
+It **is** an agent in the sense that matters here. It takes in three unlabelled sources,
+decides for itself which strategy applies to each row, chooses when a case is beyond
+deterministic reasoning and escalates it, assembles its own evidence packet, forms a
+proposal, **checks its own work against the source data**, and stops — either asserting,
+or declining and saying why. Perceive, decide, act, verify, abstain, with a stopping rule.
+It runs unattended over a batch and produces a decision and a justification for every row.
+
+It is deliberately **not** a free-roaming tool-using loop that decides its own next action
+each turn. That would be the wrong shape for this problem. Money movement wants bounded
+autonomy: a fixed decision procedure, a known escalation path, an arithmetic gate the
+model cannot argue past, and an audit trail for every proposal including the refused ones.
+An agent that can talk itself into a transfer is a liability, and the track's own premise —
+that verification is the bottleneck — is the reason why.
+
+So the autonomy is spent on judgement, and withheld from execution. That is a design
+decision, and the rejected proposals in `audit/llm_calls.jsonl` are the evidence it was
+the right one.
+
+### Running the books
+
+Reconciliation says whether rows agree. The cash position says where the money is. Neither
+is bookkeeping, so the reconciliation also **posts to a double-entry ledger** — one
+balanced journal entry per bank transaction, with receivables credited gross and the
+gateway fee and its GST debited explicitly. The merchant never sees that fee as a payment;
+it is netted before the money arrives, so reconstructing it is the only way it reaches the
+books at all, and the GST is a real input credit.
+
+Two invariants make the ledger a second opinion rather than a rendering:
+
+| Check | Result |
+|---|---|
+| Every journal entry balances, and so does the ledger | ✅ 291 entries, ₹14,30,15,765.92 both sides |
+| Suspense balance == exception queue value | ✅ ₹1,23,68,489.74 both routes |
+
+Double entry is arithmetic over the whole reconciliation that never consults the matcher's
+logic, so a mis-attribution that moved amounts would stop the trial balance closing. It
+found something the moment it was switched on: four `rounding_drift` batches could not
+balance, because the bank credited a few paise away from the batch total. Real books post
+that to a rounding difference rather than absorbing it — so now these do too.
+
+The suspense tie-out is the same idea from the other side. The exception queue is produced
+by the matcher; the suspense balance falls out of bookkeeping over every bank row. Two
+independent routes, one number, asserted by a test.
+
+```bash
+recon ledger --data data/7
+```
 
 Full detail: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). The settlement and statement
 conventions the matcher was written against: [`docs/CONVENTIONS.md`](docs/CONVENTIONS.md).
@@ -240,11 +299,13 @@ recon match --data data/42 --no-llm   # deterministic tiers only
 recon match --data data/42 --offline  # replay the committed cache
 recon evaluate --data data/7          # score against ground truth, write reports
 recon cash-position --data data/7      # where the money is
+recon ledger --data data/7             # the books: journal entries and trial balance
 pytest -q                              # 100 tests
 ```
 
 Outputs land in `reports/`: `report.html` (self-contained, no server), `metrics.md`,
-`metrics.json`, `exceptions.csv`, `cash_position.md`.
+`metrics.json`, `exceptions.csv`, `cash_position.md`, `ledger.md`. The published run is
+committed under `reports/seed7/` so the numbers can be read without running anything.
 
 To run live instead of from cache, put a [Groq](https://console.groq.com/keys) key in
 `.env` (see `.env.example`) and pass `--live`.
