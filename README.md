@@ -195,7 +195,7 @@ conventions the matcher was written against: [`docs/CONVENTIONS.md`](docs/CONVEN
 
 ---
 
-## Two findings
+## Three findings
 
 ### 1. A well-formed key is not a correct key
 
@@ -257,6 +257,55 @@ stating plainly rather than hiding: refusing `bank_000134` lost one true positiv
 accepting it on the same evidence would have meant accepting `bank_000005`, which moves
 money to the wrong place. Given a wrong match on money is worse than no match, that is the
 right trade — but it is a trade, not a free lunch.
+
+### 3. Giving the agent a verification tool did not solve verification
+
+The escalation layer is a real agent loop: read-only tools, the model choosing which to
+call and when to stop, `submit` as the only terminal action. One of those tools is
+`test_combination`, which sums a proposed set and reports whether it closes against the
+bank credit. The agent can check its own arithmetic before committing — exactly what a
+human reconciler does.
+
+It used it. On **8 of 8** refused proposals, the agent had run `test_combination` on
+precisely the set it went on to submit, and its own check had come back `closes: true`.
+The check was correct. It then submitted at 0.90–0.99 confidence.
+
+The gate refused all eight, every one for `another_subset_also_reconciles`.
+
+| Of the 8 self-verified proposals the gate refused | |
+|---|---|
+| Would have been **correct** | **4** |
+| Would have been **wrong** | **4** |
+
+A coin flip, measured. Two of those rows make it concrete — they are the two halves of one
+amount collision:
+
+| | agent submitted | ground truth | |
+|---|---|---|---|
+| `bank_000087` | `pay_000905` | nine other payments | **wrong** |
+| `bank_000088` | `pay_000905` | `pay_000905` | **right** |
+
+Same answer, same confidence, same successful self-check, opposite outcomes — because both
+sets close against both credits, and nothing in the data says which belongs to which.
+
+**The agent verified the wrong property.** It confirmed *this combination closes*. What
+had to be true was *only this combination closes*. That second question is not one a
+proposer can answer about itself — it requires searching the space you did not propose,
+which is the definition of an independent check.
+
+So refusing those eight cost four true positives and prevented four false matches on real
+money. Given a wrong match is worse than no match, that is the right trade — and it is a
+trade, not a free lunch.
+
+This is the sharpest form of the track's premise. Generation was not the bottleneck. Nor
+was self-verification, which the agent performed correctly and which was not enough.
+
+> **Caveat, stated plainly.** This agentic pass covers 21 of 41 escalations. Groq's free
+> tier caps 200,000 tokens per model per day and an agent loop resends its whole
+> conversation each turn, so the run exhausted the daily budget partway. The finding above
+> concerns the *nature* of the failure and holds on the completed items; the headline
+> results in this README come from the completed single-shot runs, not from this one.
+> Reproduce with `recon compare --data data/7 --models openai/gpt-oss-20b`.
 
 ### Model comparison
 

@@ -174,6 +174,7 @@ def compare(
     data: Path = typer.Option(Path("data/42")),
     models: str = typer.Option(None, help="Comma-separated model ids."),
     offline: bool = typer.Option(True, "--offline/--live"),
+    agentic: bool = typer.Option(False, "--agentic/--single-shot"),
 ) -> None:
     """Run identical escalation packets through several models and grade the gate.
 
@@ -197,7 +198,7 @@ def compare(
     typer.echo(header)
     typer.echo("  " + "-" * (len(header) - 2))
     for model in chosen:
-        result = run_pipeline(data, use_llm=True, offline=offline, model=model)
+        result = run_pipeline(data, use_llm=True, offline=offline, model=model, agentic=agentic)
         proposed = [o for o in result.outcomes if o.verdict == "match"]
         accepted = [o for o in result.outcomes if o.accepted]
         rejected = [o for o in proposed if not o.accepted]
@@ -210,6 +211,9 @@ def compare(
         for o in rejected:
             typer.echo(f"      REJECTED {o.target_id}: {o.failure}")
             typer.echo(f"        model said {sorted(o.proposed)} at confidence {o.confidence}")
+            if o.self_tested is not None:
+                verified = "and its own test_combination said it closes" if o.self_tested else "though its own test said it does not close"
+                typer.echo(f"        the agent verified this itself {verified}")
             typer.echo(f"        {o.reasoning[:150]}")
     typer.echo("")
 
