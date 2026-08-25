@@ -18,73 +18,90 @@ equality fails on most rows.
 **Tuning was done on seed 42. Every number below is from seed 7, which was generated
 after the matcher was finished and never used to tune anything.**
 
-### Bank ↔ batch — 291 rows
+### Headline — full system, held-out seed 7
 
-| Metric | Value |
-|---|---|
-| **Precision (strict set equality)** | **100.00%** |
-| Recall (strict) | 91.67% |
-| Mean Jaccard overlap | 1.000 |
-| **False matches** | **0 of 231 asserted** |
-| False matches on unresolvable rows | 0 |
-| Coverage | 90.38% |
-| Exceptions | 28 |
-| Value under investigation | ₹1,32,07,474.61 |
+| | Bank ↔ batch | Payment ↔ invoice |
+|---|---|---|
+| **Precision (strict set equality)** | **100.00%** | **100.00%** |
+| **False matches** | **0** of 232 asserted | **0** of 1,343 |
+| Recall (strict) | 92.06% | — |
+| Matched | 232 of 291 rows | **1,343 of 1,343** |
+| Coverage | 90.72% | 100% |
+| Unresolved | 27 exceptions | 0 |
+| Value under investigation | ₹1,23,68,489.74 | |
 
-### Payment ↔ invoice — 1,343 payments
+Precision is stated before match rate everywhere in this project, because **a wrong match
+on money is worse than no match.** Agreement is *strict set equality*: a match is a set of
+ids, and getting four of five right in a batch is a wrong answer, because the money does
+not reconcile. Mean Jaccard is 1.000 — there are no near misses, only refusals.
 
-| Metric | Value |
-|---|---|
-| **Precision (strict set equality)** | **100.00%** |
-| Matched | 1,330 of 1,343 (deterministic only) |
-| Residue escalated to the model | 13 |
+### Deterministic vs escalated
+
+The tiers are run twice, once with the model layer disabled, so its marginal contribution
+is measured rather than assumed:
+
+| | Deterministic only | With model escalation | Lift |
+|---|---|---|---|
+| Bank precision | 100.00% | 100.00% | — |
+| Bank recall | 91.67% | 92.06% | +1 match |
+| Bank exceptions | 28 | 27 | −1 |
+| Invoice matched | 1,330 / 1,343 | **1,343 / 1,343** | **+13** |
+| Invoice precision | 100.00% | 100.00% | — |
+| Value under investigation | ₹1,32,07,474.61 | ₹1,23,68,489.74 | −₹8.4L |
+
+**The model's contribution is small and entirely semantic**: thirteen mangled invoice
+references the deterministic tiers refused, plus one compound bank case
+(`combined_payout` + `settlement_hold`) that no single tier covers. It resolved zero of
+the arithmetic problems, because code had already searched those exhaustively. That is the
+honest result and it is the empirical form of the track's own claim — generation was never
+the bottleneck.
 
 ### Throughput
 
 | Metric | Value |
 |---|---|
-| Deterministic matching | 1,634 records in 0.081s |
-| Records/second | **~20,000** |
-| Model calls | 41 per model (cached; replayable offline) |
+| Deterministic matching | 1,634 records in ~0.02–0.08s |
+| Records/second | **20,000 – 87,000** (varies with machine load) |
+| Model calls | 41 per model, cached and replayable offline |
 | Cost | ₹0 — Groq free tier |
 
-With escalation the bank level reaches 92.06% recall and 232 asserted matches, and the
-invoice level reaches **1,343 of 1,343 at 100% precision** — the model resolves every
-mangled reference the deterministic tiers refused, and all of them survive the gate.
+The deterministic path is milliseconds. The escalation path takes tens of minutes of wall
+clock on a rate-limited free tier for 41 calls. Those are different regimes and reporting
+one number for both would be misleading.
 
-Precision is stated before match rate everywhere in this project, because **a wrong match
-on money is worse than no match.** Agreement is *strict set equality*: a match is a set of
-payment ids, and getting four of five right in a batch is a wrong answer, because the
-money does not reconcile. Mean Jaccard is reported alongside so near misses can be
-distinguished from wild guesses.
+### Why recall is 92% and not higher
 
-### Why recall is 91.67% and not higher
+The gap is almost entirely one case type, and the system is **behaving correctly** on it:
 
-The missing 8% is almost entirely one case type, and the system is **behaving correctly**
-on it:
-
-| Case type | Rows | Asserted | Precision | Recall |
-|---|---|---|---|---|
-| `amount_collision` | 18 | **0** | — | **0.00%** |
-| `missing_utr` | 64 | 38 | 100.00% | 67.86% |
-| `combined_payout` | 21 | 18 | 100.00% | 85.71% |
-| `settlement_hold` | 19 | 17 | 100.00% | 89.47% |
-| `rounding_drift` | 5 | 4 | 100.00% | 80.00% |
-| `clean_batch` | 99 | 99 | 100.00% | 100.00% |
-| `truncated_narration` | 17 | 17 | 100.00% | 100.00% |
-| `timing_gap` | 40 | 37 | 100.00% | 97.37% |
+| Case type | Rows | Asserted | Precision | Matchable | Recall |
+|---|---|---|---|---|---|
+| `amount_collision` | 18 | **0** | — | 18 | **0.00%** |
+| `missing_utr` | 64 | 38 | 100.00% | 56 | 67.86% |
+| `rounding_drift` | 5 | 4 | 100.00% | 5 | 80.00% |
+| `combined_payout` | 21 | 19 | 100.00% | 21 | 90.48% |
+| `refund_in_batch` | 17 | 14 | 100.00% | 15 | 93.33% |
+| `settlement_hold` | 19 | 18 | 100.00% | 19 | 94.74% |
+| `clean_batch` | 99 | 99 | 100.00% | 99 | 100.00% |
+| `timing_gap` | 40 | 38 | 100.00% | 38 | 100.00% |
+| `truncated_narration` | 17 | 17 | 100.00% | 17 | 100.00% |
+| `chargeback_in_batch` | 8 | 8 | 100.00% | 8 | 100.00% |
+| `dup_repost` | 11 | 11 | 100.00% | 11 | 100.00% |
 
 An **amount collision** is two batches settling in the same window with an identical net
 total, where neither bank narration carries a UTR. Nothing in the data distinguishes them.
-The system asserts nothing on all 18 and files them as
-`ambiguous_multiple_subsets`. Guessing would have raised recall to ~97% and produced
-roughly nine false matches on real money. Refusing is the correct answer, and it is why
-recall is reported second.
+The system asserts nothing on all 18 and files them as `ambiguous_multiple_subsets`.
+Guessing would have lifted recall to roughly 98% and produced about nine false matches on
+real money. Refusing is the correct answer, and it is why recall is reported second.
 
-The remaining 7 exceptions are **genuinely unresolvable**: direct NEFT credits from
-customers who bypassed the gateway, so no settlement record exists at all. A system
-reporting 100% coverage on this data would be lying. Every exception is listed with a
-specific reason code and the action a human should take, in `reports/exceptions.csv`.
+The `missing_utr` line is the same story counted differently. Every collision is also a
+missing-UTR row, so 18 of its 56 matchable rows *are* the collisions. The other 38 are all
+matched, correctly, with no UTR to go on — which is exactly 67.86%. Once the collisions are
+set aside, amount-and-date matching resolves every remaining UTR-less credit.
+
+The remaining exceptions are **genuinely unresolvable**: direct NEFT credits from customers
+who bypassed the gateway, so no settlement record exists at all. A system reporting 100%
+coverage on this data would be lying. Every exception carries a specific reason code and
+the action a human should take, in `reports/seed7/exceptions.csv`.
 
 ---
 
