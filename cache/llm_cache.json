@@ -27,6 +27,23 @@
       "prompt_tokens": 1842
     }
   },
+  "01e7ba14827f599cb7ac53ae8e1b84a800b92cbe212dc054556eac55e3cc12fd": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Aakash Sports Goods\"}",
+          "id": "fc_6b9981da-0085-4eae-bd2e-201841e4a5b2",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 98,
+      "prompt_tokens": 978
+    }
+  },
   "0261768d473207e6b125d2e07c7effacfd0af5ac5757c821e3a93a9afe424f99": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -74,6 +91,23 @@
       "prompt_tokens": 943
     }
   },
+  "0428eeb6a3599ff44351db450fa230eb353615cede00d700c00165718ba1e44c": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_000448\"]}",
+          "id": "fc_bcdf05e2-b540-4cd1-ac46-a585dc02903d",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 423,
+      "prompt_tokens": 1111
+    }
+  },
   "050909ba0220ead53819940e8e714482a041a2bc97b411c42708b7ca76f0002c": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -108,6 +142,23 @@
       "prompt_tokens": 1140
     }
   },
+  "0724ef8e0d4a41e10daba75cee6fcf0c229fb685c64ac24a49b5f45882a31b7c": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Vishal Auto Components\"}",
+          "id": "fc_e8c0eb3a-c0e1-4dc3-985e-f0e8072289bf",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 242,
+      "prompt_tokens": 976
+    }
+  },
   "073792ce1c0240206ff8fa2deddf8d1c6a2295b0f7a676ba2b093dc8de245834": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -138,6 +189,23 @@
     "usage": {
       "completion_tokens": 388,
       "prompt_tokens": 678
+    }
+  },
+  "09518219d3f62aa40cac2fd5f8df0028e1220a251f881e729fde690f2f2d977a": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"ICICN00000000001\"}",
+          "id": "fc_ce195dc5-39b4-484c-bba0-6cccc812e3d8",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 721,
+      "prompt_tokens": 1071
     }
   },
   "09d54cc275190196d16a96bef990ed39eb495fb70b9e383e162bf2511992570c": {
@@ -172,6 +240,23 @@
     "usage": {
       "completion_tokens": 230,
       "prompt_tokens": 789
+    }
+  },
+  "0afc2de779d5d69b8ac795da4ae9bcd4df4c2fcfee849a78ae452b73438f0109": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Lotus Hospitality Services\"}",
+          "id": "fc_772981fe-663f-4164-8bd6-df1246fa8ba8",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 49,
+      "prompt_tokens": 497
     }
   },
   "0b3ae8d975a2f6d166704ee24b3cb9b3d39502eb9d924f191ecf58eb8a78de32": {
@@ -236,6 +321,23 @@
     "usage": {
       "completion_tokens": 378,
       "prompt_tokens": 1026
+    }
+  },
+  "0e39e02603c67ee603551d5a7e3ddb8883c79151ca777b47f72667fed53ac498": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.95,\"payment_ids\":[],\"reasoning\":\"No combination of the unattributed settlements within the 3\u2011day window sums to the bank credit amount of 17,304,860 paise. The credit appears to be a direct customer payment that bypasses the gateway, so there is no matching settlement.\",\"verdict\":\"no_match\"}",
+          "id": "fc_31b3170c-4a0d-497e-81ca-5241b251c53e",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 1648,
+      "prompt_tokens": 931
     }
   },
   "0ecf72a2ce34b93e7d6adcd97c141efd9c3d72fc3be6667c2a9b88855b5494e1": {
@@ -378,6 +480,23 @@
     "usage": {
       "completion_tokens": 171,
       "prompt_tokens": 975
+    }
+  },
+  "1b6ddd98c01f2686e7a8b5623c8cb8a7e7f956a7fbcec100b6e2b3454cb0f2d1": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_000092\"]}",
+          "id": "fc_ea80ba55-485c-4b2e-94fc-c5d0927e39af",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 268,
+      "prompt_tokens": 1022
     }
   },
   "1ca299200f444ce663b0a516fe39b3ca05c54d7c1d22545b80d20e819925582a": {
@@ -638,6 +757,17 @@
       "prompt_tokens": 959
     }
   },
+  "2aa50a359f5298f26a8ba1f510159c30be1053c3bd81101df8a6d3fb9d348ed2": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 930
+    }
+  },
   "2af2d399b483d96c58151059eca626860301b2bcb09e874067df35b45e366ddc": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -663,6 +793,23 @@
     "usage": {
       "completion_tokens": 3000,
       "prompt_tokens": 912
+    }
+  },
+  "2b52f6b05e2223e61afa1bba394fb2ef9b015d9497da1d6650f4a70a949b7315": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[],\"reasoning\":\"The bank credit amount 16,296,095 paise does not match any combination of unattributed settlements within the 3\u2011day window. The narration indicates a direct payment from a customer, which typically has no gateway counterpart. No subset of the available settlements sums to the credit amount, and no other settlements exist in the relevant period. Therefore, the correct verdict is no_match.\",\"verdict\":\"no_match\"}",
+          "id": "fc_354d89e6-44bb-4039-b8cf-c4b74f8da609",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 964,
+      "prompt_tokens": 1457
     }
   },
   "2c518a6113aec28fad9efb1eda250b03e0b3ab6b527b54ea71fb9ce71b9fa472": {
@@ -693,6 +840,23 @@
     "usage": {
       "completion_tokens": 2013,
       "prompt_tokens": 762
+    }
+  },
+  "2dcb46935d46a30c9b30b3bfbd72cdb2a070101504facb706ad8074b67ff690f": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3}",
+          "id": "fc_43557823-416a-42c9-a03f-bb145e73ebba",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 506,
+      "prompt_tokens": 795
     }
   },
   "2fbc42714838952d31c65a03225104de3392a2fac44a4037d89e1b873fc6dba8": {
@@ -856,6 +1020,23 @@
     "usage": {
       "completion_tokens": 673,
       "prompt_tokens": 683
+    }
+  },
+  "37a478a71d408984e795f3f7e13d2b09d97fc8aab54d3e994641c6a0e95ea7dc": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.95,\"invoice_ids\":[\"INV-2026-00192\"],\"reasoning\":\"The reference contains the numeric part 2026-00192 which matches invoice INV-2026-00192 for Lotus Hospitality Services. The prefix 'INVOICE' is a common corruption of 'INV'. The payment amount (2307180 paise) is less than the invoice total (10186971 paise), so it can be a partial settlement of that invoice. No other invoices match the corrupted reference. Therefore the payment settles invoice INV-2026-00192.\",\"verdict\":\"match\"}",
+          "id": "fc_65d707df-3ec6-4787-a035-06ea49aa73f5",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 241,
+      "prompt_tokens": 959
     }
   },
   "3925c04593703447d336b831e268f6945b68190d3c93fb69b5d72996420144bc": {
@@ -1230,6 +1411,23 @@
       "prompt_tokens": 685
     }
   },
+  "54185b792d075a39a8a9fa06cd6b156a49df05663309d96ea861bd0131db65eb": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0,\"payment_ids\":[],\"reasoning\":\"Both pay_000448 and pay_000449 have identical net amounts (9600226 paise) and settlement dates matching the bank credit. No additional distinguishing information (e.g., UTR, withheld status, or other metadata) is available to resolve which settlement corresponds to the credit. According to the guidelines, when multiple distinct combinations match the amount exactly, the correct action is to return no_match to avoid a wrong match.\",\"verdict\":\"no_match\"}",
+          "id": "fc_a92c88cc-c565-4188-973d-96a5be48df01",
+          "name": "functions.submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 596,
+      "prompt_tokens": 758
+    }
+  },
   "55725048ab12d616fdd4bfc7847620db1dfcd42e4c6aefd431201dc88ba772a4": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -1241,6 +1439,28 @@
     "usage": {
       "completion_tokens": 463,
       "prompt_tokens": 644
+    }
+  },
+  "5574d5a648f9f26035dc4c11457344ba43b7270959d27de1b96101e9cf2738a5": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": "{\n  \"confidence\": 0.1,\n  \"invoice_ids\": [],\n  \"reasoning\": \"The reference lists invoice numbers 00376, 00377, and 00378, none of which exist for customer Aakash Sports Goods. The only invoice close to these numbers is 00078, but the reference does not match it and the payment amount exceeds the amount of that invoice alone. No combination of invoices can be uniquely tied to the corrupted reference, so we cannot determine a specific settlement.\",\n  \"verdict\": \"no_match\"\n}",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 2058,
+      "prompt_tokens": 1440
+    }
+  },
+  "56b18160d803e075dacdfbabd1503fde4369ef63682a87578101a1e03d09c466": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 1000
     }
   },
   "56fe10e476ac35e18ce2721fe52fd396f86c76da3094f58eb93a248f9707e471": {
@@ -1327,6 +1547,23 @@
     "usage": {
       "completion_tokens": 3000,
       "prompt_tokens": 1191
+    }
+  },
+  "5daa851f7337c48e1916068c80b2ef1867a33d9282231663a290c3c06f172e24": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"SBINN00000000093\"}",
+          "id": "fc_ee71614f-df77-49fe-a5b1-75ab045cf3ce",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 229,
+      "prompt_tokens": 1001
     }
   },
   "5db44c25a92974fb647c6fe85bf5a7934c10d883a5e83634ddd66ce6a4667a7b": {
@@ -1421,6 +1658,23 @@
       "prompt_tokens": 1095
     }
   },
+  "66563da58ea9eb49c5a113f706aff0c2b8929c704d1dc6f1e6b20ff2923905e4": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.9,\"payment_ids\":[],\"reasoning\":\"Both pay_000448 and pay_000449 individually match the bank credit amount and are unattributed. No additional distinguishing information is available, leading to genuine ambiguity. According to policy, we must return no_match to avoid a wrong match.\",\"verdict\":\"no_match\"}",
+          "id": "fc_95aa8901-8e64-4ce9-ae26-2cb1497cbd1b",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 335,
+      "prompt_tokens": 977
+    }
+  },
   "67525d8332dcbd51b56b54956936d5b16ba108827b9476465dda2a24998d2fa5": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -1494,6 +1748,23 @@
     "usage": {
       "completion_tokens": 563,
       "prompt_tokens": 1507
+    }
+  },
+  "6d4d2fdd4c59f5fb656fe5af10bb552bb73c06ab766fdc3aaf3b0d07df486dd0": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Vishal Auto Components\"}",
+          "id": "fc_e1730982-2b8a-480c-b718-9a15f2f92001",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 130,
+      "prompt_tokens": 513
     }
   },
   "6e888ef7b69359bafd1a961917acad15f67565ebaf891f719edb55c32d79a3fa": {
@@ -1597,6 +1868,23 @@
       "prompt_tokens": 1172
     }
   },
+  "729101b7990bdcbe4eac39bf30e582fb800f2ac0f70fc7b845ed54533d49587f": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Aakash Sports Goods\"}",
+          "id": "fc_e106a7fa-2d1a-47bd-b21a-13249cd9c5a3",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 51,
+      "prompt_tokens": 498
+    }
+  },
   "7418a50270b2592e17a36a3b4ed8b3b5b39957d9b805a3121e039ef2c245f77f": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -1608,6 +1896,23 @@
     "usage": {
       "completion_tokens": 980,
       "prompt_tokens": 762
+    }
+  },
+  "746a081db44ec4aa39fb87ec9f28988d5acd9cd3c72623bbe352458529cff051": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.9,\"invoice_ids\":[],\"reasoning\":\"The reference 'INVOICE-2026-00260' does not correspond to any invoice belonging to customer Aakash Sports Goods. No invoice with ID 2026-00260 exists in the customer's list, and there is no evidence that it refers to a different customer\u2019s invoice. Therefore, the reference cannot be tied to a specific invoice.\",\"verdict\":\"no_match\"}",
+          "id": "fc_6e6e4eac-3b09-4d7f-99af-26aa277485bd",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 489,
+      "prompt_tokens": 1441
     }
   },
   "75a19e8e071fc60e63c87ec10249e493aecc875b53968b356c38b9b7f69d217e": {
@@ -1625,6 +1930,23 @@
     "usage": {
       "completion_tokens": 252,
       "prompt_tokens": 1120
+    }
+  },
+  "75cc5cb740d6cf8de080a1d3069be276e606f7db5a573a44f9f08581af95cf20": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":7}",
+          "id": "fc_5f45b304-3203-42c6-8bb9-babebdf3a5fb",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 774,
+      "prompt_tokens": 1181
     }
   },
   "770e1007899b004b41e4f348d0d5ca93808e67dd1cfedb67ee72a83e129322dc": {
@@ -1813,6 +2135,23 @@
       "prompt_tokens": 998
     }
   },
+  "802a3dc60eecb9014a4541a83565a2f79e26b4eee45824d731f6f93f04c3b262": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Aakash Sports Goods\"}",
+          "id": "fc_835db803-20d5-42e2-9a2c-e0e37719d37d",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 83,
+      "prompt_tokens": 960
+    }
+  },
   "80424865d2b0dda2d2338970aa03c9bf5588fc7c03213545c2ce76d6b2aa3e71": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -1839,6 +2178,23 @@
     "usage": {
       "completion_tokens": 254,
       "prompt_tokens": 833
+    }
+  },
+  "813dc6002954c8f58dba755bcd279a38a2f585dbc691609bc7a70d5d680c4482": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"HDFCN00000000024\"}",
+          "id": "fc_9ff4bff4-1642-44fc-8055-393dc0f14052",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 160,
+      "prompt_tokens": 912
     }
   },
   "81510144b5708c5d48b9e9e5eefc368b54b405e11dfd4880ec14893eaca2f98f": {
@@ -2099,6 +2455,23 @@
       "prompt_tokens": 802
     }
   },
+  "9338fb91a497022c66bb7e034fa3e9f2e8f75dda6e14c8179ad68c616bfd8c1f": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"invoice_ids\":[\"INV-2026-00179\",\"INV-2026-00180\",\"INV-2026-00181\"]}",
+          "id": "fc_a652ad04-429b-44bc-b637-ce60d8327187",
+          "name": "test_invoice_set"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 292,
+      "prompt_tokens": 1439
+    }
+  },
   "94acf166d3feda37dfb4b9b199d4bc5288a0e52be0da8b4c360ad58b120fd6b6": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -2194,6 +2567,23 @@
     "usage": {
       "completion_tokens": 603,
       "prompt_tokens": 686
+    }
+  },
+  "97d2a1ef344ce31698c511235e8d7c4f7736e5c2582d987d60e631ed9488b576": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[\"pay_000092\"],\"reasoning\":\"The bank credit amount matches exactly the net of settlement pay_000092 (UTR HDFCN00000000024). The batch total equals the credit amount, confirming a one-to-one match.\",\"verdict\":\"match\"}",
+          "id": "fc_0dafeed9-faf2-487d-a792-041da83e7507",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 200,
+      "prompt_tokens": 1088
     }
   },
   "984c5a33a58e3b6df7e590793e87b7e1f655701b1b73a97063a88cb9f42a476f": {
@@ -2331,6 +2721,23 @@
       "prompt_tokens": 1210
     }
   },
+  "9dd6cfccb9899a63d9771cdbded104bff9798bc81dbc9c7492f1ff7a41822b2f": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"SBINN00000000092\"}",
+          "id": "fc_43e8bcef-ebf5-469d-8bfd-b38eb967fc2b",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 306,
+      "prompt_tokens": 757
+    }
+  },
   "9ef64226356b234cb29e96523ba950a774c62f298ff2ec3124675ed3e1351858": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -2457,6 +2864,23 @@
     "usage": {
       "completion_tokens": 380,
       "prompt_tokens": 1088
+    }
+  },
+  "a9019840c3f40111556f899fdd104631e8f4d253f6bc165854b0562259327885": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_000092\"]}",
+          "id": "fc_da1ee49f-1eb9-4937-94ca-c4c26545f6e9",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 148,
+      "prompt_tokens": 1020
     }
   },
   "aa0f4c7adee03326ab2bca9dc146601ff9527b7b72bb4a76911d3752bdac49c9": {
@@ -2699,6 +3123,23 @@
       "prompt_tokens": 1045
     }
   },
+  "bf583b4a7ed9cc3e76bd4197d99009934acde8339ab3d2744fef8674ecc2eee3": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"SBINN00000000093\"}",
+          "id": "fc_ada70a4e-cf86-4886-a228-19838c0d69cb",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 520,
+      "prompt_tokens": 867
+    }
+  },
   "bfaa79eabd1a383ab11917a387b68d13da895f8a74c6747b95f9164f15522256": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -2742,6 +3183,23 @@
     "usage": {
       "completion_tokens": 189,
       "prompt_tokens": 1161
+    }
+  },
+  "c1582840e84f470308fff9ecc464d4bac05ada1f42a1d63a8fc2b963da9ab4ea": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.9,\"payment_ids\":[],\"reasoning\":\"Both pay_000448 and pay_000449 have identical net amounts (9600226 paise) and settlement dates matching the bank credit. No distinguishing metadata (e.g., UTR, withheld status, or other attributes) is available to determine which settlement corresponds to the credit. According to the guidelines, when multiple distinct combinations match the amount exactly, the correct action is to return no_match to avoid a wrong match.\",\"verdict\":\"no_match\"}",
+          "id": "fc_af6a85ba-8aba-406c-a1b8-d710ea15aa23",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 436,
+      "prompt_tokens": 1179
     }
   },
   "c1639a7260f6158be0f519578b1ebf94bd41f68ce0bb23614761600134b30ef8": {
@@ -2932,6 +3390,28 @@
       "prompt_tokens": 988
     }
   },
+  "cf8042011e9283ad735219a4dae505c0c2d46acd4c93971531141d3e34449831": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 981
+    }
+  },
+  "cfbb4fc0c23c0a59948ee9db93325166b41ab0f4d61e66db16e6b052da36c06b": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 1422
+    }
+  },
   "d0ce7d2eb6838e4441e51fa269fc301f310dfc416cbb9c335bae18da8b554b68": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -2977,6 +3457,40 @@
     "usage": {
       "completion_tokens": 466,
       "prompt_tokens": 988
+    }
+  },
+  "d354bf19ed79ba104119edb0320b03d7e410ff40ff121854b35ea66f4d0736e7": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"HDFCN00000000024\"}",
+          "id": "fc_ad3bc42e-f88a-457b-b4ae-d4b2788831fe",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 569,
+      "prompt_tokens": 910
+    }
+  },
+  "d35887c96999312c5f09db1cc89844acff5e194f95852beaf450969cc2b69e01": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.1,\"invoice_ids\":[],\"reasoning\":\"The reference lists invoice numbers 00376, 00377, and 00378, none of which exist for customer Aakash Sports Goods. The only invoice close to these numbers is 00078, but the reference does not match it and the payment amount exceeds the amount of that invoice alone. No combination of invoices can be uniquely tied to the corrupted reference, so we cannot determine a specific settlement.\",\"verdict\":\"no_match\"}",
+          "id": "fc_374b23af-dcd9-4e76-bdcc-7e9709c40911",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 125,
+      "prompt_tokens": 1572
     }
   },
   "d41889a85e7f4604f1fa459a3ebffd652433bc0bff111846d692d4efb26fa21f": {
@@ -3056,6 +3570,23 @@
       "prompt_tokens": 1151
     }
   },
+  "da91f2004e3bbceaf430210fce8ecfa901b114cdecca87ed5d8dbe0dbab61a0d": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[\"pay_000092\"],\"reasoning\":\"The bank credit amount 153,080,640 paise matches exactly the net amount of settlement pay_000092 (UTR HDFCN00000000024). The get_batch call confirms the batch total equals the credit amount and the settlement is unattributed. No other combination of settlements sums to this amount within the 3\u2011day window. Therefore this is a definitive match.\",\"verdict\":\"match\"}",
+          "id": "fc_b779da22-bdf8-4272-87d0-e01496be9806",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 267,
+      "prompt_tokens": 1090
+    }
+  },
   "dc9339ec12a03b3d1ad2579522efa3abd7bc4400046a884fa67f34fb8eaf19f1": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -3118,6 +3649,23 @@
     "usage": {
       "completion_tokens": 433,
       "prompt_tokens": 644
+    }
+  },
+  "e5ad6970b0cc59377897ff2151ddab36126c945e439ab8b4211c50ab8488efa3": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.95,\"invoice_ids\":[\"INV-2026-00179\",\"INV-2026-00180\",\"INV-2026-00181\"],\"reasoning\":\"The reference contains two full invoice IDs and a truncated third. The truncated part 'INV-2026-0018' matches the only invoice starting with that prefix for this customer, which is INV-2026-00181. The sum of the three invoices equals the payment gross, confirming the match.\",\"verdict\":\"match\"}",
+          "id": "fc_4e05de39-d666-4a6c-9712-b994e4c63562",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 283,
+      "prompt_tokens": 1536
     }
   },
   "e5fa6655a5da13fb7592069db850a9ce69484aed68d50db94109eb91c4d7bc58": {
@@ -3317,6 +3865,23 @@
       "prompt_tokens": 2542
     }
   },
+  "f640f55817244adefe7bab839c09f77b798ea62309343afc4357b9d78df24185": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Aakash Sports Goods\"}",
+          "id": "fc_966b2784-7dc6-414a-b006-f3b46e8754d3",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 95,
+      "prompt_tokens": 516
+    }
+  },
   "f72ae865ad35d1a355a3504c51fe37f9a3e3c8480db49e9bf24342fe0637d10e": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -3381,6 +3946,23 @@
       "prompt_tokens": 1554
     }
   },
+  "f98fbdbd594f20a871a5d0d7ef04b80a112a60a42944a6b843c0e37ddbbcfe97": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"SBINN00000000092\"}",
+          "id": "fc_18d8fa5f-f2e6-4067-8adb-eb455fa09d5e",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 384,
+      "prompt_tokens": 891
+    }
+  },
   "f99d4a5e02ba809d644a9e13c3f802d01b5fd602038def47929545655c2c3cf6": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -3407,6 +3989,17 @@
     "usage": {
       "completion_tokens": 410,
       "prompt_tokens": 1263
+    }
+  },
+  "fa38d53338ccfe71df33940e54607c391bff45bf2b20346890f885287223dbcf": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 912
     }
   },
   "fae850f0ca9dc951bdd9fc4203c57558fdd05c9269f7821da2203be2d3135054": {
