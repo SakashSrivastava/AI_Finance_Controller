@@ -53,12 +53,13 @@ def match(
     no_llm: bool = typer.Option(False, "--no-llm", help="Deterministic tiers only."),
     offline: bool = typer.Option(False, "--offline", help="Replay the committed cache; no API key."),
     model: str = typer.Option(None, help="Override the escalation model."),
+    agentic: bool = typer.Option(False, "--agentic/--single-shot"),
 ) -> None:
     """Run the reconciliation pipeline."""
     from recon.agent.client import DEFAULT_MODEL
     from recon.pipeline import run_pipeline
 
-    result = run_pipeline(data, use_llm=not no_llm, offline=offline, model=model or DEFAULT_MODEL)
+    result = run_pipeline(data, use_llm=not no_llm, offline=offline, model=model or DEFAULT_MODEL, agentic=agentic)
     _report(result, data)
 
 
@@ -69,6 +70,12 @@ def evaluate(
     offline: bool = typer.Option(True, "--offline/--live", help="Replay the committed cache."),
     model: str = typer.Option(None),
     reports: Path = typer.Option(Path("reports"), help="Where to write the reports."),
+    agentic: bool = typer.Option(
+        False,
+        "--agentic/--single-shot",
+        help="Escalate via the tool-using agent loop. Single-shot is the default because "
+        "it is the pass with complete cache coverage; see 'Which runs are complete'.",
+    ),
 ) -> None:
     """Score the pipeline against ground truth and write the reports."""
     from recon.agent.client import DEFAULT_MODEL
@@ -87,7 +94,7 @@ def evaluate(
     from recon.pipeline import run_pipeline
 
     chosen = model or DEFAULT_MODEL
-    result = run_pipeline(data, use_llm=not no_llm, offline=offline, model=chosen)
+    result = run_pipeline(data, use_llm=not no_llm, offline=offline, model=chosen, agentic=agentic)
 
     metrics = score(data, result.bank)
     metrics["invoice_level"] = evaluate_invoices(data, result.invoice_matches, result.invoice_residue)
@@ -146,7 +153,7 @@ def cash_position(
     from recon.eval.report import render_cash_position
     from recon.pipeline import run_pipeline
 
-    result = run_pipeline(data, use_llm=not no_llm, offline=offline)
+    result = run_pipeline(data, use_llm=not no_llm, offline=offline, agentic=False)
     position = build_cash_position(
         result.sources, result.bank.matches, result.bank.exceptions, result.invoice_matches
     )
@@ -164,7 +171,7 @@ def ledger(
     from recon.eval.report import render_ledger
     from recon.pipeline import run_pipeline
 
-    result = run_pipeline(data, use_llm=not no_llm, offline=offline)
+    result = run_pipeline(data, use_llm=not no_llm, offline=offline, agentic=False)
     book = build_ledger(result.sources, result.bank.matches, result.bank.exceptions)
     typer.echo(render_ledger(book, sum(e.amount_paise for e in result.bank.exceptions)))
 
@@ -230,7 +237,12 @@ def demo(seed: int = typer.Option(7), n: int = typer.Option(250)) -> None:
     typer.echo("=" * 72)
     generate(seed=seed, n=n, out=data)
     typer.echo("")
-    evaluate(data=data, no_llm=False, offline=True, model=None, reports=Path("reports"))
+    # Single-shot: the demo must reproduce the numbers the README reports, and that is
+    # the pass with complete cache coverage. `recon compare --agentic` shows the loop.
+    evaluate(
+        data=data, no_llm=False, offline=True, model=None,
+        reports=Path("reports"), agentic=False,
+    )
 
 
 def _report(result, data: Path, metrics: dict | None = None) -> None:
