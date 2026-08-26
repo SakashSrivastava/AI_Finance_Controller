@@ -1,6 +1,6 @@
 # Proposals the verification gate refused
 
-Model `openai/gpt-oss-20b agentic`, held-out seed. 8 of 10 proposals refused.
+Model `openai/gpt-oss-20b agentic`, held-out seed. 10 of 15 proposals refused.
 
 Reproduce with `recon compare --data data/7` - it replays the committed cache, so no API key is needed.
 
@@ -231,6 +231,64 @@ Reproduce with `recon compare --data data/7` - it replays the committed cache, s
   "credit_paise": 78377195,
   "delta_paise": 0,
   "proposed_total_paise": 78377195,
+  "subsets_that_reconcile": 2,
+  "tolerance_paise": 5
+}
+```
+
+## `bank_000269` - another_subset_also_reconciles
+
+**The model proposed** `['pay_000092']` at confidence 0.99.
+
+> The bank credit amount 153,080,640 paise matches exactly the net amount of settlement pay_000092 (UTR HDFCN00000000024). The get_batch call confirms the batch total equals the credit amount and the settlement is unattributed. No other combination of settlements sums to this amount within the 3‑day window. Therefore this is a definitive match.
+
+**The gate checked:**
+
+| Check | Result |
+|---|---|
+| `non_empty` | pass |
+| `ids_exist` | pass |
+| `not_already_attributed` | pass |
+| `inside_date_window` | pass |
+| `sums_to_credit` | pass |
+| `uniquely_determined` | **FAIL** |
+
+**Arithmetic:**
+
+```json
+{
+  "credit_paise": 153080640,
+  "delta_paise": 0,
+  "proposed_total_paise": 153080640,
+  "subsets_that_reconcile": 2,
+  "tolerance_paise": 5
+}
+```
+
+## `bank_000270` - another_subset_also_reconciles
+
+**The model proposed** `['pay_000092']` at confidence 0.99.
+
+> The bank credit amount matches exactly the net of settlement pay_000092 (UTR HDFCN00000000024). The batch total equals the credit amount, confirming a one-to-one match.
+
+**The gate checked:**
+
+| Check | Result |
+|---|---|
+| `non_empty` | pass |
+| `ids_exist` | pass |
+| `not_already_attributed` | pass |
+| `inside_date_window` | pass |
+| `sums_to_credit` | pass |
+| `uniquely_determined` | **FAIL** |
+
+**Arithmetic:**
+
+```json
+{
+  "credit_paise": 153080640,
+  "delta_paise": 0,
+  "proposed_total_paise": 153080640,
   "subsets_that_reconcile": 2,
   "tolerance_paise": 5
 }

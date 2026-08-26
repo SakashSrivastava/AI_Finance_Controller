@@ -600,6 +600,23 @@
       "prompt_tokens": 697
     }
   },
+  "205eceb767dd1da843b13c11dbfd3ffd308026d238fbec30c5c8b8a15dff5a9a": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Pinnacle Interiors\"}",
+          "id": "fc_278414e2-d5a6-4dee-bcce-019f681293fc",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 236,
+      "prompt_tokens": 2352
+    }
+  },
   "20f4dde6e6493c7f3486df8d09fa9b0a4f097eb8e6a7728c9ff12b23b6206386": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -2455,6 +2472,23 @@
       "prompt_tokens": 723
     }
   },
+  "85c97e5c4ca1e35bc3f0f9334aa24c3c5bf04ca2a93543709ad58e4bc20d1a4b": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"UTIBN00000000273\"}",
+          "id": "fc_c333ae99-faaa-4283-8b4a-7468924a9638",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 517,
+      "prompt_tokens": 817
+    }
+  },
   "875520ed7b93fa00f9f1f739ee8772dd32373ae8c6d0658f6b924cf591436b17": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -2766,6 +2800,23 @@
       "prompt_tokens": 962
     }
   },
+  "941a493c325c91ed29522ef8f4f50609f92eb7d5b434f82a8d9f36ec1430a088": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[],\"reasoning\":\"The bank credit of 58,929,664 paise matches two distinct, equally valid combinations of settlements: (1) the single settlement pay_001343 (UTIBN00000000273) and (2) the full batch of four settlements under UTR SBINN00000000272 (pay_001339, pay_001340, pay_001341, pay_001342). Both are unattributed and settled on the same date. Because multiple plausible combinations exist, the situation is ambiguous. According to guidelines, we must return no_match.\",\"verdict\":\"no_match\"}",
+          "id": "fc_6694318c-fafe-4ca3-95a2-c65041cfb069",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 195,
+      "prompt_tokens": 1398
+    }
+  },
   "94acf166d3feda37dfb4b9b199d4bc5288a0e52be0da8b4c360ad58b120fd6b6": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -2889,6 +2940,17 @@
     "usage": {
       "completion_tokens": 3000,
       "prompt_tokens": 962
+    }
+  },
+  "984e2271813ca1e6319fef3195fcfeb6568a2b465fff291470d7f11e7aafe785": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "{\n  \"confidence\": 0.99,\n  \"payment_ids\": [],\n  \"reasoning\": \"The bank credit of 58,929,664 paise matches two distinct, equally valid combinations of settlements:\\n1. The single settlement pay_001343 (UTIBN00000000273) whose net amount equals the credit exactly.\\n2. The full batch of four settlements under UTR SBINN00000000272 (pay_001339, pay_001340, pay_001341, pay_001342) which also sum to the same amount.\\nBoth batches are unattributed, settled on the same date as the credit, and there is no additional information (e.g., UTR in narration) to prefer one over the other. Since multiple plausible combinations exist, the situation is genuinely ambiguous. According to the guidelines, we must not guess a match when ambiguity exists.\\nTherefore, the correct verdict is no_match.\",\n  \"verdict\": \"no_match\"\n}",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 692,
+      "prompt_tokens": 1175
     }
   },
   "98956e4af75665b35ed83bbf36967a344d2f9e6e196b86430070b432b073b42f": {
@@ -3282,6 +3344,23 @@
     "usage": {
       "completion_tokens": 976,
       "prompt_tokens": 1070
+    }
+  },
+  "b3248865c59fbd0f2fd9477ba13bdffd5c4b4370528deef1a95a5923c14d49aa": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"SBINN00000000272\"}",
+          "id": "fc_a16044d0-6115-47d0-9889-61188fcc8973",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 637,
+      "prompt_tokens": 927
     }
   },
   "b368110b578eb1b776202ddb7560fc76e346f07edd5c817185b27255e33524b6": {

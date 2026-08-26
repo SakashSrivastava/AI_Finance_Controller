@@ -26,8 +26,8 @@ equality fails on most rows.
 Numbers are from **seed 7, generated after the matcher was frozen**. Tuning was on seed 42.
 
 **The finding worth your 60 seconds:** the agent has a tool to check its own arithmetic. It
-used it on 8 of 8 proposals the gate later refused, and its own check was *correct* — yet
-4 of those 8 were wrong. It verified that its answer closes; what mattered was whether
+used it on 10 of 10 proposals the gate later refused, and its own check was *correct* —
+yet 5 of those 10 were wrong. It verified that its answer closes; what mattered was whether
 *only* its answer closes. [Jump to the detail](#3-giving-the-agent-a-verification-tool-did-not-solve-verification).
 
 ---
@@ -315,48 +315,59 @@ call and when to stop, `submit` as the only terminal action. One of those tools 
 bank credit. The agent can check its own arithmetic before committing — exactly what a
 human reconciler does.
 
-It used it. On **8 of 8** refused proposals, the agent had run `test_combination` on
-precisely the set it went on to submit, and its own check had come back `closes: true`.
-The check was correct. It then submitted at 0.90–0.99 confidence.
+It used it. On **10 of 10** refused proposals, the agent had run `test_combination` on
+precisely the set it went on to submit, and its own check came back `closes: true`. **The
+check was correct every time.** It then submitted at 0.90–1.00 confidence.
 
-The gate refused all eight, every one for `another_subset_also_reconciles`.
+The gate refused all ten, every one for `another_subset_also_reconciles`.
 
-| Of the 8 self-verified proposals the gate refused | |
+| Of the 10 self-verified proposals the gate refused | |
 |---|---|
-| Would have been **correct** | **4** |
-| Would have been **wrong** | **4** |
+| Would have been **correct** | **5** |
+| Would have been **wrong** | **5** |
 
-A coin flip, measured. Two of those rows make it concrete — they are the two halves of one
-amount collision:
+A coin flip, measured. The structure behind it is visible in the refusals, which come in
+adjacent pairs — each pair is the two halves of one amount collision:
 
 | | agent submitted | ground truth | |
 |---|---|---|---|
-| `bank_000087` | `pay_000905` | nine other payments | **wrong** |
-| `bank_000088` | `pay_000905` | `pay_000905` | **right** |
+| `bank_000087` | 1 settlement | 9 settlements | **wrong** |
+| `bank_000088` | 1 settlement | 1 settlement | **right** |
+| `bank_000195` | 1 settlement | 2 settlements | **wrong** |
+| `bank_000196` | 1 settlement | 1 settlement | **right** |
+| `bank_000269` | 1 settlement | 8 settlements | **wrong** |
+| `bank_000270` | 1 settlement | 1 settlement | **right** |
 
-Same answer, same confidence, same successful self-check, opposite outcomes — because both
-sets close against both credits, and nothing in the data says which belongs to which.
+**All five wrong answers proposed a single settlement.** The agent consistently reaches for
+the simplest explanation — one payment whose net equals the credit exactly — and on a
+collision pair that is right precisely half the time, because one credit really is the
+single payment and the other really is the batch. Nothing in the data distinguishes them.
 
-**The agent verified the wrong property.** It confirmed *this combination closes*. What
-had to be true was *only this combination closes*. That second question is not one a
-proposer can answer about itself — it requires searching the space you did not propose,
-which is the definition of an independent check.
+Two further observations, both uncomfortable:
 
-So refusing those eight cost four true positives and prevented four false matches on real
-money. Given a wrong match is worse than no match, that is the right trade — and it is a
-trade, not a free lunch.
+**Confidence carried no signal.** Mean confidence was **0.974 when right and 0.990 when
+wrong** — the wrong answers were, on average, *more* confident. Any threshold policy built
+on the model's self-reported confidence would have admitted the wrong half first.
+
+**The gate's own record was clean.** Of the 5 proposals it accepted, **5 were correct**. It
+was not refusing indiscriminately; it refused exactly the cases where the evidence could
+not decide.
+
+So the agent verified the wrong property. It confirmed *this combination closes*. What had
+to be true was *only this combination closes* — and that is not a question a proposer can
+answer about itself, because answering it means searching the space you did not propose.
+That is what an independent check is for.
+
+Refusing those ten cost five true positives and prevented five false matches on real money.
+Given a wrong match is worse than no match, that is the right trade — and it is a trade,
+not a free lunch.
 
 This is the sharpest form of the track's premise. Generation was not the bottleneck. Nor
-was self-verification, which the agent performed correctly and which was not enough.
+was self-verification, which the agent performed, correctly, and which was not enough.
 
-> **Caveat, stated plainly.** This agentic pass covers 21 of 41 escalations. Groq's free
-> tier caps 200,000 tokens per model per day and an agent loop resends its whole
-> conversation each turn, so the run exhausted the daily budget partway. The finding above
-> concerns the *nature* of the failure and holds on the completed items; the headline
-> results in this README come from the completed single-shot runs, not from this one.
-> Reproduce with `recon compare --data data/7 --models openai/gpt-oss-20b --agentic`.
-> Every refused proposal, with the agent's own reasoning and whether it had verified
-> itself, is committed in
+> Covers 39 of 41 escalations; two hit Groq's free-tier daily token cap. Reproduce with
+> `recon compare --data data/7 --models openai/gpt-oss-20b --agentic`. Every refused
+> proposal, with the agent's own reasoning and whether it had verified itself, is in
 > [`reports/seed7/gate_rejections.openai-gpt-oss-20b-agentic.md`](reports/seed7/gate_rejections.openai-gpt-oss-20b-agentic.md).
 
 ### Model comparison
