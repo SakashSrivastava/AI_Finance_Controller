@@ -370,6 +370,23 @@ was self-verification, which the agent performed, correctly, and which was not e
 > proposal, with the agent's own reasoning and whether it had verified itself, is in
 > [`reports/seed7/gate_rejections.openai-gpt-oss-20b-agentic.md`](reports/seed7/gate_rejections.openai-gpt-oss-20b-agentic.md).
 
+### Which runs are complete
+
+Four passes were attempted: two models, two escalation modes. Groq's free tier caps tokens
+per model per day, and an agent loop resends its whole conversation each turn, so not all
+four finished. Stated rather than glossed:
+
+| Run | Coverage | Reported as |
+|---|---|---|
+| `gpt-oss-120b` single-shot | **41/41** | the headline results above |
+| `gpt-oss-20b` single-shot | **41/41** | the model comparison below |
+| `gpt-oss-20b` **agentic** | **39/41** | finding 3 |
+| `gpt-oss-120b` agentic | 17/41 | **not reported — too thin to draw from** |
+
+The two incomplete passes are the agentic ones, which is expected: a five-step loop costs
+roughly four thousand tokens per item against a two-hundred-thousand daily budget. Nothing
+in this README depends on the 120b agentic pass.
+
 ### Model comparison
 
 The same 41 escalations, two models, identical packets, held-out seed:

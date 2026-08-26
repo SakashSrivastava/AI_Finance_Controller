@@ -57,6 +57,23 @@
       "prompt_tokens": 684
     }
   },
+  "028ac8559086e3952086c598269b80be27c53a411e829553e03e3d72314d3192": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3,\"max_paise\":10000000,\"min_paise\":0}",
+          "id": "fc_eaa19240-e2bd-4591-ae0f-fae7d3adb791",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 135,
+      "prompt_tokens": 697
+    }
+  },
   "035f652099067d14d443280b0106593c4f03fb08146dc1a4512ed6607eac6e36": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -123,6 +140,23 @@
     "usage": {
       "completion_tokens": 286,
       "prompt_tokens": 1286
+    }
+  },
+  "0693836e796170609bfa874b52b61b010aacc166fcb2836b8e0f8dac384ddc1d": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":5,\"max_paise\":5000000,\"min_paise\":4000000}",
+          "id": "fc_2669ab22-3c54-4c0f-83d5-a82cc080a123",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 511,
+      "prompt_tokens": 1266
     }
   },
   "07155b206c44612319b4d7c618a2200450081783c4d4ee70e2b47bdda0ee3434": {
@@ -208,6 +242,23 @@
       "prompt_tokens": 1071
     }
   },
+  "098d8dc70278746a5be4763f85425310748beced3f50e83e74a8f8427bad46b2": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"SBINN00000000019\"}",
+          "id": "fc_14c5fbf4-8995-435a-9450-ab8f846c9b9c",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 307,
+      "prompt_tokens": 1906
+    }
+  },
   "09d54cc275190196d16a96bef990ed39eb495fb70b9e383e162bf2511992570c": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -223,6 +274,23 @@
     "usage": {
       "completion_tokens": 609,
       "prompt_tokens": 1872
+    }
+  },
+  "0aaff82bcef68328c1a5b9c1812fe63fe9a60633cde4c7593de13ff1f642e1f7": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"UTIBN00000000262\"}",
+          "id": "fc_38d07b0e-f521-4b89-8cf4-02500ba148f2",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 781,
+      "prompt_tokens": 909
     }
   },
   "0abcb86615f9e802e28a64adf3ee142ca31e20e2ed6db8d82c8951963dbcf72c": {
@@ -257,6 +325,23 @@
     "usage": {
       "completion_tokens": 49,
       "prompt_tokens": 497
+    }
+  },
+  "0b148bacfa5072f1351e00cde41f8d5b4604b31dfacdf656689ec19e1419239e": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[],\"reasoning\":\"The bank credit amount (58,929,664 paise) matches exactly both a single settlement (pay_001343) and the sum of four other settlements (pay_001341 + pay_001339 + pay_001340 + pay_001342). Since multiple distinct subsets of unattributed settlements can produce the same net amount, the situation is genuinely ambiguous. According to the guidelines, we must not guess a match when ambiguity exists, and therefore the correct verdict is no_match.\",\"verdict\":\"no_match\"}",
+          "id": "fc_8f70744e-4945-452f-8647-322adb6e6c5f",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 637,
+      "prompt_tokens": 820
     }
   },
   "0b329e170cc2facf5bf9a0fcca74f345604d73e30f39106d9d1486aa48bc35d7": {
@@ -340,6 +425,23 @@
       "prompt_tokens": 1026
     }
   },
+  "0df0b45500bd5b7765715f044143d4cd359b9778d39262a8c6d5a228b0343d4b": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.95,\"payment_ids\":[],\"reasoning\":\"The bank credit amount 4,476,261 paise matches exactly both a single settlement (pay_001247) and a combination of two other settlements (pay_001245 + pay_001246). Since multiple distinct subsets sum to the credit, the match is ambiguous. According to guidelines, we must return no_match rather than guessing.\",\"verdict\":\"no_match\"}",
+          "id": "fc_8961c03f-ca9d-45cc-9080-77fc42a87d0f",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 718,
+      "prompt_tokens": 907
+    }
+  },
   "0e39e02603c67ee603551d5a7e3ddb8883c79151ca777b47f72667fed53ac498": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -357,6 +459,23 @@
       "prompt_tokens": 931
     }
   },
+  "0e867730ec5675f182a418d92289e66159cea3130bd82b3eafe0191135ec3fd1": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3,\"max_paise\":20000000,\"min_paise\":0}",
+          "id": "fc_f8f983ec-3a10-4633-8a52-8c03d064b502",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 215,
+      "prompt_tokens": 867
+    }
+  },
   "0ecf72a2ce34b93e7d6adcd97c141efd9c3d72fc3be6667c2a9b88855b5494e1": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -368,6 +487,23 @@
     "usage": {
       "completion_tokens": 1120,
       "prompt_tokens": 869
+    }
+  },
+  "0f2c09073332dafefe0fa62a8298b9de33d8da232b39080f28918fa0f8fc1a27": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3,\"max_paise\":20000000,\"min_paise\":0}",
+          "id": "fc_f5226da9-7aae-48ef-b904-127e983a6828",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 278,
+      "prompt_tokens": 1020
     }
   },
   "0f82576ba8c0134012005a7a6f79f4101849e9f812fb5f88daf5a9f3d8e8b37a": {
@@ -409,6 +545,23 @@
       "prompt_tokens": 929
     }
   },
+  "12852c20c620526c8ea8a20be3173c721d37d8e7d66fff1e62a58918290e5a95": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_001007\"]}",
+          "id": "fc_635400b0-6fbb-4cf6-b73d-8535cf4de86a",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 270,
+      "prompt_tokens": 789
+    }
+  },
   "129ea17351d37d6795ef6a18d4b7e07260734bc0ae572924f88bfb2d969ddb2c": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -422,6 +575,23 @@
     "usage": {
       "completion_tokens": 1771,
       "prompt_tokens": 959
+    }
+  },
+  "13f25ec611b28045eb28124b5081529433e51dc737e3bf9b6f0dbdebb41d1eaa": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3,\"max_paise\":4476261,\"min_paise\":0}",
+          "id": "fc_1e910fd3-3cf4-45db-9a53-6b48fb90c159",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 145,
+      "prompt_tokens": 975
     }
   },
   "167201d4a218baad02d916a6cd055ec1bc43a07a2afa98cb5eb139960c95575f": {
@@ -497,6 +667,23 @@
       "prompt_tokens": 1871
     }
   },
+  "18797917c4c759213a366fcb1b50f113c1fbde323972f97c58341ee9ab381a54": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":30,\"max_paise\":20000000,\"min_paise\":0}",
+          "id": "fc_a54228ce-c50f-4ada-b999-d7e0ab5b7aba",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 362,
+      "prompt_tokens": 1111
+    }
+  },
   "1a0fae8a0940ad5b7943adf4ab53df8d79ae15bc2b1631957225e243c17212a6": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -553,6 +740,23 @@
     "usage": {
       "completion_tokens": 3000,
       "prompt_tokens": 1414
+    }
+  },
+  "1e157b88c69d03b0dc6051f8d154035323f395012e2d3cdfe9cf3defe20771ed": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":5,\"max_paise\":20000000,\"min_paise\":0}",
+          "id": "fc_3457d5a3-e4a1-4c33-9e0e-a63195aff570",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 285,
+      "prompt_tokens": 1102
     }
   },
   "1ef3cb1ee534d9d631e121e2332e608514bbfecd6f7e322d186f794dbf6cdf21": {
@@ -749,6 +953,23 @@
       "prompt_tokens": 644
     }
   },
+  "256493aeee1500151f5f3981739d72467e07e09f0e5fe28fad18c1599c48897f": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":15,\"max_paise\":90000000,\"min_paise\":0}",
+          "id": "fc_4f47e4fc-43ab-41a7-a9c7-a70bf72dec3e",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 2536,
+      "prompt_tokens": 1432
+    }
+  },
   "2615671b20cd076347a59a32dc49003b5df87ec449dd6c5ab48b86143897d05c": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -804,6 +1025,23 @@
     "usage": {
       "completion_tokens": 205,
       "prompt_tokens": 690
+    }
+  },
+  "298f10a50e31abf96282748b99d1e82c1c37564357912b79a89486452b100877": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3,\"max_paise\":2000000,\"min_paise\":0}",
+          "id": "fc_e92188fc-a2fc-453c-a11b-a359466c264f",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 139,
+      "prompt_tokens": 918
     }
   },
   "2a3c123350213ee44c39fd8fd9ef20d40b5e03bc5aac15daa062dc5754071342": {
@@ -938,6 +1176,23 @@
       "prompt_tokens": 795
     }
   },
+  "2e6aa83cbc64fb8ddf3416df79b5703d7247079c48394861392ba31b8320fdf9": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3,\"max_paise\":2000000,\"min_paise\":-2000000}",
+          "id": "fc_fa7b091f-1f73-459f-a36a-31691afff02d",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 271,
+      "prompt_tokens": 1170
+    }
+  },
   "2fbc42714838952d31c65a03225104de3392a2fac44a4037d89e1b873fc6dba8": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -987,6 +1242,34 @@
     "usage": {
       "completion_tokens": 412,
       "prompt_tokens": 1421
+    }
+  },
+  "30f6308c6df0c4be5c76d04cc124819fc64293e494da2c79e23892b0c0928865": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3,\"max_paise\":72000000,\"min_paise\":0}",
+          "id": "fc_fd613df9-3dd1-455f-97d2-8f57038f494a",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 443,
+      "prompt_tokens": 913
+    }
+  },
+  "31e5003714a703a0f72408f3197140026f364cdf7a8bb3965e667a1f44e7aba0": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 948
     }
   },
   "32608c76487d27ba1eeb17f89634f55a79321bca48bbd9c52cb03c31331656b9": {
@@ -1135,6 +1418,40 @@
       "prompt_tokens": 959
     }
   },
+  "380178fb4f534df98e9c5ed793e571f8bdc73565cb9b28382995d2fafbf8d6b7": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"UTIBN00000000018\"}",
+          "id": "fc_a98d9ce2-b922-472b-9d27-87caa1fef6e1",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 70,
+      "prompt_tokens": 1522
+    }
+  },
+  "382a232cce9e4f9cc7beb5f2cc8551b2689bbaea12b184ce45d38e3ae0c3ea13": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[],\"reasoning\":\"The bank credit of 78,377,195 paise matches exactly both a single settlement pay_000050 (UTR HDFCN00000000014) and a combination of multiple settlements from UTR UTIBN00000000013 (pay_000046, pay_000047, pay_000043, pay_000045, pay_000044, pay_000049, pay_000048). Since two distinct valid subsets exist, the match is ambiguous. According to policy, we must return no_match in case of genuine ambiguity to avoid incorrect allocation.\",\"verdict\":\"no_match\"}",
+          "id": "fc_e793cd0a-560b-41bb-86a5-2bce0ded8f1f",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 328,
+      "prompt_tokens": 1118
+    }
+  },
   "3925c04593703447d336b831e268f6945b68190d3c93fb69b5d72996420144bc": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -1256,6 +1573,57 @@
       "prompt_tokens": 913
     }
   },
+  "3fe2991c96cb588f75ba7f66b070c39a1a8d818141b0b7efa0eb047532238477": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_001056\"]}",
+          "id": "fc_386b22f7-d186-40cf-b2f8-41725c316903",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 531,
+      "prompt_tokens": 913
+    }
+  },
+  "4060c65be2c6554cc708afb8ee8abc7d4522488fc840b5281cc96234b1717486": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0,\"payment_ids\":[],\"reasoning\":\"Multiple distinct subsets of settlements can sum to the bank credit amount (78,377,195 paise): a single settlement pay_000050 matches exactly, and also the combination of pay_000046, pay_000047, pay_000043, pay_000045, pay_000044, pay_000049, and pay_000048 also sums to the same amount. Because the match is ambiguous, the correct verdict is no_match.\",\"verdict\":\"no_match\"}",
+          "id": "fc_95244c5a-f53b-4a8a-8fd8-f65ce22f0d88",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 201,
+      "prompt_tokens": 1101
+    }
+  },
+  "406c0540b987c393c60dc1c3170ef9d93909c326685d209b018fa4f289ad12b0": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_001247\"]}",
+          "id": "fc_54ee61ea-45ca-4d06-93c7-9c59f6e53e69",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 194,
+      "prompt_tokens": 907
+    }
+  },
   "434ad74280b4dda662115c610f345c81141c1e586a11258124ba85cb7f6edf5a": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -1288,6 +1656,23 @@
     "usage": {
       "completion_tokens": 452,
       "prompt_tokens": 1410
+    }
+  },
+  "446080c92e5d8583b9dd1aadabf81baa02ad33c1a6b4c6179290c6880a049a88": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":10,\"max_paise\":100000000,\"min_paise\":0}",
+          "id": "fc_4a2ef521-5943-49da-aabd-0e5d8fbd6825",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 2513,
+      "prompt_tokens": 910
     }
   },
   "44c267c1312602a2f38a5ddeb54dcd17ac78526ea62e18a8f7c5e35f75c8d823": {
@@ -1421,6 +1806,17 @@
     "usage": {
       "completion_tokens": 814,
       "prompt_tokens": 907
+    }
+  },
+  "4baa9e428eac4dbb06aecc06af67050a718bcd8b3d80f10352ba40db19c48557": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 910
     }
   },
   "4bbb0232be91873c3bec7800a49ce888079180a6c8e568d2ff87312b5e320c80": {
@@ -1696,6 +2092,23 @@
       "prompt_tokens": 1085
     }
   },
+  "59ed49de83e97e7baa7ea3d4ff7cff77249cb74c652715ec7a077a40290f1137": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_000898\",\"pay_000899\"]}",
+          "id": "fc_72a146e0-3cdd-4e0c-8259-c09cbe130118",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 1985,
+      "prompt_tokens": 912
+    }
+  },
   "5bff37d890da2aad7a785e31ef3f2ffd9904b323ba15f858a1dc84ddc161e8d6": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -1826,6 +2239,23 @@
       "prompt_tokens": 696
     }
   },
+  "5fbd7f3431f18698e26829c44c99be725ae4a07bf1eb13bc9755d4e2fc578d70": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[\"pay_001056\"],\"reasoning\":\"The bank credit amount (71,920,405 paise) exactly matches the net amount of settlement pay_001056 (71,920,405 paise). No other combination of the listed unattributed settlements sums to this amount, and adding any other settlement would exceed the credit. Therefore, pay_001056 is the sole settlement that accounts for this credit.\",\"verdict\":\"match\"}",
+          "id": "fc_1759435a-8ffb-49d2-9c77-d788bf64eb82",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 653,
+      "prompt_tokens": 981
+    }
+  },
   "612dba85e5b63cc2fdbeba1bdce36ce8a4086d059a498a4144f0b7d0175165af": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -1899,6 +2329,23 @@
     "usage": {
       "completion_tokens": 145,
       "prompt_tokens": 1020
+    }
+  },
+  "68c507e05019909c699592c0bc48780db044703b6ce8f192c03837d9b3975975": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3,\"max_paise\":72000000,\"min_paise\":-72000000}",
+          "id": "fc_b64f3e10-7682-416f-9994-bee5a16f440a",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 572,
+      "prompt_tokens": 1993
     }
   },
   "6910f2e6f47d33a4992c39d817e3664f1329ccba7659e4a7fdbe8d611d6120d2": {
@@ -2220,6 +2667,23 @@
       "prompt_tokens": 950
     }
   },
+  "7783fd59aa54892d954a4e32aec0c18207cdf90a2cc3ee4935e7a6b102fc0777": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":10,\"max_paise\":10000000,\"min_paise\":0}",
+          "id": "fc_10800547-27f5-40a9-945f-9ae334e45671",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 175,
+      "prompt_tokens": 823
+    }
+  },
   "77fa6be95caf3dfdbecd64e866909e4f98fefb5e31a576a440bde1fff6a00214": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -2233,6 +2697,23 @@
     "usage": {
       "completion_tokens": 1365,
       "prompt_tokens": 759
+    }
+  },
+  "784760bf841b078f6a53c7b7faa9dd2c60924468604eebf1ac25de1c9c48a23c": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[],\"reasoning\":\"The bank credit of 30,197,126 paise matches both a single settlement (pay_001007) and a subset of three settlements (pay_001005 + pay_001004 + pay_001006). Because multiple distinct combinations close, there is genuine ambiguity. According to guidelines, we must return no_match rather than guessing.\",\"verdict\":\"no_match\"}",
+          "id": "fc_cd6c4e11-3983-4c38-b97a-b9fbe1bf6907",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 164,
+      "prompt_tokens": 1121
     }
   },
   "7930c4caa3a3625b67cb457de42b0fcf31ccdbab0cdb9b1b8068f18f3dc460c2": {
@@ -2250,6 +2731,23 @@
     "usage": {
       "completion_tokens": 393,
       "prompt_tokens": 1035
+    }
+  },
+  "7a315843aacda43a00b3613582dc0e5e3f73ae62f61ed038cec906b6732e0cc2": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Aakash Sports Goods\"}",
+          "id": "fc_626557b5-8b9d-45a8-9502-2a4c57585413",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 106,
+      "prompt_tokens": 498
     }
   },
   "7a8917dd2186db8608d830847f0b5b3cda49e6dd765e673ad36fe84b00629ce9": {
@@ -2314,6 +2812,40 @@
       "prompt_tokens": 490
     }
   },
+  "7cb22e8d9c9350fbd31b152020e57f23db0b4c99f25c1c8482ec82d26660cb5a": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"UTIBN00000000081\"}",
+          "id": "fc_0b75a529-b46e-4e8e-a5cf-dac34e9763b6",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 359,
+      "prompt_tokens": 757
+    }
+  },
+  "7d9e5ed80db73c5a578d40c936cf2bccda741291327cf454765de2fcc91cf155": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_000905\"]}",
+          "id": "fc_63ae637d-8fb3-4d36-b5ac-a991b46d0d78",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 194,
+      "prompt_tokens": 986
+    }
+  },
   "7e282dbc9b73b8301050df8e1915698f11215f6ff8ef64a1624ea925a34a43b6": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -2325,6 +2857,23 @@
     "usage": {
       "completion_tokens": 393,
       "prompt_tokens": 866
+    }
+  },
+  "7e9c0469f0f031dbb6974e9e0462eb3467286d62b5320787361b95d71c747075": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_000059\",\"pay_000061\",\"pay_000058\",\"pay_000062\",\"pay_000060\",\"pay_001281\",\"pay_000064\"]}",
+          "id": "fc_0e47735f-c4d4-4888-b741-3510cc11455c",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 2060,
+      "prompt_tokens": 920
     }
   },
   "7f3bc3990e6598adf7917f8dbe52120bc99e4bd1b9ecc5525fbe728219e701eb": {
@@ -2406,6 +2955,23 @@
       "prompt_tokens": 833
     }
   },
+  "81254a5409bbc2c047e56f1ab140098a4b693d2875483d31c6e05860c92743b2": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_000046\",\"pay_000047\",\"pay_000043\",\"pay_000045\",\"pay_000044\",\"pay_000049\",\"pay_000048\"]}",
+          "id": "fc_6c96b39c-362c-4139-b36e-67d034e216af",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 194,
+      "prompt_tokens": 910
+    }
+  },
   "813dc6002954c8f58dba755bcd279a38a2f585dbc691609bc7a70d5d680c4482": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -2453,6 +3019,23 @@
     "usage": {
       "completion_tokens": 144,
       "prompt_tokens": 910
+    }
+  },
+  "8257473a1abf1c327c997a0dc6cbee0a566b2c2228b21ca114deb7e3af303c8d": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"ICICN00000000210\"}",
+          "id": "fc_5e1da949-5f5a-4ba1-955a-afa08b27a8c3",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 440,
+      "prompt_tokens": 2497
     }
   },
   "839a91b9ac9863f4913a3e74e879f388314d689e19de5258bceb99a1e27fc712": {
@@ -2536,6 +3119,40 @@
     "usage": {
       "completion_tokens": 139,
       "prompt_tokens": 1263
+    }
+  },
+  "88d990e73e352cf11a2c7f347f9e365fea6a2b8ceaeebb284b40cd812509b08d": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.97,\"payment_ids\":[],\"reasoning\":\"Exhaustive subset search of all unattributed settlements sharing the same UTR and date shows no combination of net amounts equals the bank credit of 9,284,490 paise. The smallest settlement is 141,358 paise; any combination with larger settlements either falls short or exceeds the target, and no negative (refund) entries are available to adjust the sum. Therefore this credit likely originates from a direct customer payment bypassing the gateway, and the correct verdict is no_match.\",\"verdict\":\"no_match\"}",
+          "id": "fc_86148ce2-dae2-4f18-898d-6fce15a5beab",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 194,
+      "prompt_tokens": 1135
+    }
+  },
+  "88e9b4f31fbb01587839faa3d861dafa24c583b07ae6557b006961c4dee4eb41": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":7,\"max_paise\":72000000,\"min_paise\":-5000000}",
+          "id": "fc_2447ad1f-a6dd-42be-bdf3-2beb8da70eab",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 509,
+      "prompt_tokens": 1414
     }
   },
   "892b2983203014c9676db00050921eac0e1f9e7992d156cf922af9d62d7511a3": {
@@ -2715,6 +3332,23 @@
       "prompt_tokens": 1890
     }
   },
+  "906a4820cf985221fa40d33fc2cd0efe222b5de281b70d00403585426c8b73b4": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3}",
+          "id": "fc_ceae7ff0-e1fe-4a02-a6ea-5727d626fcfb",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 210,
+      "prompt_tokens": 1299
+    }
+  },
   "90a328cb0af841c00cb60ff13a6e8fbc9c1c0b42704db461464c3e2526c4493f": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -2766,6 +3400,17 @@
       "prompt_tokens": 802
     }
   },
+  "930c61da5c476ccf76176859cdd2ad7b73beb27080f06fa40485cea76eb7b80a": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "{\n  \"confidence\": 0.99,\n  \"payment_ids\": [],\n  \"reasoning\": \"The bank credit amount (78,377,195 paise) can be formed by two distinct, non\u2011overlapping sets of settlements:\\n1. A single settlement pay_000050 (net = 78,377,195 paise).\\n2. The combination of seven other settlements (pay_000046, pay_000047, pay_000043, pay_000045, pay_000044, pay_000049, pay_000048) whose nets sum exactly to 78,377,195 paise.\\nBecause multiple valid subsets exist, the match is ambiguous. According to the guidelines, ambiguous cases must be reported as no_match to avoid risking an incorrect allocation.\\n\",\n  \"verdict\": \"no_match\"\n}",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 923,
+      "prompt_tokens": 907
+    }
+  },
   "9338fb91a497022c66bb7e034fa3e9f2e8f75dda6e14c8179ad68c616bfd8c1f": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -2798,6 +3443,23 @@
     "usage": {
       "completion_tokens": 371,
       "prompt_tokens": 962
+    }
+  },
+  "93afdd520cc30c61226186847d12c33ad79fb8f61a86bac241c4a3d27368bf72": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.95,\"payment_ids\":[],\"reasoning\":\"Two distinct settlements each have net amount exactly equal to the bank credit (9,728,648 paise) and both are unattributed. Since either could be the source, there is genuine ambiguity. According to guidelines, ambiguous matches must be reported as no_match.\",\"verdict\":\"no_match\"}",
+          "id": "fc_e1080b4e-7d69-43cd-90a6-c5a0975394be",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 346,
+      "prompt_tokens": 723
     }
   },
   "941a493c325c91ed29522ef8f4f50609f92eb7d5b434f82a8d9f36ec1430a088": {
@@ -3021,6 +3683,23 @@
       "prompt_tokens": 820
     }
   },
+  "99f962a5d720d6c03bc15caf950ef46aa07eb146b55e7f61427af31ca5342992": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"payment_ids\":[\"pay_001007\"]}",
+          "id": "fc_15b0bfeb-a7b5-4317-85c4-3c6b15c61947",
+          "name": "test_combination"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 307,
+      "prompt_tokens": 789
+    }
+  },
   "9a947e2efa6cddb6d13a195784b2f1e22d9a630c945f7f1856998f9576a679fe": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -3177,6 +3856,17 @@
       "prompt_tokens": 1023
     }
   },
+  "a1e3b47cb9f48758f94def77d576b279e241780b49e26f355cc3cf807c45a803": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 1413
+    }
+  },
   "a265a1f70bdd26e3855641b2333daf3c2ba8479b5f3d3aff380199cb4ad68657": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -3220,6 +3910,17 @@
     "usage": {
       "completion_tokens": 252,
       "prompt_tokens": 910
+    }
+  },
+  "a7171f37884a98707456b0a6a35ea43a7c0ccb5d2ce6bf3ca56bf19a2d147df0": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 967
     }
   },
   "a84146f511c412c0d80f0ae51b646cb364339996002621abe1b7b28aae8af677": {
@@ -3282,6 +3983,34 @@
     "usage": {
       "completion_tokens": 224,
       "prompt_tokens": 970
+    }
+  },
+  "aa294434af7b1a7865010679bcf0fed8fa23e2097bf952c5387dbc0c0bdba269": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "**Verdict:** no_match  \n\n**Confidence:** 0.99  \n\n**Reasoning:**  \nThe bank credit of **30,197,126\u202fpaise** can be explained by **two distinct, valid combinations** of unattributed settlements:\n\n1. **Single settlement** \u2013 `pay_001007` (UTR\u202fUTIBN00000000200) with a net of 30,197,126\u202fpaise.  \n2. **Subset of three settlements** \u2013 `pay_001005` (15,127,321\u202fpaise) + `pay_001004` (10,836,046\u202fpaise) + `pay_001006` (4,233,759\u202fpaise), all sharing UTR\u202fUTIBN00000000199, which also sum to 30,197,126\u202fpaise.\n\nBecause both a whole\u2011batch match and a multi\u2011payment subset match the credit exactly, there is genuine ambiguity about which set of payments generated the credit. According to the guidelines, when multiple distinct combinations close, we must avoid guessing and return **no_match**.  \n\n**Action:** No settlements are submitted; the credit is marked as unmatched.",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 569,
+      "prompt_tokens": 857
+    }
+  },
+  "adfe99f487b3d0ac47a5c2721402f74c377941f3985725086b485f0176b6a4e4": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.97,\"payment_ids\":[],\"reasoning\":\"The bank credit of 4,473,305 paise does not match any single settlement net amount, nor any combination of the listed unattributed settlements (including those from the same UTR batches). The credit narration indicates a direct cash deposit, which is typical for non-gateway payments. Therefore, there is no matching gateway settlement.\",\"verdict\":\"no_match\"}",
+          "id": "fc_ffa8eed9-3ffc-4c32-a635-a33d9459a46e",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 1135,
+      "prompt_tokens": 1395
     }
   },
   "aea77dcc583614ae3f2e0bdad5f49cdd6065078c8d8135784d756ddb4f1befc5": {
@@ -3361,6 +4090,17 @@
     "usage": {
       "completion_tokens": 637,
       "prompt_tokens": 927
+    }
+  },
+  "b33d1e52c567e5bc086ca3c6202cf98fd82da541a7ca920a8e22a23e0d0de0a8": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "{\n  \"confidence\": 0.99,\n  \"payment_ids\": [],\n  \"reasoning\": \"The bank credit of 4,476,261\u202fpaise can be matched by two distinct, equally valid combinations of unattributed settlements:\\n1. A single settlement pay_001247 (net = 4,476,261\u202fpaise, settled 2026\u201106\u201103, UTR HDFCN00000000255).\\n2. The sum of two settlements pay_001245 (2,964,968\u202fpaise) and pay_001246 (1,511,293\u202fpaise), both settled 2026\u201106\u201103 under the same UTR ICICN00000000254.\\nSince both combinations close exactly to the credit amount, the match is genuinely ambiguous. According to the guidelines, ambiguous cases must be reported as no_match to avoid risking an incorrect financial reconciliation.\\nTherefore, the appropriate verdict is no_match.\",\n  \"verdict\": \"no_match\"\n}",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 695,
+      "prompt_tokens": 1371
     }
   },
   "b368110b578eb1b776202ddb7560fc76e346f07edd5c817185b27255e33524b6": {
@@ -3824,6 +4564,23 @@
       "prompt_tokens": 857
     }
   },
+  "c98ee776b20bd6f3c6d85951a52301b3c5d30a962ac486b0548ab0e1a061a9b1": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"HDFCN00000000014\"}",
+          "id": "fc_94ca152c-3be9-4dce-8361-766626189f3d",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 417,
+      "prompt_tokens": 1008
+    }
+  },
   "ca0fe09f0841bdc2f6a8a496086d3a111fce84707d38daee5a48096bc19f5233": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -3897,6 +4654,23 @@
     "usage": {
       "completion_tokens": 702,
       "prompt_tokens": 988
+    }
+  },
+  "cd4bfcc53c34715766376dc5b198e646abb35c5121d77b9de79541ba38ee1f58": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.9,\"payment_ids\":[],\"reasoning\":\"The bank credit amount (9,728,648 paise) exactly matches the net of two separate settlements (pay_000041 and pay_000042). Since both single-settlement combinations are valid and there is no deterministic way to prefer one over the other, this is a genuine ambiguity. According to the guidelines, ambiguous cases should be reported as no_match rather than guessing.\",\"verdict\":\"no_match\"}",
+          "id": "fc_90c63a4c-21e3-4fb2-8924-314f7dcc8c18",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 290,
+      "prompt_tokens": 723
     }
   },
   "cf8042011e9283ad735219a4dae505c0c2d46acd4c93971531141d3e34449831": {
@@ -4147,6 +4921,23 @@
       "prompt_tokens": 1020
     }
   },
+  "df7f21213fc05de8f8a1978c10f14d3698a03a93cef27e20c553c23e738ca341": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3,\"max_paise\":2000000,\"min_paise\":-2000000}",
+          "id": "fc_5e928824-af5c-4f74-9e5d-6712931aaae7",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 417,
+      "prompt_tokens": 1796
+    }
+  },
   "e1813060815d01328a7bab96c11d6ef487fd69102856be12fa6b794887fbf8b8": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -4194,6 +4985,40 @@
       "prompt_tokens": 644
     }
   },
+  "e5389c7240905035506f98a4d75c31877bfd8480a81ffec4856dd14c79acfee6": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.99,\"payment_ids\":[],\"reasoning\":\"The bank credit of 4,476,261 paise can be matched by two distinct, equally valid combinations of unattributed settlements: (1) a single settlement pay_001247 (net = 4,476,261 paise, settled 2026-06-03, UTR HDFCN00000000255) and (2) the sum of two settlements pay_001245 (2,964,968 paise) and pay_001246 (1,511,293 paise), both settled 2026-06-03 under the same UTR ICICN00000000254. Since both combinations close exactly to the credit amount, the match is genuinely ambiguous. According to the guidelines, ambiguous cases must be reported as no_match to avoid risking an incorrect financial reconciliation.\",\"verdict\":\"no_match\"}",
+          "id": "fc_22d03490-f142-4a92-a0a2-2b44a7c38a61",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 253,
+      "prompt_tokens": 1599
+    }
+  },
+  "e5629e4e238661370bff6c31fcd6f2c5b4ebc7a64a393d000772ab4adba8ec4c": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3,\"max_paise\":1500000,\"min_paise\":0}",
+          "id": "fc_09720218-378a-4968-8f0c-41f1ca149d86",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 178,
+      "prompt_tokens": 1044
+    }
+  },
   "e5ad6970b0cc59377897ff2151ddab36126c945e439ab8b4211c50ab8488efa3": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -4226,6 +5051,34 @@
     "usage": {
       "completion_tokens": 310,
       "prompt_tokens": 912
+    }
+  },
+  "e89cff54331f627759879e54a29dfe50944629f0d7ed9d77566e23709409cb79": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 929
+    }
+  },
+  "e8ee713e2fd75a794d621342e29cde9e1acec7167c7ec3dba6dc6f4417b0b0f2": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3,\"max_paise\":0,\"min_paise\":-1000000}",
+          "id": "fc_7ba6653a-23e7-4973-9345-771a57232521",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 538,
+      "prompt_tokens": 1918
     }
   },
   "e8f1b5dd61633531d95f960eb3965fa48390190acba7cb9970a671b9ef71fe51": {
@@ -4271,6 +5124,23 @@
       "prompt_tokens": 681
     }
   },
+  "edbd8b02b8f45bd449fe63e455bffbc50daae6a399303b2bb5e01607cfc1ac61": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"SBINN00000000019\"}",
+          "id": "fc_5ad4ee2d-038c-4e76-9e44-5f4627b92763",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 106,
+      "prompt_tokens": 1064
+    }
+  },
   "edd43f58affc99b9b1e7c7a53196f25fea915d33b083f7208f01a8fd90a5e3f1": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -4303,6 +5173,17 @@
     "usage": {
       "completion_tokens": 163,
       "prompt_tokens": 1016
+    }
+  },
+  "ef1460b16671b783b4b0d1851916dd98762400ee46f9f36f31322f2e28968990": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "{\n  \"confidence\": 0.97,\n  \"payment_ids\": [],\n  \"reasoning\": \"Exhaustive subset search of all unattributed settlements sharing the same UTR and date shows no combination of net amounts equals the bank credit of 9,284,490 paise. The smallest settlement is 141,358 paise; any combination with larger settlements either falls short or exceeds the target, and no negative (refund) entries are available to adjust the sum. Therefore this credit likely originates from a direct customer payment bypassing the gateway, and the correct verdict is no_match.\",\n  \"verdict\": \"no_match\"\n}",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 1383,
+      "prompt_tokens": 986
     }
   },
   "f16709d4b8a2cf7d7585256e4f868f1a35ec03b1c0f0ca6bcea22fcbb4f5df96": {
@@ -4361,6 +5242,17 @@
     "usage": {
       "completion_tokens": 713,
       "prompt_tokens": 723
+    }
+  },
+  "f53948646f9a43e561e8376c6be419ef133ced792117e7b7fc3f8949d52ee4b2": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 1932
     }
   },
   "f5445f3f5f6e688eb9571d0706e1a98315c513e4205e409c6ec7b34e48aeb9b6": {
@@ -4423,6 +5315,23 @@
     "usage": {
       "completion_tokens": 95,
       "prompt_tokens": 516
+    }
+  },
+  "f6bce02c94b3593044bba185ffad2dfd06a794ae5832fa27a6160a5eb1e79af2": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Infinite Loop Software\"}",
+          "id": "fc_3326183f-237f-4227-9221-c170652d4cf6",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 170,
+      "prompt_tokens": 504
     }
   },
   "f72ae865ad35d1a355a3504c51fe37f9a3e3c8480db49e9bf24342fe0637d10e": {
@@ -4596,6 +5505,23 @@
       "prompt_tokens": 1261
     }
   },
+  "fcf3b3476f6ceacf8bd81756091bc878df14ea80a69dfb6844bbd7c674f983bd": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"days_before\":3}",
+          "id": "fc_d1ffea94-5a4b-4328-a1f1-29c1cc72dcc4",
+          "name": "find_settlements"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 104,
+      "prompt_tokens": 2108
+    }
+  },
   "fd6b83370d4c3a37c09aab3382763e844082f385a77bf8fc631af34f6d1ed52b": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -4645,6 +5571,17 @@
     "usage": {
       "completion_tokens": 409,
       "prompt_tokens": 971
+    }
+  },
+  "fe272e337f9f8e330d1f93b999e45c445af9bb219f19accf082944f71c943c12": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 1951
     }
   },
   "ffe9a16d3888bbdd842414927fd8f7116078d9338ac63ec71a031e6a2af4a35f": {
