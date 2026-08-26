@@ -259,6 +259,23 @@
       "prompt_tokens": 497
     }
   },
+  "0b329e170cc2facf5bf9a0fcca74f345604d73e30f39106d9d1486aa48bc35d7": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Lotus Hospitality Services\"}",
+          "id": "fc_83fc4e82-4cf7-4f15-af8a-a81664306bfe",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 598,
+      "prompt_tokens": 952
+    }
+  },
   "0b3ae8d975a2f6d166704ee24b3cb9b3d39502eb9d924f191ecf58eb8a78de32": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -420,6 +437,17 @@
       "prompt_tokens": 866
     }
   },
+  "168d80f0711b783bdad83ecb99ea53691b2237d01cb1a1b46530642ea53e8f68": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 1051
+    }
+  },
   "16fd4646cc6c57ef6b022bd5134c856b881ff8b03c03050b27c62ec9ff56b8a5": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -450,6 +478,23 @@
     "usage": {
       "completion_tokens": 227,
       "prompt_tokens": 677
+    }
+  },
+  "17d30772f2d9d1c5db9f0505c6f48d9b82b111f14ced7e0e11ad7ddeb357c091": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.95,\"invoice_ids\":[],\"reasoning\":\"The reference 'INVOICE-2026-00956' does not match any invoice belonging to Sagar Chemicals. No invoice with number 00956 exists for this customer, and no other invoice can be inferred from the corrupted reference. Therefore, we cannot tie the payment to a specific invoice.\",\"verdict\":\"no_match\"}",
+          "id": "fc_d05c791e-e28c-422e-90ba-c40376d641d6",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 1374,
+      "prompt_tokens": 1871
     }
   },
   "1a0fae8a0940ad5b7943adf4ab53df8d79ae15bc2b1631957225e243c17212a6": {
@@ -829,6 +874,23 @@
       "prompt_tokens": 910
     }
   },
+  "2cd060373f1323df08c832d817ab0270b2bba5fdcdcde3d31e647e909f89f74a": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Sagar Chemicals\"}",
+          "id": "fc_2806350e-9606-489e-898a-e33d7e694578",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 48,
+      "prompt_tokens": 497
+    }
+  },
   "2db60121b36763f677bfe237a13d53c3d9b74bd8446d36c9b39b5303952bac90": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -891,6 +953,23 @@
     "usage": {
       "completion_tokens": 128,
       "prompt_tokens": 1198
+    }
+  },
+  "302df9602a41559e0ee5b9c029cc60b9ba639a7193e391b670ee4a54f2b59b21": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Aakash Sports Goods\"}",
+          "id": "fc_a1cab40d-4aae-46ef-86d9-8e4fea2d4ebf",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 412,
+      "prompt_tokens": 1421
     }
   },
   "32608c76487d27ba1eeb17f89634f55a79321bca48bbd9c52cb03c31331656b9": {
@@ -1132,6 +1211,17 @@
       "prompt_tokens": 690
     }
   },
+  "3e2c92f9e59c511ffa7f362647f31a8b408c7af309a599d1d501fc55488e5e24": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": "",
+      "tool_calls": []
+    },
+    "usage": {
+      "completion_tokens": 3000,
+      "prompt_tokens": 1882
+    }
+  },
   "3fc152365fa6d81f835de3b33690ab6724c9cfb00bf6e10780ff9ad96abe777b": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -1222,6 +1312,23 @@
     "usage": {
       "completion_tokens": 526,
       "prompt_tokens": 1032
+    }
+  },
+  "46568d1d4359a3b442b24a871c8dea52e67a81289fe6c79f8b5d8c7125b58d4d": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Nandini Dairy Products\"}",
+          "id": "fc_e60557af-7345-4183-9226-21bf962ef346",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 166,
+      "prompt_tokens": 1419
     }
   },
   "46b72b11dba928800dec81ae59061a2b0482e12ef840dc4186f9d759067bfbfc": {
@@ -1327,6 +1434,23 @@
     "usage": {
       "completion_tokens": 556,
       "prompt_tokens": 682
+    }
+  },
+  "4cf1e703cd35cc7972a2ba234e3b02f1ef36153be3101c95ba7616eb34b44529": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Nandini Dairy Products\"}",
+          "id": "fc_b07adc82-ae5c-49c5-a78e-45d458084654",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 53,
+      "prompt_tokens": 493
     }
   },
   "4e3e4f1d433358003ef3b24912cd213e71ee155b5613153a4d6a008cb897da55": {
@@ -1508,6 +1632,23 @@
       "prompt_tokens": 1379
     }
   },
+  "58c91f812f15b7b1c960a12aaa3b62f73e209db30a8a6b6e477d1f06d357462c": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Aakash Sports Goods\"}",
+          "id": "fc_1ab0fba9-4a22-4622-92b9-6d5892d3e068",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 752,
+      "prompt_tokens": 2345
+    }
+  },
   "596299b4fec1be86897e25b54c9fddd06499c72d395eb39aa989bc3c18a1f389": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -1536,6 +1677,23 @@
     "usage": {
       "completion_tokens": 225,
       "prompt_tokens": 1085
+    }
+  },
+  "5bff37d890da2aad7a785e31ef3f2ffd9904b323ba15f858a1dc84ddc161e8d6": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Nandini Dairy Products\"}",
+          "id": "fc_a7c78292-6381-4902-a6ed-281f8345454b",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 237,
+      "prompt_tokens": 956
     }
   },
   "5d267d4bbbb7b3c87c61eebbb009b931cba220eb72e0e6d2dbb83bb017cb1664": {
@@ -1581,6 +1739,23 @@
     "usage": {
       "completion_tokens": 854,
       "prompt_tokens": 903
+    }
+  },
+  "5e1d133d75e71dd9f755723f0910f95ad5f723ee12d20ff0f488c75f66c8c053": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.9,\"invoice_ids\":[],\"reasoning\":\"The reference '00954' does not match any invoice for Nandini Dairy Products after considering common corruption patterns. No invoice ID contains the digits 00954 or a close variant. Therefore, we cannot tie this reference to a specific invoice.\",\"verdict\":\"no_match\"}",
+          "id": "fc_738b24cc-1ca8-4cfa-bb0a-7d129234edb4",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 565,
+      "prompt_tokens": 1901
     }
   },
   "5e56c11708c57ff9393d8b58584a4e04597dca444983a80e0dc83045f60cae6a": {
@@ -1731,6 +1906,23 @@
     "usage": {
       "completion_tokens": 3000,
       "prompt_tokens": 1527
+    }
+  },
+  "6b4d171432f6fd7dadadbf2fc62f3d04d7f69d612550b8364b852aff018c2159": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Pinnacle Interiors\"}",
+          "id": "fc_f4d0cdf1-81aa-46a1-bf63-80f127783d7b",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 133,
+      "prompt_tokens": 966
     }
   },
   "6b4dc132d05a16bd192621e4832b9d1d3223a8857317270e189f1997bceaaee0": {
@@ -2088,6 +2280,23 @@
       "prompt_tokens": 684
     }
   },
+  "7c9649985b7b554cc2463368907326d65b8f8be9934e45595f72f0768ab63bc9": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Lotus Hospitality Services\"}",
+          "id": "fc_4908681e-aff9-4a43-aed8-a9329b4950cb",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 49,
+      "prompt_tokens": 490
+    }
+  },
   "7e282dbc9b73b8301050df8e1915698f11215f6ff8ef64a1624ea925a34a43b6": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -2261,6 +2470,23 @@
       "prompt_tokens": 672
     }
   },
+  "87fde893379c0413abf706be08af238802baa44b8b11701c7a73c6e571c5bde3": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Sagar Chemicals\"}",
+          "id": "fc_58c799a5-bb0e-45fe-b8f2-eb7434e10edb",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 242,
+      "prompt_tokens": 1413
+    }
+  },
   "8825463db53ec74a9af7a3650a1fa1d39646eef47540778d33f73f4dfb2ffaf2": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -2410,6 +2636,23 @@
       "prompt_tokens": 913
     }
   },
+  "8fa8458814d081ccff9c220c249d2bfa4a15d6e2bd024896e57ee0ba33e29746": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Aakash Sports Goods\"}",
+          "id": "fc_8a416268-53aa-4d56-a902-918905c314d9",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 772,
+      "prompt_tokens": 1883
+    }
+  },
   "8fe62d36e0e3499e4a1459fa2f524c1999bd61436e92c8198f5e21d8ac9b2cc2": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -2419,6 +2662,40 @@
     "usage": {
       "completion_tokens": 3000,
       "prompt_tokens": 1248
+    }
+  },
+  "903e03b6145b1a2e2e443bcee9cc97f76d7aeb0e38f277f7bd8aea5842e17c9e": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Pinnacle Interiors\"}",
+          "id": "fc_ba81ea7d-8037-4e4c-8517-8c596894c867",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 131,
+      "prompt_tokens": 1890
+    }
+  },
+  "90a328cb0af841c00cb60ff13a6e8fbc9c1c0b42704db461464c3e2526c4493f": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.95,\"invoice_ids\":[\"INV-2026-00525\"],\"reasoning\":\"The reference 'INVOICE-2026-00525' is a corrupted form of the invoice ID INV-2026-00525. The invoice exists for customer Prakash Lighting Co and its amount (5,605,548 paise) exceeds the payment amount (1,629,234 paise), so the payment can settle a partial amount of this invoice. test_invoice_set confirms the invoice belongs to the customer and the payment does not exceed the invoice total.\",\"verdict\":\"match\"}",
+          "id": "fc_6ba6c169-60ff-48fb-be11-af96eba05f89",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 539,
+      "prompt_tokens": 1041
     }
   },
   "91861daa7688a6ecaa39d787193dcccae05f46eb1b6a2039882ba1a06ac2041d": {
@@ -2470,6 +2747,23 @@
     "usage": {
       "completion_tokens": 292,
       "prompt_tokens": 1439
+    }
+  },
+  "934628fb58f61f89f06a3faf098036b49845ad94444e86d2319f5e6861609f0d": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"invoice_ids\":[\"INV-2026-01160\"]}",
+          "id": "fc_b2d93582-3ca3-4840-bea7-2c8c461306a3",
+          "name": "test_invoice_set"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 371,
+      "prompt_tokens": 962
     }
   },
   "94acf166d3feda37dfb4b9b199d4bc5288a0e52be0da8b4c360ad58b120fd6b6": {
@@ -2721,6 +3015,23 @@
       "prompt_tokens": 1210
     }
   },
+  "9daa9d33901f3b3850c25a415ebe9e236dcea295ad3f59a7140e8739d69fe7bc": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Aakash Sports Goods\"}",
+          "id": "fc_b0f98374-c16a-4970-9e32-b960c6d9802d",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 51,
+      "prompt_tokens": 497
+    }
+  },
   "9dd6cfccb9899a63d9771cdbded104bff9798bc81dbc9c7492f1ff7a41822b2f": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -2866,6 +3177,23 @@
       "prompt_tokens": 1088
     }
   },
+  "a8eab935fdf225b4dd8b69093a632b1f90d09bf52dbb090d51a518e402099d2d": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Nirmal Water Systems\"}",
+          "id": "fc_46b392d9-6a92-4506-98af-43afb2b33c36",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 53,
+      "prompt_tokens": 498
+    }
+  },
   "a9019840c3f40111556f899fdd104631e8f4d253f6bc165854b0562259327885": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -2939,6 +3267,23 @@
       "prompt_tokens": 907
     }
   },
+  "b152b9beeb6a42655076b71fb1bab3abcf13c672330832273e563cbf1ba40264": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.9,\"invoice_ids\":[],\"reasoning\":\"The reference 'INV-2026-01160' does not match any invoice belonging to Nirmal Water Systems. No valid invoice can be tied to this corrupted reference.\",\"verdict\":\"no_match\"}",
+          "id": "fc_e6457d29-fd02-4d4f-b7a8-5a67995c92f2",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 976,
+      "prompt_tokens": 1070
+    }
+  },
   "b368110b578eb1b776202ddb7560fc76e346f07edd5c817185b27255e33524b6": {
     "model": "openai/gpt-oss-20b",
     "payload": {
@@ -2963,6 +3308,23 @@
     "usage": {
       "completion_tokens": 3000,
       "prompt_tokens": 1267
+    }
+  },
+  "b78cda7913cfaf1e07a9a2812003268ff0b94a5d0ef513a1ed10f0b04bec81a1": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Prakash Lighting Co\"}",
+          "id": "fc_b56c28dc-f42b-4a84-9e64-5c22ee998f1d",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 50,
+      "prompt_tokens": 498
     }
   },
   "b81fac7ee15221c6bf71e29d1f44109a112f358891c8602f830716c3785721b6": {
@@ -2997,6 +3359,23 @@
     "usage": {
       "completion_tokens": 138,
       "prompt_tokens": 913
+    }
+  },
+  "bafa47a9ccfac1dafeefc76f8b2a6a397f850914c7795d38eabef255774d3970": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Sagar Chemicals\"}",
+          "id": "fc_cec1762f-7a06-47b3-b6dd-3293ca512297",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 207,
+      "prompt_tokens": 955
     }
   },
   "bb0b865e5d08a70f26770dfbb2045397bdd4dd9434ed455f060520344691e286": {
@@ -3089,6 +3468,23 @@
       "prompt_tokens": 1912
     }
   },
+  "be1294bd60e812e8642b151ddb638e817c1ec97a2c7abc59020dd2686bc16954": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Pinnacle Interiors\"}",
+          "id": "fc_5d7674e1-c40f-46cf-8bbe-8b9e7cc57800",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 72,
+      "prompt_tokens": 1428
+    }
+  },
   "bf1487a6f85f0b5bf973ca86191c9899879cc8669d0dc55384062ffbee93d5bf": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -3166,6 +3562,23 @@
     "usage": {
       "completion_tokens": 92,
       "prompt_tokens": 1153
+    }
+  },
+  "bff03a6a427aa70817913d2565bf0358ab3e04a7e39c893807ead93ecb0a3f15": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Pinnacle Interiors\"}",
+          "id": "fc_18b8aad7-1dce-4745-86c0-ed8246151cfc",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 120,
+      "prompt_tokens": 504
     }
   },
   "c0340639da54bc4903b0150b8234460b72e3a31a4fb5ac9d912e86967a5c686b": {
@@ -3279,6 +3692,23 @@
     "usage": {
       "completion_tokens": 571,
       "prompt_tokens": 2434
+    }
+  },
+  "c671c6afd0b700f2aebe9290480d9346ef3d4befe8d1c581d2027e16cdae5877": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"confidence\":0.95,\"invoice_ids\":[],\"reasoning\":\"The reference '00534' does not correspond to any invoice ID for Lotus Hospitality Services. No invoice number matches or can be derived via transposition, truncation, or digit confusion. Therefore, no match.\",\"verdict\":\"no_match\"}",
+          "id": "fc_b452da26-5329-4341-be4c-17515f25cce6",
+          "name": "submit"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 1673,
+      "prompt_tokens": 1414
     }
   },
   "c8623e9f925fa47552a15e5d83ef2f2a204b7116d65e160bb777462b8bd32130": {
@@ -3429,6 +3859,23 @@
       "prompt_tokens": 716
     }
   },
+  "d0eec7cdb17d5d7f6407d4f1388b1b8659ab6aaef49795dcf7f15a18984202ac": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"customer_name\":\"Aakash Sports Goods\"}",
+          "id": "fc_ecdee63b-6ce7-4d8f-a107-a66a3c78af34",
+          "name": "get_invoices_for_customer"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 118,
+      "prompt_tokens": 959
+    }
+  },
   "d13aba504104e3d0e07bb7e1e947fd7baa459d319ea895aa18abd3f10b98b95c": {
     "model": "openai/gpt-oss-120b",
     "payload": {
@@ -3551,6 +3998,23 @@
     "usage": {
       "completion_tokens": 370,
       "prompt_tokens": 920
+    }
+  },
+  "d76cd20a35a5fc956e7cf9f75f0d51e226d3c86b646069dfcc69fad9ec671173": {
+    "model": "openai/gpt-oss-20b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"invoice_ids\":[\"INV-2026-00525\"]}",
+          "id": "fc_76699317-ac8a-44a0-b7ee-2f0f8d00f795",
+          "name": "test_invoice_set"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 89,
+      "prompt_tokens": 960
     }
   },
   "d855dab8100638738f2b1f8acbaf6182018add4ecfdb6d251f6266c1e5879d2d": {

@@ -11,6 +11,25 @@ refunds and chargebacks, withholds some payments, and pays out a single amount t
 bank posts days later under a mangled narration. Any approach assuming 1:1 amount
 equality fails on most rows.
 
+## In one screen
+
+| | |
+|---|---|
+| **Precision** (strict set equality) | **100.00%** — 0 false matches in 232 assertions |
+| **Recall** | 92.06% — the gap is 18 rows it *correctly refuses to guess* |
+| Invoices matched | **1,343 of 1,343** |
+| Throughput | 1,634 records in ~0.02s, deterministic path |
+| Books | 291 journal entries, trial balance balanced, suspense ties to the exception queue |
+| Reproduce | `recon demo` — offline, no API key, ~1 second |
+| Tests | 129 |
+
+Numbers are from **seed 7, generated after the matcher was frozen**. Tuning was on seed 42.
+
+**The finding worth your 60 seconds:** the agent has a tool to check its own arithmetic. It
+used it on 8 of 8 proposals the gate later refused, and its own check was *correct* — yet
+4 of those 8 were wrong. It verified that its answer closes; what mattered was whether
+*only* its answer closes. [Jump to the detail](#3-giving-the-agent-a-verification-tool-did-not-solve-verification).
+
 ---
 
 ## Results
@@ -108,6 +127,36 @@ The remaining exceptions are **genuinely unresolvable**: direct NEFT credits fro
 who bypassed the gateway, so no settlement record exists at all. A system reporting 100%
 coverage on this data would be lying. Every exception carries a specific reason code and
 the action a human should take, in `reports/seed7/exceptions.csv`.
+
+---
+
+## Running it
+
+```bash
+python -m venv .venv && .venv/Scripts/activate
+pip install -e ".[dev]"
+recon demo
+```
+
+`recon demo` generates, reconciles, and evaluates end to end in under two minutes, replaying
+the committed model cache — **no API key required.**
+
+```bash
+recon generate --seed 42 --n 250      # byte-identical for a given seed
+recon match --data data/42 --no-llm   # deterministic tiers only
+recon match --data data/42 --offline  # replay the committed cache
+recon evaluate --data data/7          # score against ground truth, write reports
+recon cash-position --data data/7      # where the money is
+recon ledger --data data/7             # the books: journal entries and trial balance
+pytest -q                              # 100 tests
+```
+
+Outputs land in `reports/`: `report.html` (self-contained, no server), `metrics.md`,
+`metrics.json`, `exceptions.csv`, `cash_position.md`, `ledger.md`. The published run is
+committed under `reports/seed7/` so the numbers can be read without running anything.
+
+To run live instead of from cache, put a [Groq](https://console.groq.com/keys) key in
+`.env` (see `.env.example`) and pass `--live`.
 
 ---
 
@@ -334,36 +383,6 @@ outside the model re-derived the arithmetic. That is the argument for the gate, 
 why "accepted by the gate" is reported separately from "actually correct" above — the gate
 proves consistency and uniqueness, not truth, and conflating those would be the same
 mistake in a different coat.
-
----
-
-## Running it
-
-```bash
-python -m venv .venv && .venv/Scripts/activate
-pip install -e ".[dev]"
-recon demo
-```
-
-`recon demo` generates, reconciles, and evaluates end to end in under two minutes, replaying
-the committed model cache — **no API key required.**
-
-```bash
-recon generate --seed 42 --n 250      # byte-identical for a given seed
-recon match --data data/42 --no-llm   # deterministic tiers only
-recon match --data data/42 --offline  # replay the committed cache
-recon evaluate --data data/7          # score against ground truth, write reports
-recon cash-position --data data/7      # where the money is
-recon ledger --data data/7             # the books: journal entries and trial balance
-pytest -q                              # 100 tests
-```
-
-Outputs land in `reports/`: `report.html` (self-contained, no server), `metrics.md`,
-`metrics.json`, `exceptions.csv`, `cash_position.md`, `ledger.md`. The published run is
-committed under `reports/seed7/` so the numbers can be read without running anything.
-
-To run live instead of from cache, put a [Groq](https://console.groq.com/keys) key in
-`.env` (see `.env.example`) and pass `--live`.
 
 ---
 
