@@ -381,7 +381,7 @@ four finished. Stated rather than glossed:
 | `gpt-oss-120b` single-shot | 39 / 41 | the headline results above |
 | `gpt-oss-20b` single-shot | 32 / 41 | the model comparison below |
 | `gpt-oss-20b` **agentic** | 39 / 41 | finding 3 |
-| `gpt-oss-120b` agentic | see note | — |
+| `gpt-oss-120b` agentic | 17 / 41 | **not reported — too thin to support anything** |
 
 A shortfall is either a provider failure (the model could not emit a valid document) or the
 daily token cap. Both are recorded as unresolved and the batch continues, so an incomplete
@@ -389,8 +389,29 @@ pass lowers what the model contributes — it never corrupts a result. The headl
 hold regardless, because an escalation that produced no answer simply leaves its row in the
 exception queue where the deterministic tiers put it.
 
+### What the three usable passes show
+
+| model | mode | done | proposed | accepted | refused | accepted **and correct** | refused but would have been right | refused and would have been wrong |
+|---|---|---|---|---|---|---|---|---|
+| `gpt-oss-120b` | single-shot | 39 | 14 | 14 | 0 | **14 / 14** | 0 | 0 |
+| `gpt-oss-20b` | single-shot | 32 | 20 | 13 | 7 | **13 / 13** | 2 | 5 |
+| `gpt-oss-20b` | agentic | 39 | 15 | 5 | 10 | **5 / 5** | 5 | 5 |
+
+Two things stand out.
+
+**Every proposal the gate accepted was correct — 14, 13 and 5, across every run, with no
+exceptions.** The gate is not trading precision for caution; it is refusing exactly the
+cases where the evidence cannot decide.
+
+**The agent loop made the model better at finding answers that close, and that is why it
+got refused more.** Single-shot refusals were mostly plain errors (2 right, 5 wrong).
+Agentic refusals split evenly (5 right, 5 wrong), because the loop reliably found a
+combination that reconciles — and on a collision, so does another one. Closure stopped
+being the binding constraint; uniqueness became it.
+
 An agent loop costs roughly four thousand tokens per item against a two-hundred-thousand
-daily budget, which is why the agentic passes are the ones that ran out.
+daily budget, which is why the agentic passes are the ones that ran out. Reproduce any row
+with `recon compare --data data/7 --models <model>` and `--agentic` / `--single-shot`.
 
 ### Model comparison
 
