@@ -21,7 +21,7 @@ equality fails on most rows.
 | Throughput | 1,634 records in ~0.02s, deterministic path |
 | Books | 291 journal entries, trial balance balanced, suspense ties to the exception queue |
 | Reproduce | `recon demo` — offline, no API key, ~1 second |
-| Tests | 129 |
+| Tests | 131 |
 
 Numbers are from **seed 7, generated after the matcher was frozen**. Tuning was on seed 42.
 
@@ -148,7 +148,7 @@ recon match --data data/42 --offline  # replay the committed cache
 recon evaluate --data data/7          # score against ground truth, write reports
 recon cash-position --data data/7      # where the money is
 recon ledger --data data/7             # the books: journal entries and trial balance
-pytest -q                              # 100 tests
+pytest -q                              # 131 tests
 ```
 
 Outputs land in `reports/`: `report.html` (self-contained, no server), `metrics.md`,
@@ -376,16 +376,21 @@ Four passes were attempted: two models, two escalation modes. Groq's free tier c
 per model per day, and an agent loop resends its whole conversation each turn, so not all
 four finished. Stated rather than glossed:
 
-| Run | Coverage | Reported as |
+| Run | Escalations completed | Reported as |
 |---|---|---|
-| `gpt-oss-120b` single-shot | **41/41** | the headline results above |
-| `gpt-oss-20b` single-shot | **41/41** | the model comparison below |
-| `gpt-oss-20b` **agentic** | **39/41** | finding 3 |
-| `gpt-oss-120b` agentic | 17/41 | **not reported — too thin to draw from** |
+| `gpt-oss-120b` single-shot | 39 / 41 | the headline results above |
+| `gpt-oss-20b` single-shot | 32 / 41 | the model comparison below |
+| `gpt-oss-20b` **agentic** | 39 / 41 | finding 3 |
+| `gpt-oss-120b` agentic | see note | — |
 
-The two incomplete passes are the agentic ones, which is expected: a five-step loop costs
-roughly four thousand tokens per item against a two-hundred-thousand daily budget. Nothing
-in this README depends on the 120b agentic pass.
+A shortfall is either a provider failure (the model could not emit a valid document) or the
+daily token cap. Both are recorded as unresolved and the batch continues, so an incomplete
+pass lowers what the model contributes — it never corrupts a result. The headline figures
+hold regardless, because an escalation that produced no answer simply leaves its row in the
+exception queue where the deterministic tiers put it.
+
+An agent loop costs roughly four thousand tokens per item against a two-hundred-thousand
+daily budget, which is why the agentic passes are the ones that ran out.
 
 ### Model comparison
 
@@ -464,7 +469,7 @@ mistake in a different coat.
 
 ## Tests
 
-100 tests, all green, running in about a second.
+131 tests, all green, running in about a second.
 
 The ones worth reading: `tests/test_verification_gate.py` feeds the gate confident,
 schema-valid, entirely fabricated verdicts and asserts the money does not move.

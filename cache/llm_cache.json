@@ -5109,6 +5109,23 @@
       "prompt_tokens": 1546
     }
   },
+  "ec030f9cd3f507ad7aa37a41cb6b22926406c2872fb6e77aefddf5229ddb1e1a": {
+    "model": "openai/gpt-oss-120b",
+    "payload": {
+      "content": null,
+      "tool_calls": [
+        {
+          "arguments": "{\"utr\":\"UTIBN00000000061\"}",
+          "id": "fc_7658f602-58de-4a31-9cf2-f11431183274",
+          "name": "get_batch"
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 1400,
+      "prompt_tokens": 924
+    }
+  },
   "ece951b1fecdcff1dd4b6d7ebfd09bf683bd9cb98a5c6cea47496c6b09aaeb1b": {
     "model": "openai/gpt-oss-120b",
     "payload": {

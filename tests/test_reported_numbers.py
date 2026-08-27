@@ -135,3 +135,18 @@ def test_demo_reproduces_the_reported_headline(metrics):
     assert fresh["asserted_matches"] == metrics["asserted_matches"]
     assert fresh["false_matches"] == 0
     assert inv["residue"] == 0, "the reported run resolves every invoice reference"
+
+
+def test_test_count_in_readme_matches_reality(readme):
+    """Even the test count drifts. It is a claim like any other, so it is checked."""
+    import subprocess
+    import sys
+
+    out = subprocess.run(
+        [sys.executable, "-m", "pytest", "-q", "--collect-only"],
+        capture_output=True, text=True,
+    ).stdout
+    collected = int(re.search(r"(\d+) tests? collected", out).group(1))
+    assert str(collected) in readme, (
+        f"the suite has {collected} tests but the README does not say so"
+    )
