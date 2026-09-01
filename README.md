@@ -170,6 +170,44 @@ must not already be attributed, must fall inside the settlement window, and thei
 amounts must sum to the credit. If any check fails the item becomes `needs_human`. It is
 never repaired, retried, or quietly accepted at lower confidence.
 
+```mermaid
+flowchart TD
+    A[invoices.csv] --> N
+    B[gateway_settlements.csv] --> N
+    C[bank_statement.csv] --> N
+
+    N[Tier 0 · normalise<br/>parse dates, integer paise,<br/>extract UTRs, reconstruct blank nets] --> D
+
+    D[Tier 0 · collapse duplicate postings<br/>credit + reversal + repost = ONE event] --> T1
+
+    T1[Tier 1 · UTR exact<br/>UTR matches AND batch sum closes] --> T2
+    T2[Tier 2 · whole batch sum in date window] --> T2B
+    T2B[Tier 2b · combination of whole batches<br/>one credit paying out several batches] --> T3
+    T3[Tier 3 · bounded subset sum<br/>solutions counted to 2] --> T4
+    T4[Tier 4 · rounding tolerance ±5p] --> T5
+    T5[Tier 5 · subset sum with tolerance] --> R
+
+    B --> I1
+    I1[inv1 exact ref] --> I2
+    I2[inv2 canonical fold<br/>case, separators, O/0 I/1 S/5] --> I3
+    I3[inv3 embedded id in free text] --> I4
+    I4[inv4 fuzzy within customer] --> I5
+    I5[inv5 unique amount + customer] --> R
+
+    R{residue} --> LLM[Model proposes<br/>semantics only]
+    LLM --> G{{VERIFICATION GATE<br/>re-derive the arithmetic}}
+    G -->|passes| M[asserted match<br/>resolved_by = llm_verified]
+    G -->|fails| X[exception<br/>llm_proposal_failed_verification]
+    R -->|no proposal| X
+
+    T1 & T2 & T2B & T3 & T4 & T5 --> M
+    M --> CP[cash position]
+    X --> CP
+    M --> LG[double-entry ledger]
+    X --> LG
+    LG -.->|suspense == exception value| CP
+```
+
 The track's premise is that *verification capacity, not generation speed, is the
 bottleneck*. This repository is built as an argument for that claim rather than a project
 that happens to call an LLM.
@@ -491,7 +529,7 @@ mistake in a different coat.
 ## Tests
 
 131 tests, all green, running in about a second.
-
+dw
 The ones worth reading: `tests/test_verification_gate.py` feeds the gate confident,
 schema-valid, entirely fabricated verdicts and asserts the money does not move.
 `tests/test_escalation.py` runs the whole pipeline against a model that lies on every
