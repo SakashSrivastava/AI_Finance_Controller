@@ -191,7 +191,7 @@ def compare(
     """
     from recon.agent.client import COMPARISON_MODEL, DEFAULT_MODEL
     from recon.domain.csvio import read_models
-    from recon.domain.models import GroundTruthInvoice
+    from recon.domain.models import GroundTruthBank, GroundTruthInvoice
     from recon.pipeline import run_pipeline
 
     chosen = [m.strip() for m in models.split(",")] if models else [DEFAULT_MODEL, COMPARISON_MODEL]
@@ -199,6 +199,15 @@ def compare(
         g.payment_id: set(g.invoice_ids)
         for g in read_models(data / "ground_truth_invoice.csv", GroundTruthInvoice)
     }
+    bank_truth = {
+        g.bank_txn_id: set(g.payment_ids)
+        for g in read_models(data / "ground_truth_bank.csv", GroundTruthBank)
+    }
+
+    def would_have_been(outcome) -> bool:
+        """What the refusal actually cost or saved, checked against ground truth."""
+        source = truth if outcome.level == "invoice" else bank_truth
+        return set(outcome.proposed) == source.get(outcome.target_id, set())
 
     header = f"  {'model':26}{'proposed':>10}{'accepted':>10}{'rejected':>10}{'correct':>9}{'acc.but wrong':>15}"
     typer.echo("")
@@ -215,13 +224,30 @@ def compare(
             f"  {model:26}{len(proposed):>10}{len(accepted):>10}{len(rejected):>10}"
             f"{len(right):>9}{len(graded) - len(right):>15}"
         )
+        import textwrap
+
         for o in rejected:
-            typer.echo(f"      REJECTED {o.target_id}: {o.failure}")
-            typer.echo(f"        model said {sorted(o.proposed)} at confidence {o.confidence}")
-            if o.self_tested is not None:
-                verified = "and its own test_combination said it closes" if o.self_tested else "though its own test said it does not close"
-                typer.echo(f"        the agent verified this itself {verified}")
-            typer.echo(f"        {o.reasoning[:150]}")
+            correct_answer = would_have_been(o)
+            verdict = "WOULD HAVE BEEN RIGHT" if correct_answer else "would have been WRONG"
+            typer.echo("")
+            typer.echo(f"      REJECTED  {o.target_id}   [{o.failure}]   -> {verdict}")
+            typer.echo(f"        proposed    {sorted(o.proposed)}  at confidence {o.confidence}")
+            if o.self_tested:
+                typer.echo("        self-check  the agent ran test_combination and it said CLOSES")
+            for line in textwrap.wrap(o.reasoning, width=90)[:3]:
+                typer.echo(f"        reasoning   {line}")
+
+        if rejected:
+            right = sum(1 for o in rejected if would_have_been(o))
+            verified = sum(1 for o in rejected if o.self_tested)
+            typer.echo("")
+            typer.echo(
+                f"      {len(rejected)} refused, {verified} of which the agent had verified itself."
+            )
+            typer.echo(
+                f"      Had they been accepted: {right} correct, {len(rejected) - right} wrong."
+            )
+            typer.echo("")
     typer.echo("")
 
 
